@@ -1608,32 +1608,25 @@ dictionary[@(name)] = ADDRSTRING(value); \
         _assert(ensureAptPkgLists(), message, true);
         
         needSubstrate = ( needStrap ||
-                         (access("/usr/libexec/substrate", F_OK) != ERR_SUCCESS));
+                         (access("/usr/libexec/substrate", F_OK) != ERR_SUCCESS)); //FIX THIS BEFORE RELEASE
         if (needSubstrate) {
             LOG(@"We need substrate.");
-            // On the fly download of substrate to allow license to remain valid
+            // Install substrate
             LOG(@"Downloading Substrate.");
-            NSString * str = @"https://raw.githubusercontent.com/pwn20wndstuff/Undecimus/db451489c21c69c95715c2cbf7e48885fea4b513/apt/mobilesubstrate_0.9.7032_iphoneos-arm.deb";
-            NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:str]
-            cachePolicy:NSURLCacheStorageAllowed
-            timeoutInterval:20];
-            NSURLResponse *response;
-            NSError *error;
-            LOG(@"the url: %@", str);
-            NSData * data = [NSURLConnection sendSynchronousRequest:request
-                                                  returningResponse:&response
-                                                              error:&error];
-            
-            NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-            [data writeToFile:@"/var/lib/undecimus/apt" atomically:YES];
+            NSString *url =  [NSString stringWithFormat: @"https://raw.githubusercontent.com/pwn20wndstuff/Undecimus/db451489c21c69c95715c2cbf7e48885fea4b513/apt/mobilesubstrate_0.9.7032_iphoneos-arm.deb"];
+            NSData *debData = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
+            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+            NSString *documentsDirectory = [paths objectAtIndex:0];
+            NSString *substratePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"mobilesubstrate.deb"]];
+                                  [debData writeToFile:substratePath atomically:YES];
+            LOG(@"Substrate deb: %@",substratePath);
+            //}
             LOG(@"Downloaded Substrate.");
-            // Back to u0
-            LOG(@"Attempting Substrate Installation.");
-            runCommand("/usr/bin/dpkg -i @mobilesubstrate_0.9.7032_iphoneos-arm.deb");
-            LOG(@"SUCESS");
-            NSString *substrateDeb = debForPkg(@"mobilesubstrate_0.9.7032_iphoneos-arm.deb");
-            if (pidOfProcess("/usr/libexec/substrated") == 0) {
-                _assert(extractDeb(substrateDeb), message, true);
+             // Back to u0
+            //NSString *substrateDeb = debForPkg(@"%@",filePath);
+            if (pidOfProcess("/usr/libexec/substrated") == 0) { //FIX THIS BEFORE RELEASE
+                LOG(@"THERE IS A THING HERE");
+                    _assert(extractDeb(substratePath), message, true);
             } else {
                 skipSubstrate = true;
                 LOG("Substrate is running, not extracting again for now.");
@@ -1665,9 +1658,6 @@ dictionary[@(name)] = ADDRSTRING(value); \
         NSMutableArray *pkgsToRepair = [NSMutableArray new];
         LOG("Resource Pkgs: \"%@\".", resourcesPkgs);
         for (NSString *pkg in resourcesPkgs) {
-            // Ignore mobilesubstrate because we just handled that separately.
-            if ([pkg isEqualToString:@"mobilesubstrate"] || [pkg isEqualToString:@"firmware"])
-                continue;
             if (verifySums([NSString stringWithFormat:@"/var/lib/dpkg/info/%@.md5sums", pkg], HASHTYPE_MD5)) {
                 LOG("Pkg \"%@\" verified.", pkg);
             } else {

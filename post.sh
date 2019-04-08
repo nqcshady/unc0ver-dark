@@ -74,7 +74,7 @@ else
     echo "Bundled resources: ${RESOURCES_VERSION}"
 fi
 
-PACKAGE_VERSION="$(git describe --tags --match="v*" | sed -e 's@-\([^-]*\)-\([^-]*\)$@+\1.\2@;s@^v@@;s@%@~@g')"
+PACKAGE_VERSION="$(git describe --always | sed -e 's@-\([^-]*\)-\([^-]*\)$@+\1.\2@;s@^v@@;s@%@~@g')"
 if [ -z "${PACKAGE_VERSION}" ]; then
     echo "Could not generate package version"
     exit 1
