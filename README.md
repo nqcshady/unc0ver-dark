@@ -5,7 +5,7 @@
 jailbreak for iOS 11.0 - 12.1.2<br/>
 original work by [@pwn20wnd](https://twitter.com/Pwn20wnd) & [@sbingner](https://twitter.com/sbingner)<br/>
 original UI by [@DennisBednarz](https://twitter.com/DennisBednarz) & [Samg_is_a_Ninja](https://reddit.com/u/Samg_is_a_Ninja)<br/>
-**This fork requires a network connection to jailbreak because of the way we get substrate without distributing it.**
+**This fork requires a network connection to jailbreak because of the way we use substrate without distributing it.**
 ## Changes over the other jailbreaks
 * All exploits in same app
 * Detailed error messages
