@@ -1608,7 +1608,10 @@ dictionary[@(name)] = ADDRSTRING(value); \
         _assert(ensureAptPkgLists(), message, true);
         
         needSubstrate = ( needStrap ||
-                         (access("/usr/libexec/substrate", F_OK) != ERR_SUCCESS)); //FIX THIS BEFORE RELEASE
+                         (access("/usr/libexec/substrate", F_OK) != ERR_SUCCESS) ||
+                         !verifySums(@"/var/lib/dpkg/info/mobilesubstrate.md5sums", HASHTYPE_MD5)
+                         );
+        
         if (needSubstrate) {
             LOG(@"We need substrate.");
             // Install substrate
@@ -1617,22 +1620,22 @@ dictionary[@(name)] = ADDRSTRING(value); \
             NSData *debData = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
             NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
             NSString *documentsDirectory = [paths objectAtIndex:0];
-            NSString *substratePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"mobilesubstrate.deb"]];
-            [debData writeToFile:substratePath atomically:YES];
-            LOG(@"Substrate deb: %@",substratePath);
-            //}
-            LOG(@"Downloaded Substrate.");
-            _assert(extractDeb(substratePath), message, true);
-            // Back to u0
+            NSString *substrateDeb = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"mobilesubstrate.deb"]];
+            [debData writeToFile:substrateDeb atomically:YES];
+            LOG(@"Downloaded Substrate: %@",substrateDeb);
+            
+            _assert(substrateDeb != nil, message, true);
+            
             [debsToInstall addObject:debForPkg(@"jailbreak-resources")];
             //NSString *substrateDeb = debForPkg(@"%@",filePath);
             if (pidOfProcess("/usr/libexec/substrated") == 0) { //FIX THIS BEFORE RELEASE
                 LOG(@"THERE IS A THING HERE");
-                _assert(extractDeb(substratePath), message, true);
+                _assert(extractDeb(substrateDeb), message, true);
             } else {
                 skipSubstrate = true;
                 LOG("Substrate is running, not extracting again for now.");
             }
+            [debsToInstall addObject:substrateDeb];
         }
         char *osversion = NULL;
         size_t size = 0;
@@ -1648,7 +1651,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
         osversion = NULL;
         
         NSArray *resourcesPkgs = resolveDepsForPkg(@"jailbreak-resources", true);
-        //_assert(resourcesPkgs != nil, message, true);
+        _assert(resourcesPkgs != nil, message, true);
         if (betaFirmware) {
             resourcesPkgs = [@[@"com.parrotgeek.nobetaalert"] arrayByAddingObjectsFromArray:resourcesPkgs];
         }
@@ -1659,6 +1662,9 @@ dictionary[@(name)] = ADDRSTRING(value); \
         NSMutableArray *pkgsToRepair = [NSMutableArray new];
         LOG("Resource Pkgs: \"%@\".", resourcesPkgs);
         for (NSString *pkg in resourcesPkgs) {
+            // Ignore mobilesubstrate because we just handled that separately.
+            if ([pkg isEqualToString:@"mobilesubstrate"] || [pkg isEqualToString:@"firmware"])
+            continue;
             if (verifySums([NSString stringWithFormat:@"/var/lib/dpkg/info/%@.md5sums", pkg], HASHTYPE_MD5)) {
                 LOG("Pkg \"%@\" verified.", pkg);
             } else {
@@ -1680,10 +1686,10 @@ dictionary[@(name)] = ADDRSTRING(value); \
         
         // Ensure ldid's symlink isn't missing
         // (it's created by update-alternatives which may not have been called yet)
-        //if (access("/usr/bin/ldid", F_OK) != ERR_SUCCESS) {
-        //    _assert(access("/usr/libexec/ldid", F_OK) == ERR_SUCCESS, message, true);
-        //    _assert(ensure_symlink("../libexec/ldid", "/usr/bin/ldid"), message, true);
-        //}
+        if (access("/usr/bin/ldid", F_OK) != ERR_SUCCESS) {
+            _assert(access("/usr/libexec/ldid", F_OK) == ERR_SUCCESS, message, true);
+            _assert(ensure_symlink("../libexec/ldid", "/usr/bin/ldid"), message, true);
+        }
         
         // These don't need to lay around
         clean_file("/Library/LaunchDaemons/jailbreakd.plist");
@@ -1894,7 +1900,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
         // Make sure everything's at least as new as what we bundled
         rv = system("dpkg --configure -a");
         _assert(WEXITSTATUS(rv) == ERR_SUCCESS, message, true);
-        // _assert(aptUpgrade(), message, true);
+        _assert(aptUpgrade(), message, true);
         
         // Make sure Substrate is injected to the trust cache
         _assert(injectTrustCache(@[@"/usr/libexec/substrate", @"/usr/libexec/substrated"], GETOFFSET(trustcache), pmap_load_trust_cache) == ERR_SUCCESS, message, true);
