@@ -1801,6 +1801,10 @@ dictionary[@(name)] = ADDRSTRING(value); \
         LOG("Extracting bootstrap...");
         SETMESSAGE(NSLocalizedString(@"Failed to extract bootstrap.", nil));
         
+        if (pkgIsBy("CoolStar", "lzma")) {
+            removePkg("lzma", true);
+            extractDebsForPkg(@"lzma", debsToInstall, false);
+        }
         
         if (pkgIsInstalled("openssl") && compareInstalledVersion("openssl", "lt", "1.0.2q")) {
             removePkg("openssl", true);
@@ -1818,6 +1822,26 @@ dictionary[@(name)] = ADDRSTRING(value); \
         }
         
         // Dpkg better work now
+        if (pkgIsBy("CoolStar", "lzma")) {
+            removePkg("lzma", true);
+            extractDebsForPkg(@"lzma", debsToInstall, false);
+        }
+        
+        if (pkgIsInstalled("apt1.4")) {
+            removePkg("apt1.4", true);
+        }
+        
+        if (pkgIsInstalled("libapt")) {
+            removePkg("libapt", true);
+        }
+
+        if (pkgIsInstalled("libapt-pkg-dev")) {
+            removePkg("libapt-pkg-dev", true);
+        }
+
+        if (pkgIsInstalled("libapt-pkg5.0")) {
+            removePkg("libapt-pkg5.0", true);
+        }
         
         if (pkgIsInstalled("science.xnu.undecimus.resources")) {
             LOG("Removing old resources...");
@@ -1827,6 +1851,20 @@ dictionary[@(name)] = ADDRSTRING(value); \
         if (pkgIsInstalled("jailbreak-resources-with-cert")) {
             LOG("Removing resources-with-cert...");
             _assert(removePkg("jailbreak-resources-with-cert", true), message, true);
+        }
+        
+        if ((pkgIsInstalled("apt") && compareInstalledVersion("apt", "lt", "1.7.4")) ||
+            (pkgIsInstalled("apt-lib") && compareInstalledVersion("apt-lib", "lt", "1.7.4-sileo")) ||
+            (pkgIsInstalled("apt-key") && compareInstalledVersion("apt-key", "lt", "1.7.4"))
+            ) {
+            LOG("Installing newer version of apt");
+            NSArray *aptdebs = debsForPkgs(@[@"apt-lib", @"apt-key", @"apt"]);
+            _assert(aptdebs != nil && aptdebs.count == 3, message, true);
+            for (NSString *deb in aptdebs) {
+                if (![debsToInstall containsObject:deb]) {
+                    [debsToInstall addObject:deb];
+                }
+            }
         }
         
         if (debsToInstall.count > 0) {
@@ -1848,8 +1886,8 @@ dictionary[@(name)] = ADDRSTRING(value); \
         _assert(repoPath != nil, message, true);
         ensure_directory("/var/lib/undecimus", 0, 0755);
         ensure_symlink([repoPath UTF8String], "/var/lib/undecimus/apt");
-        if (!pkgIsConfigured("apt1.4") || !aptUpdate()) {
-            NSArray *aptNeeded = resolveDepsForPkg(@"apt1.4", false);
+        if (!pkgIsConfigured("apt") || !aptUpdate()) {
+            NSArray *aptNeeded = resolveDepsForPkg(@"apt", false);
             _assert(aptNeeded != nil && aptNeeded.count > 0, message, true);
             NSArray *aptDebs = debsForPkgs(aptNeeded);
             _assert(installDebs(aptDebs, true), message, true);
