@@ -1654,6 +1654,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
         
         NSArray *resourcesPkgs = resolveDepsForPkg(@"jailbreak-resources", true);
         _assert(resourcesPkgs != nil, message, true);
+        resourcesPkgs = [@[@"system-memory-reset-fix"] arrayByAddingObjectsFromArray:resourcesPkgs];
         if (betaFirmware) {
             resourcesPkgs = [@[@"com.parrotgeek.nobetaalert"] arrayByAddingObjectsFromArray:resourcesPkgs];
         }
@@ -1810,6 +1811,15 @@ dictionary[@(name)] = ADDRSTRING(value); \
             removePkg("openssl", true);
         }
         
+        // Test dpkg
+        if (!pkgIsConfigured("dpkg") || pkgIsBy("CoolStar", "dpkg")) {
+            LOG("Extracting dpkg...");
+            _assert(extractDebsForPkg(@"dpkg", debsToInstall, false), message, true);
+            NSString *dpkg_deb = debForPkg(@"dpkg");
+            _assert(installDeb(dpkg_deb.UTF8String, true), message, true);
+            [debsToInstall removeObject:dpkg_deb];
+        }
+        
         if (needStrap || !pkgIsConfigured("firmware")) {
             LOG("Extracting Cydia...");
             if (access("/usr/libexec/cydia/firmware.sh", F_OK) != ERR_SUCCESS || !pkgIsConfigured("cydia")) {
@@ -1827,19 +1837,19 @@ dictionary[@(name)] = ADDRSTRING(value); \
             extractDebsForPkg(@"lzma", debsToInstall, false);
         }
         
-        if (pkgIsInstalled("apt1.4")) {
+        if (pkgIsBy("Sam Bingner", "apt1.4")) {
             removePkg("apt1.4", true);
         }
         
-        if (pkgIsInstalled("libapt")) {
+        if (pkgIsBy("Sam Bingner", "libapt")) {
             removePkg("libapt", true);
         }
 
-        if (pkgIsInstalled("libapt-pkg-dev")) {
+        if (pkgIsBy("Sam Bingner", "libapt-pkg-dev")) {
             removePkg("libapt-pkg-dev", true);
         }
 
-        if (pkgIsInstalled("libapt-pkg5.0")) {
+        if (pkgIsBy("Sam Bingner", "libapt-pkg5.0")) {
             removePkg("libapt-pkg5.0", true);
         }
         
@@ -1853,9 +1863,9 @@ dictionary[@(name)] = ADDRSTRING(value); \
             _assert(removePkg("jailbreak-resources-with-cert", true), message, true);
         }
         
-        if ((pkgIsInstalled("apt") && compareInstalledVersion("apt", "lt", "1.7.4")) ||
-            (pkgIsInstalled("apt-lib") && compareInstalledVersion("apt-lib", "lt", "1.7.4-sileo")) ||
-            (pkgIsInstalled("apt-key") && compareInstalledVersion("apt-key", "lt", "1.7.4"))
+        if ((pkgIsInstalled("apt") && pkgIsBy("Sam Bingner", "apt")) ||
+            (pkgIsInstalled("apt-lib") && pkgIsBy("Sam Bingner", "apt-lib")) ||
+            (pkgIsInstalled("apt-key") && pkgIsBy("Sam Bingner", "apt-key"))
             ) {
             LOG("Installing newer version of apt");
             NSArray *aptdebs = debsForPkgs(@[@"apt-lib", @"apt-key", @"apt"]);
@@ -2095,6 +2105,21 @@ dictionary[@(name)] = ADDRSTRING(value); \
             }
             LOG("Successfully removed Electra's Cydia Upgrade Helper.");
         }
+        if (pkgIsInstalled("cydia") && compareInstalledVersion("cydia", "lt", "1.1.32~b13")) {
+            if (!prefs.install_cydia) {
+                prefs.install_cydia = true;
+                _assert(modifyPlist(prefsFile, ^(id plist) {
+                    plist[K_INSTALL_CYDIA] = @YES;
+                }), message, true);
+            }
+            if (!prefs.run_uicache) {
+                prefs.run_uicache = true;
+                _assert(modifyPlist(prefsFile, ^(id plist) {
+                    plist[K_REFRESH_ICON_CACHE] = @YES;
+                }), message, true);
+            }
+            LOG("Will update Cydia...");
+        }
         if (access("/etc/apt/sources.list.d/electra.list", F_OK) == ERR_SUCCESS) {
             if (!prefs.install_cydia) {
                 prefs.install_cydia = true;
@@ -2111,6 +2136,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
         }
         // Unblock Saurik's repo if it is blocked.
         unblockDomainWithName("apt.saurik.com");
+        unblockDomainWithName("electrarepo64.coolstar.org");
         if (prefs.install_cydia) {
             // Install Cydia.
             
