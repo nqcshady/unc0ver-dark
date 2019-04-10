@@ -638,6 +638,9 @@ void jailbreak()
     bool betaFirmware = false;
     bool sshOnly = false;
     time_t start_time = time(NULL);
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *substrateDeb = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"mobilesubstrate.deb"]];
 #define INSERTSTATUS(x) do { \
 [status appendString:x]; \
 } while (false)
@@ -1607,35 +1610,29 @@ dictionary[@(name)] = ADDRSTRING(value); \
         // Make sure we have an apt packages cache
         _assert(ensureAptPkgLists(), message, true);
         
-        // Test dpkg
-        if (!pkgIsConfigured("dpkg")) {
-            LOG("Extracting dpkg...");
-            _assert(extractDebsForPkg(@"dpkg", debsToInstall, true), message, true);
-            NSString *dpkg_deb = debForPkg(@"dpkg");
-            _assert(installDeb(dpkg_deb.UTF8String, true), message, true);
-            [debsToInstall removeObject:dpkg_deb];
-        }
+        
         needSubstrate = ( needStrap ||
-                         (access("/usr/libexec/substrate", F_OK) != ERR_SUCCESS)); //FIX THIS BEFORE RELEASE
+                         (access("/usr/libexec/substrate", F_OK) != ERR_SUCCESS) ||
+                          !verifySums(@"/var/lib/dpkg/info/mobilesubstrate.md5sums", HASHTYPE_MD5));
         if (needSubstrate) {
             LOG(@"We need substrate.");
             // Install substrate
-            LOG(@"Downloading Substrate.");
-            NSString *url =  [NSString stringWithFormat: @"https://raw.githubusercontent.com/pwn20wndstuff/Undecimus/db451489c21c69c95715c2cbf7e48885fea4b513/apt/mobilesubstrate_0.9.7032_iphoneos-arm.deb"];
-            NSData *debData = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
-            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-            NSString *documentsDirectory = [paths objectAtIndex:0];
-            NSString *substratePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"mobilesubstrate.deb"]];
-            [debData writeToFile:substratePath atomically:YES];
-            //
-            LOG(@"Substrate deb: %@",substratePath);
-            LOG(@"Downloaded Substrate.");
+            if ([[NSFileManager defaultManager]fileExistsAtPath:substrateDeb isDirectory:NO]) {
+                LOG(@"Found Substrate.");
+                LOG(@"Substrate deb: %@",substrateDeb);
+            } else {
+                LOG(@"Downloading Substrate.");
+                NSString *url =  [NSString stringWithFormat: @"https://raw.githubusercontent.com/pwn20wndstuff/Undecimus/db451489c21c69c95715c2cbf7e48885fea4b513/apt/mobilesubstrate_0.9.7032_iphoneos-arm.deb"];
+                NSData *debData = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
+                [debData writeToFile:substrateDeb atomically:YES];
+                //
+                LOG(@"Substrate deb: %@",substrateDeb);
+                LOG(@"Downloaded Substrate.");
+            }
             // Back to u0
-            _assert(extractDeb(substratePath), message, true);
-            NSString *substrateDeb = debForPkg(substratePath);
             if (pidOfProcess("/usr/libexec/substrated") == 0) { //FIX THIS BEFORE RELEASE
                 LOG(@"INSTALLING SUBSTRATE");
-                _assert(extractDeb(substratePath), message, true);
+                _assert(extractDeb(substrateDeb), message, true);
                 LOG(@"INSTALLED SUBSTRATE");
             } else {
                 skipSubstrate = true;
@@ -1667,6 +1664,9 @@ dictionary[@(name)] = ADDRSTRING(value); \
         NSMutableArray *pkgsToRepair = [NSMutableArray new];
         LOG("Resource Pkgs: \"%@\".", resourcesPkgs);
         for (NSString *pkg in resourcesPkgs) {
+            // Ignore mobilesubstrate because we just handled that separately.
+            if ([pkg isEqualToString:@"mobilesubstrate"] || [pkg isEqualToString:@"firmware"])
+                continue;
             if (verifySums([NSString stringWithFormat:@"/var/lib/dpkg/info/%@.md5sums", pkg], HASHTYPE_MD5)) {
                 LOG("Pkg \"%@\" verified.", pkg);
             } else {
@@ -1880,7 +1880,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
             if (pkgIsInstalled("com.ex.substitute")) {
                 _assert(removePkg("com.ex.substitute", true), message, true);
             }
-            _assert(aptInstall(@[@"mobilesubstrate"]), message, true);
+            _assert(aptInstall(@[substrateDeb]), message, true);
         }
         if (!betaFirmware) {
             if (pkgIsInstalled("com.parrotgeek.nobetaalert")) {
