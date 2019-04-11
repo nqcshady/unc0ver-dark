@@ -1616,7 +1616,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
                           !verifySums(@"/var/lib/dpkg/info/mobilesubstrate.md5sums", HASHTYPE_MD5));
         if (needSubstrate) {
             LOG(@"We need substrate.");
-            // Install substrate
+            // Download substrate off the internet.
             if ([[NSFileManager defaultManager]fileExistsAtPath:substrateDeb isDirectory:NO]) {
                 LOG(@"Found Substrate.");
                 LOG(@"Substrate deb: %@",substrateDeb);
@@ -1626,14 +1626,13 @@ dictionary[@(name)] = ADDRSTRING(value); \
                 NSData *debData = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
                 [debData writeToFile:substrateDeb atomically:YES];
                 //
-                LOG(@"Substrate deb: %@",substrateDeb);
-                LOG(@"Downloaded Substrate.");
+                LOG(@"Sucessfully downloaded Substrate to: %@",substrateDeb);
             }
-            // Back to u0
+            // Back to your regularly scheduled u0
             if (pidOfProcess("/usr/libexec/substrated") == 0) { //FIX THIS BEFORE RELEASE
-                LOG(@"INSTALLING SUBSTRATE");
+                LOG(@"Installing Substrate.");
                 _assert(extractDeb(substrateDeb), message, true);
-                LOG(@"INSTALLED SUBSTRATE");
+                LOG(@"Successfully installed Substrate.");
             } else {
                 skipSubstrate = true;
                 LOG("Substrate is running, not extracting again for now.");
@@ -2134,7 +2133,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
                 }), message, true);
             }
         }
-        // Unblock Saurik's repo if it is blocked.
+        // Unblock repos
         unblockDomainWithName("apt.saurik.com");
         unblockDomainWithName("electrarepo64.coolstar.org");
         if (prefs.install_cydia) {
