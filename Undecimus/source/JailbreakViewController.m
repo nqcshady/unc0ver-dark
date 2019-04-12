@@ -1831,11 +1831,6 @@ dictionary[@(name)] = ADDRSTRING(value); \
         }
         
         // Dpkg better work now
-        if (pkgIsBy("CoolStar", "lzma")) {
-            removePkg("lzma", true);
-            extractDebsForPkg(@"lzma", debsToInstall, false);
-        }
-        
         if (pkgIsBy("Sam Bingner", "apt1.4")) {
             removePkg("apt1.4", true);
         }
