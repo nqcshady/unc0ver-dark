@@ -2105,6 +2105,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
             LOG("Successfully removed Electra's Cydia Upgrade Helper.");
         }
         if (pkgIsInstalled("cydia") && compareInstalledVersion("cydia", "lt", "1.1.32~b13")) {
+            _assert(removePkg("cydia", true), message, true);
             if (!prefs.install_cydia) {
                 prefs.install_cydia = true;
                 _assert(modifyPlist(prefsFile, ^(id plist) {
