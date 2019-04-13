@@ -193,6 +193,7 @@
             @"RestoreRootFS": [defaults objectForKey:K_RESTORE_ROOTFS],
             @"IncreaseMemoryLimit": [defaults objectForKey:K_INCREASE_MEMORY_LIMIT],
             @"InstallCydia": [defaults objectForKey:K_INSTALL_CYDIA],
+            @"InstallSileo": [defaults objectForKey:K_INSTALL_SILEO],
             @"InstallOpenSSH": [defaults objectForKey:K_INSTALL_OPENSSH]
         },
         @"AppVersion": appVersion(),
@@ -252,6 +253,7 @@
     [self.IncreaseMemoryLimitSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_INCREASE_MEMORY_LIMIT]];
     [self.installSSHSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_INSTALL_OPENSSH]];
     [self.installCydiaSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_INSTALL_CYDIA]];
+    [self.installSileoSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_INSTALL_SILEO]];
     [self.ECIDLabel setPlaceholder:hexFromInt([[[NSUserDefaults standardUserDefaults] objectForKey:K_ECID] integerValue])];
     [self.ReloadSystemDaemonsSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_RELOAD_SYSTEM_DAEMONS]];
     [self.HideLogWindowSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_HIDE_LOG_WINDOW]];
@@ -407,6 +409,12 @@
 
 - (IBAction)installCydiaSwitchTriggered:(id)sender {
     [[NSUserDefaults standardUserDefaults] setBool:[self.installCydiaSwitch isOn] forKey:K_INSTALL_CYDIA];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self reloadData];
+}
+
+- (IBAction)installSileoSwitchTriggered:(id)sender {
+    [[NSUserDefaults standardUserDefaults] setBool:[self.installSileoSwitch isOn] forKey:K_INSTALL_SILEO];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [self reloadData];
 }

@@ -25,6 +25,7 @@
 #define K_ECID                     @"Ecid"
 #define K_INSTALL_OPENSSH          @"InstallOpenSSH"
 #define K_INSTALL_CYDIA            @"InstallCydia"
+#define K_INSTALL_SILEO            @"InstallSileo"
 #define K_RELOAD_SYSTEM_DAEMONS    @"ReloadSystemDaemons"
 #define K_HIDE_LOG_WINDOW          @"HideLogWindow"
 #define K_RESET_CYDIA_CACHE        @"ResetCydiaCache"
@@ -47,6 +48,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *ExportKernelTaskPortSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *RestoreRootFSSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *installCydiaSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *installSileoSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *installSSHSwitch;
 @property (weak, nonatomic) IBOutlet UITextField *UptimeLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *IncreaseMemoryLimitSwitch;

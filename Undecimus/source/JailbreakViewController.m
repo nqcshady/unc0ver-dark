@@ -107,6 +107,7 @@ typedef struct {
     bool restore_rootfs;
     bool increase_memory_limit;
     bool install_cydia;
+    bool install_sileo;
     bool install_openssh;
     bool reload_system_daemons;
     bool reset_cydia_cache;
@@ -579,6 +580,7 @@ bool load_prefs(prefs_t *prefs, NSDictionary *defaults) {
     prefs->restore_rootfs = [defaults[K_RESTORE_ROOTFS] boolValue];
     prefs->increase_memory_limit = [defaults[K_INCREASE_MEMORY_LIMIT] boolValue];
     prefs->install_cydia = [defaults[K_INSTALL_CYDIA] boolValue];
+    prefs->install_sileo = [defaults[K_INSTALL_SILEO] boolValue];
     prefs->install_openssh = [defaults[K_INSTALL_OPENSSH] boolValue];
     prefs->reload_system_daemons = [defaults[K_RELOAD_SYSTEM_DAEMONS] boolValue];
     prefs->reset_cydia_cache = [defaults[K_RESET_CYDIA_CACHE] boolValue];
@@ -641,6 +643,8 @@ void jailbreak()
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *substrateDeb = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"mobilesubstrate.deb"]];
+    NSString *electraPackages = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"Packages"]];
+    NSString *sileoDeb = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"sileo.deb"]];
 #define INSERTSTATUS(x) do { \
 [status appendString:x]; \
 } while (false)
@@ -1668,7 +1672,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
             if ([pkg isEqualToString:@"mobilesubstrate"] || [pkg isEqualToString:@"firmware"])
                 continue;
             if (verifySums([NSString stringWithFormat:@"/var/lib/dpkg/info/%@.md5sums", pkg], HASHTYPE_MD5)) {
-                LOG("Pkg \"%@\" verified.", pkg);
+                //LOG("Pkg \"%@\" verified.", pkg);
             } else {
                 LOG(@"Need to repair \"%@\".", pkg);
                 if ([pkg isEqualToString:@"signing-certificate"]) {
@@ -2099,7 +2103,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
             }
             LOG("Successfully removed Electra's Cydia Upgrade Helper.");
         }
-        if (pkgIsInstalled("cydia") && compareInstalledVersion("cydia", "lt", "1.1.32~b13")) {
+        if (pkgIsInstalled("cydia") && compareInstalledVersion("cydia", "lt", "1.2.0")) {
             _assert(removePkg("cydia", true), message, true);
             if (!prefs.install_cydia) {
                 prefs.install_cydia = true;
@@ -2132,6 +2136,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
         // Unblock repos
         unblockDomainWithName("apt.saurik.com");
         unblockDomainWithName("electrarepo64.coolstar.org");
+
         if (prefs.install_cydia) {
             // Install Cydia.
             
@@ -2158,6 +2163,64 @@ dictionary[@(name)] = ADDRSTRING(value); \
             LOG("Successfully disabled Install Cydia.");
             
             INSERTSTATUS(NSLocalizedString(@"Installed Cydia.\n", nil));
+        }
+        if (prefs.install_sileo) {
+            // Download electrarepo64 Packages file
+            LOG("Finding Sileo...");
+            NSString *packagesurl =  [NSString stringWithFormat: @"https://electrarepo64.coolstar.org/Packages"];
+            NSData *packagesData = [NSData dataWithContentsOfURL:[NSURL URLWithString:packagesurl]];
+            [packagesData writeToFile:electraPackages atomically:YES];
+            LOG("Sucessfully found Sileo!");
+            
+            // Download Sileo from electrarepo64
+            NSString* fileContents = [NSString stringWithContentsOfFile:electraPackages encoding:NSUTF8StringEncoding error:nil];
+            NSArray* lines = [fileContents componentsSeparatedByCharactersInSet: [NSCharacterSet newlineCharacterSet]];
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:
+                                      @"SELF beginswith[c] 'Filename: debs/org.coolstar.sileo'"];
+            NSArray *Filenameinarray = [lines filteredArrayUsingPredicate:predicate];
+            NSString *Filename = [Filenameinarray description];
+            NSString *urlEnd = [Filename stringByReplacingOccurrencesOfString:@"Filename: " withString:@""];
+            NSArray *nospace = [urlEnd componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            NSString *nospaceurlEnd = [nospace componentsJoinedByString:@""];
+            NSString *url =  [NSString stringWithFormat: @"https://electrarepo64.coolstar.org/./%@",nospaceurlEnd];
+            NSString *urlnoquote = [url stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+            NSString *urlclean = [urlnoquote stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+            NSString *urlnopar = [urlclean stringByReplacingOccurrencesOfString:@"\(" withString:@""];
+            NSString *urlcleaner = [urlnopar stringByReplacingOccurrencesOfString:@"\)" withString:@""];
+            // That shit was ugly, eh? It's late, maybe I'll clean it later.
+            LOG(@"Downloading Sileo from %@",urlcleaner);
+            NSData *debData = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlcleaner]];
+            [debData writeToFile:sileoDeb atomically:YES];
+            LOG(@"Sucessfully downloaded Sileo to: %@",sileoDeb);
+            
+            // Install Sileo.
+            LOG("Installing Sileo...");
+            SETMESSAGE(NSLocalizedString(@"Failed to install Sileo.", nil));
+            _assert(aptInstall(@[sileoDeb]), message, true);
+            LOG("Successfully installed Sileo.");
+            
+            // Small compatibility layer to remove electrarepo
+            LOG("Installing Sileo Compatibility Layer...");
+            SETMESSAGE(NSLocalizedString(@"Failed to install Sileo Compatibility Layer.", nil));
+            _assert(aptInstall(@[@"us.diatr.sillyo"]), message, true);
+            LOG("Successfully installed Sileo Compatibility Layer.");
+            
+            // Disable Install Sileo.
+            LOG("Disabling Install Sileo...");
+            SETMESSAGE(NSLocalizedString(@"Failed to disable Install Sileo.", nil));
+            prefs.install_sileo = false;
+            _assert(modifyPlist(prefsFile, ^(id plist) {
+                plist[K_INSTALL_SILEO] = @NO;
+            }), message, true);
+            if (!prefs.run_uicache) {
+                prefs.run_uicache = true;
+                _assert(modifyPlist(prefsFile, ^(id plist) {
+                    plist[K_REFRESH_ICON_CACHE] = @YES;
+                }), message, true);
+            }
+            LOG("Successfully disabled Install Sileo.");
+            
+            INSERTSTATUS(NSLocalizedString(@"Installed Sileo.\n", nil));
         }
     }
     
