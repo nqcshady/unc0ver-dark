@@ -178,4 +178,16 @@
     [[UIApplication sharedApplication] openURL:[CreditsTableViewController getURLForUserName:@"benjweaverdev"] options:@{} completionHandler:nil];
 }
 
+-(IBAction)tappedOnDiatrus:(id)sender{
+    [[UIApplication sharedApplication] openURL:[CreditsTableViewController getURLForUserName:@"Pinseeker75"] options:@{} completionHandler:nil];
+}
+
+-(IBAction)tappedOnShady:(id)sender{
+    [[UIApplication sharedApplication] openURL:[CreditsTableViewController getURLForUserName:@"c9shady"] options:@{} completionHandler:nil];
+}
+
+-(IBAction)tappedOnPixel:(id)sender{
+    [[UIApplication sharedApplication] openURL:[CreditsTableViewController getURLForUserName:@"pixelomer"] options:@{} completionHandler:nil];
+}
+
 @end
