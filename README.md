@@ -14,7 +14,7 @@ original unc0ver UI by [Dennis Bednarz](https://twitter.com/DennisBednarz) & [Sa
 
 ## Switching from the other jailbreaks
 * The RootFS will automatically be restored
-
+* users of unc0ver will not have to restore rootfs
 ## Getting support
 * Use the built-in diagnostics tool
 * Join the u0 Dark [Discord](https://discord.gg/4pYwBCb)
