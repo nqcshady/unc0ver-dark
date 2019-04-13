@@ -1,6 +1,6 @@
 # unc0ver dark
 ### The most advanced jailbreak ~~tool~~ fork
-![unc0ver logo](https://i.vgy.me/nWYGru.png)
+![unc0ver logo](https://i.vgy.me/YrY594.png)
 
 jailbreak for iOS 11.0 - 12.1.2<br/>
 original unc0ver work by [@pwn20wnd](https://twitter.com/Pwn20wnd) & [@sbingner](https://twitter.com/sbingner)<br/>
