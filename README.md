@@ -43,7 +43,7 @@ This fork wouldn't have been able to be created without these people and tools.
 * [Ian Beer](https://twitter.com/i41nbeer) for mach_portal, triple_fetch, async_wake, empty_list, multi_path and deja_xnu
 * [Morpheus](https://twitter.com/Morpheus______) for the QiLin Toolkit
 * [xerub](https://twitter.com/xerub) for libjb and the original patchfinder64
-* [iBSparkes](https://twitter.com/iBSparkes) for the original amfid_payload, jailbreakd, pspawn_hook and machswap
+* [iBSparkes](https://twitter.com/iBSparkes) for the original amfid_payload, jailbreakd, pspawn_hook, machswap, and machswap2
 * [stek29](https://twitter.com/stek29) for the patchfinder64 additions, unlocknvram, host_get_special_port(4) patch and shenanigans bypass
 * [theninjaprawn](https://twitter.com/theninjaprawn) for the patchfinder64 additions
 * [Jay Freeman (saurik)](https://twitter.com/saurik) for Cydia and Substrate
