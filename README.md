@@ -1,15 +1,15 @@
 # unc0ver dark
 ### The most advanced jailbreak ~~tool~~ fork
-![unc0ver logo](https://raw.githubusercontent.com/pwn20wndstuff/Undecimus/master/Undecimus/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60%403x.png?token=AlyO4xDujoguob2DCFfUbNI8jO82OyCgks5bx5ZPwA%3D%3D)
+![unc0ver logo](https://i.vgy.me/YrY594.png)
 
 jailbreak for iOS 11.0 - 12.1.2<br/>
-original work by [@pwn20wnd](https://twitter.com/Pwn20wnd) & [@sbingner](https://twitter.com/sbingner)<br/>
-original UI by [@DennisBednarz](https://twitter.com/DennisBednarz) & [Samg_is_a_Ninja](https://reddit.com/u/Samg_is_a_Ninja)<br/>
+original unc0ver work by [@pwn20wnd](https://twitter.com/Pwn20wnd) & [@sbingner](https://twitter.com/sbingner)<br/>
+original unc0ver UI by [@DennisBednarz](https://twitter.com/DennisBednarz) & [Samg_is_a_Ninja](https://reddit.com/u/Samg_is_a_Ninja)<br/>
 **This fork requires a network connection to jailbreak.**
 ## Changes from unc0ver
 * Apt 1.7
-* New UI
-* Substrate is downloaded from the internet
+* New true black UI designed by [CodeRedKillah](https://twitter.com/coderedkillah)
+* Substrate is downloaded from the Internet
 * Sileo support via [Diatrus](https://github.com/Diatrus)
 
 ## Switching from the other jailbreaks
@@ -18,7 +18,7 @@ original UI by [@DennisBednarz](https://twitter.com/DennisBednarz) & [Samg_is_a_
 ## Getting support
 * Use the built-in diagnostics tool
 * Join the Jailbreak [Discord](https://discord.gg/jb)
-* Jailbreak on [Reddit](https://reddit.com/r/jailbreak)
+* r/jailbreak on [Reddit](https://reddit.com/r/jailbreak)
 
 ## Best practices
 * Perform a full restore with Rollectra before switching from the other jailbreaks
@@ -35,8 +35,8 @@ original UI by [@DennisBednarz](https://twitter.com/DennisBednarz) & [Samg_is_a_
 
 # Credits
 This fork wouldn't have been able to be created without these people and tools.
-* [@pwn20wnd](https://twitter.com/Pwn20wnd) - inital developer
-* [Sam Bingner](https://twitter.com/sbingner) - inital developer
+* [@pwn20wnd](https://twitter.com/Pwn20wnd) - original u0 developer
+* [Sam Bingner](https://twitter.com/sbingner) - original u0 developer
 * [Patchfinder](https://github.com/pwn20wndstuff/patchfinder64/tree/d2df2a303885d773cab95c18536dc8b218b13ca1)
 * [Snappy](https://github.com/sbingner/snappy/tree/8c0f4ec12ccbcdc50212ac83541df7533083e556)
 * [Injector](https://github.com/pwn20wndstuff/Injector/tree/4e25f6d5eb045a0b8b7362d8ad090474e7c73eef)
