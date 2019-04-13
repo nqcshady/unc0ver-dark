@@ -1,0 +1,3 @@
+[submodule "patchfinder64"]
+	path = patchfinder64
+	url = https://github.com/pwn20wndstuff/patchfinder64.git

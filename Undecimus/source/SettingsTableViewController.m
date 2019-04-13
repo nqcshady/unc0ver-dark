@@ -203,15 +203,24 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UIImageView *myImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Clouds"]];
+    UIImageView *myImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Clouds"]];
     [myImageView setContentMode:UIViewContentModeScaleAspectFill];
     [myImageView setFrame:self.tableView.frame];
     UIView *myView = [[UIView alloc] initWithFrame:myImageView.frame];
-    [myView setBackgroundColor:[UIColor whiteColor]];
-    [myView setAlpha:0.84];
+    [myView setBackgroundColor:[UIColor blackColor]];
+    [myView setAlpha:1.0];
     [myView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     [myImageView addSubview:myView];
     [self.tableView setBackgroundView:myImageView];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    
+    UIView *statusBar = [[[UIApplication sharedApplication] valueForKey:@"statusBarWindow"] valueForKey:@"statusBar"];
+    
+    if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
+        
+        statusBar.backgroundColor = [UIColor blackColor];//set whatever color you like
+    }
     [self.BootNonceTextField setDelegate:self];
     self.tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userTappedAnyware:)];
     self.tap.cancelsTouchesInView = NO;

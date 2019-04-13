@@ -1835,10 +1835,6 @@ dictionary[@(name)] = ADDRSTRING(value); \
         }
         
         // Dpkg better work now
-        if (pkgIsInstalled("org.juulstar.sileo")){
-            removePkg("org.juulstar.sileo", true);
-        }
-            
         if (pkgIsBy("Sam Bingner", "apt1.4")) {
             removePkg("apt1.4", true);
         }

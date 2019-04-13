@@ -1,0 +1,3 @@
+[submodule "kerneldec"]
+	path = kerneldec
+	url = git@github.com:sbingner/kerneldec.git

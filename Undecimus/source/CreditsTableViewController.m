@@ -20,8 +20,8 @@
     [myImageView setContentMode:UIViewContentModeScaleAspectFill];
     [myImageView setFrame:self.tableView.frame];
     UIView *myView = [[UIView alloc] initWithFrame:myImageView.frame];
-    [myView setBackgroundColor:[UIColor whiteColor]];
-    [myView setAlpha:0.84];
+    [myView setBackgroundColor:[UIColor blackColor]];
+    [myView setAlpha:1.0];
     [myView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     [myImageView addSubview:myView];
     [self.tableView setBackgroundView:myImageView];
@@ -183,7 +183,7 @@
 }
 
 -(IBAction)tappedOnShady:(id)sender{
-    [[UIApplication sharedApplication] openURL:[CreditsTableViewController getURLForUserName:@"c9shady"] options:@{} completionHandler:nil];
+    [[UIApplication sharedApplication] openURL:[CreditsTableViewController getURLForUserName:@"versusess"] options:@{} completionHandler:nil];
 }
 
 -(IBAction)tappedOnPixel:(id)sender{
