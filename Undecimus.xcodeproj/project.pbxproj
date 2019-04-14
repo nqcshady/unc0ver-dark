@@ -36,7 +36,6 @@
 		21A97FD12148103C00DC0023 /* KernelExecution.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A97FC82148103B00DC0023 /* KernelExecution.m */; };
 		21A97FD32148103C00DC0023 /* KernelUtilities.c in Sources */ = {isa = PBXBuildFile; fileRef = 21A97FCC2148103B00DC0023 /* KernelUtilities.c */; };
 		21A97FD42148103C00DC0023 /* remote_call.c in Sources */ = {isa = PBXBuildFile; fileRef = 21A97FCD2148103B00DC0023 /* remote_call.c */; };
-		21B421902261302F004C17CD /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21B4218F2261302F004C17CD /* MobileCoreServices.framework */; };
 		21BB9804222F05C40012AF40 /* machswap2_pwn.m in Sources */ = {isa = PBXBuildFile; fileRef = 21BB9802222F05C40012AF40 /* machswap2_pwn.m */; settings = {COMPILER_FLAGS = "-Wno-unused-variable -Wno-unused-function"; }; };
 		21C0FC6C21369EB700849420 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 21C0FC6B21369EB700849420 /* AppDelegate.m */; };
 		21C0FC7421369EB800849420 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21C0FC7321369EB800849420 /* Assets.xcassets */; };
@@ -46,7 +45,6 @@
 		21C0FC8A21369EE900849420 /* KernelStructureOffsets.m in Sources */ = {isa = PBXBuildFile; fileRef = 21C0FC8621369EE900849420 /* KernelStructureOffsets.m */; };
 		21C130E0214BC2880021AA9D /* unlocknvram.c in Sources */ = {isa = PBXBuildFile; fileRef = 21C130DE214BC2880021AA9D /* unlocknvram.c */; };
 		21C130EB214C03690021AA9D /* CreditsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21C130EA214C03690021AA9D /* CreditsTableViewController.m */; };
-		21C13119214D268F0021AA9D /* multi_path_sploit.c in Sources */ = {isa = PBXBuildFile; fileRef = 21C13117214D268F0021AA9D /* multi_path_sploit.c */; settings = {COMPILER_FLAGS = "-Wno-everything"; }; };
 		21C1312F214E69F80021AA9D /* empty_list_sploit.c in Sources */ = {isa = PBXBuildFile; fileRef = 21C0FC8521369EE900849420 /* empty_list_sploit.c */; settings = {COMPILER_FLAGS = "-Wno-everything"; }; };
 		21F4D70E21FC7A590070D5E0 /* patchfinder64.c in Sources */ = {isa = PBXBuildFile; fileRef = 21F4D70C21FC7A590070D5E0 /* patchfinder64.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable -Wno-unused-function"; }; };
 		21FED6AB2168F8060024BC95 /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21C130E5214BDDE20021AA9D /* SettingsTableViewController.m */; settings = {COMPILER_FLAGS = "-Wno-unused-variable -Wno-unused-function"; }; };
@@ -123,7 +121,6 @@
 		21A97FCC2148103B00DC0023 /* KernelUtilities.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = KernelUtilities.c; sourceTree = "<group>"; };
 		21A97FCD2148103B00DC0023 /* remote_call.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = remote_call.c; sourceTree = "<group>"; };
 		21A97FCE2148103C00DC0023 /* remote_memory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = remote_memory.h; sourceTree = "<group>"; };
-		21B4218F2261302F004C17CD /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		21BB9802222F05C40012AF40 /* machswap2_pwn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = machswap2_pwn.m; sourceTree = "<group>"; };
 		21BB9803222F05C40012AF40 /* machswap2_pwn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = machswap2_pwn.h; sourceTree = "<group>"; };
 		21C0FC6721369EB700849420 /* Undecimus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Undecimus.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -150,8 +147,6 @@
 		21C130E5214BDDE20021AA9D /* SettingsTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsTableViewController.m; sourceTree = "<group>"; };
 		21C130E9214C03690021AA9D /* CreditsTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CreditsTableViewController.h; sourceTree = "<group>"; };
 		21C130EA214C03690021AA9D /* CreditsTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CreditsTableViewController.m; sourceTree = "<group>"; };
-		21C13117214D268F0021AA9D /* multi_path_sploit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = multi_path_sploit.c; sourceTree = "<group>"; };
-		21C13118214D268F0021AA9D /* multi_path_sploit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = multi_path_sploit.h; sourceTree = "<group>"; };
 		21C1312E214D5A710021AA9D /* multi_path.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = multi_path.entitlements; sourceTree = "<group>"; };
 		21E9642421A1DD6F000625F7 /* NSTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSTask.h; sourceTree = "<group>"; };
 		21F4D70C21FC7A590070D5E0 /* patchfinder64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = patchfinder64.c; path = patchfinder64/patchfinder64.c; sourceTree = SOURCE_ROOT; };
@@ -185,7 +180,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				21B421902261302F004C17CD /* MobileCoreServices.framework in Frameworks */,
 				2171C4012222E3BB004E45C7 /* SystemConfiguration.framework in Frameworks */,
 				216FDA1E220C5F5C0086D802 /* libz.tbd in Frameworks */,
 				226689DD21EC1C5A00262F66 /* libarchive.2.tbd in Frameworks */,
@@ -244,15 +238,6 @@
 			name = empty_list;
 			sourceTree = "<group>";
 		};
-		2150A9C7220212BC001C8677 /* multi_path */ = {
-			isa = PBXGroup;
-			children = (
-				21C13117214D268F0021AA9D /* multi_path_sploit.c */,
-				21C13118214D268F0021AA9D /* multi_path_sploit.h */,
-			);
-			name = multi_path;
-			sourceTree = "<group>";
-		};
 		2150A9C8220212D1001C8677 /* async_wake */ = {
 			isa = PBXGroup;
 			children = (
@@ -303,7 +288,6 @@
 		21675B62214A68B700D20E2B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				21B4218F2261302F004C17CD /* MobileCoreServices.framework */,
 				2171C4002222E3BB004E45C7 /* SystemConfiguration.framework */,
 				216FDA1D220C5F5C0086D802 /* libz.tbd */,
 				226689DC21EC1C5A00262F66 /* libarchive.2.tbd */,
@@ -366,7 +350,6 @@
 				2150A9CA220212F8001C8677 /* voucher_swap */,
 				2150A9C9220212E6001C8677 /* deja_xnu */,
 				2150A9C8220212D1001C8677 /* async_wake */,
-				2150A9C7220212BC001C8677 /* multi_path */,
 				2150A9C6220212A6001C8677 /* empty_list */,
 				21F4D70B21FC7A490070D5E0 /* patchfinder64 */,
 				22F91CDC21E02D0B00B2FCAE /* snappy */,
@@ -527,7 +510,7 @@
 				TargetAttributes = {
 					21C0FC6621369EB700849420 = {
 						CreatedOnToolsVersion = 9.4.1;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -598,7 +581,6 @@
 				22F91CE321E033A500B2FCAE /* libsnappy.c in Sources */,
 				21A97FD42148103C00DC0023 /* remote_call.c in Sources */,
 				21C130E0214BC2880021AA9D /* unlocknvram.c in Sources */,
-				21C13119214D268F0021AA9D /* multi_path_sploit.c in Sources */,
 				214A1777224EBE5400588EC4 /* kerneldec.cpp in Sources */,
 				2116449A21737F9500250744 /* JailbreakViewController.m in Sources */,
 				21F4D70E21FC7A590070D5E0 /* patchfinder64.c in Sources */,
@@ -765,9 +747,8 @@
 				);
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_ENTITLEMENTS = "$(SRCROOT)/Undecimus/multi_path.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -800,7 +781,7 @@
 					IOKit,
 					"-w",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = science.xnu.undecimus;
+				PRODUCT_BUNDLE_IDENTIFIER = "us.diatr.unc0ver-dark";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -818,9 +799,8 @@
 				);
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_ENTITLEMENTS = "$(SRCROOT)/Undecimus/multi_path.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -852,7 +832,7 @@
 					IOKit,
 					"-w",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = science.xnu.undecimus;
+				PRODUCT_BUNDLE_IDENTIFIER = "us.diatr.unc0ver-dark";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
