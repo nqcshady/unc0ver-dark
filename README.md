@@ -14,7 +14,8 @@ original unc0ver UI by [Dennis Bednarz](https://twitter.com/DennisBednarz) & [Sa
 
 ## Switching from the other jailbreaks
 * The RootFS will automatically be restored
-* users of unc0ver will not have to restore rootfs
+* Users of unc0ver will not have to restore rootfs
+* If you use Diatrus's Sileo Installer on regular unc0ver, you will need to run `removesileo` in the terminal before using unc0ver dark's version of Sileo.
 ## Getting support
 * Use the built-in diagnostics tool
 * Join the u0 Dark [Discord](https://discord.gg/4pYwBCb)
