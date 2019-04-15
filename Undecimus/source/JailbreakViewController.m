@@ -111,6 +111,9 @@ typedef struct {
     bool install_openssh;
     bool reload_system_daemons;
     bool reset_cydia_cache;
+    bool ssh_only;
+    bool enable_get_task_allow;
+    bool set_cs_debugged;
     int exploit;
 } prefs_t;
 
@@ -584,6 +587,9 @@ bool load_prefs(prefs_t *prefs, NSDictionary *defaults) {
     prefs->install_openssh = [defaults[K_INSTALL_OPENSSH] boolValue];
     prefs->reload_system_daemons = [defaults[K_RELOAD_SYSTEM_DAEMONS] boolValue];
     prefs->reset_cydia_cache = [defaults[K_RESET_CYDIA_CACHE] boolValue];
+    prefs->ssh_only = [defaults[K_SSH_ONLY] boolValue];
+    prefs->enable_get_task_allow = [defaults[K_ENABLE_GET_TEASK_ALLOW] boolValue];
+    prefs->set_cs_debugged = [defaults[K_SET_CS_DEBUGGED] boolValue];
     prefs->exploit = [defaults[K_EXPLOIT] intValue];
     return true;
 }
@@ -834,7 +840,6 @@ void jailbreak()
             wk64(offset_options, 0);
             SETOFFSET(unrestrict-options, offset_options);
         }
-        // TODO: Save any options set in GUI here via SETOPT(name)
     }
     
     UPSTAGE();
@@ -1791,6 +1796,16 @@ dictionary[@(name)] = ADDRSTRING(value); \
         if (!is_symlink("/usr/lib/substrate")) {
             _assert([[NSFileManager defaultManager] moveItemAtPath:@"/usr/lib/substrate" toPath:@"/Library/substrate" error:nil], message, true);
             _assert(ensure_symlink("/Library/substrate", "/usr/lib/substrate"), message, true);
+        }
+        if (prefs.enable_get_task_allow) {
+            SETOPT(GET_TASK_ALLOW);
+        } else {
+            UNSETOPT(GET_TASK_ALLOW);
+        }
+        if (prefs.set_cs_debugged) {
+            SETOPT(CS_DEBUGGED);
+        } else {
+            UNSETOPT(CS_DEBUGGED);
         }
         _assert(runCommand("/usr/libexec/substrate", NULL) == ERR_SUCCESS, message, skipSubstrate?false:true);
         LOG("Successfully started Substrate.");
