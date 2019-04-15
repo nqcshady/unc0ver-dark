@@ -3,7 +3,7 @@ TARGET = Undecimus
 .PHONY: all clean
 
 all: clean
-	xcodebuild clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO PRODUCT_BUNDLE_IDENTIFIER="us.diatr.undecimus" -sdk iphoneos -configuration Release
+	xcodebuild clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO PRODUCT_BUNDLE_IDENTIFIER="us.diatr.undecimus" -sdk iphoneos -configuration Release -UseModernBuildSystem=NO
 	ln -sf build/Release-iphoneos Payload
 	# strip Payload/$(TARGET).app/$(TARGET)
 	# ldid -SUndecimus/multi_path.entitlements Payload/$(TARGET).app/$(TARGET)
