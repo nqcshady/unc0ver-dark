@@ -13,6 +13,8 @@
 #include "find_port.h"
 #include "KernelExecution.h"
 
+#define P_MEMSTAT_INTERNAL 0x00001000 /* Process is a system-critical-not-be-jetsammed process i.e. launchd */
+
 #define CS_PLATFORM_BINARY 0x4000000 /* this is a platform binary */
 #define CS_GET_TASK_ALLOW 0x0000004 /* has get-task-allow entitlement */
 
@@ -128,10 +130,14 @@ uint64_t get_proc_struct_for_pid(pid_t pid)
     if (pid == 0) {
         return proc;
     }
-    while (proc) {
-        if (ReadKernel32(proc + koffset(KSTRUCT_OFFSET_PROC_PID)) == pid)
-            return proc;
-        proc = ReadKernel64(proc + koffset(KSTRUCT_OFFSET_PROC_P_LIST));
+    bool iterate = true;
+    while (proc && iterate) {
+        pid_t pid = ReadKernel32(proc + koffset(KSTRUCT_OFFSET_PROC_PID));
+        handler(proc, pid, &iterate);
+        if (!iterate) {
+            break;
+        }
+        proc = ReadKernel64(proc + koffset(KSTRUCT_OFFSET_PROC_P_LIST) + sizeof(void *));
     }
     return 0;
 }
@@ -338,3 +344,47 @@ void set_cs_platform_binary(uint64_t proc, bool value) {
     set_csflags(proc, CS_PLATFORM_BINARY, value);
 }
 
+bool execute_with_credentials(uint64_t proc, uint64_t credentials, void (^function)(void)) {
+    assert(function != NULL);
+    uint64_t saved_credentials = give_creds_to_process_at_addr(proc, credentials);
+    function();
+    return (give_creds_to_process_at_addr(proc, saved_credentials) == saved_credentials);
+}
+
+uint32_t get_proc_memstat_state(uint64_t proc) {
+    return ReadKernel32(proc + koffset(KSTRUCT_OFFSET_PROC_P_MEMSTAT_STATE));
+}
+
+void set_proc_memstat_state(uint64_t proc, uint32_t memstat_state) {
+    WriteKernel32(proc + koffset(KSTRUCT_OFFSET_PROC_P_MEMSTAT_STATE), memstat_state);
+}
+
+void set_proc_memstat_internal(uint64_t proc, bool set) {
+    uint32_t memstat_state = get_proc_memstat_state(proc);
+    if (set) {
+        memstat_state |= P_MEMSTAT_INTERNAL;
+    } else {
+        memstat_state &= ~P_MEMSTAT_INTERNAL;
+    }
+    set_proc_memstat_state(proc, memstat_state);
+}
+
+bool get_proc_memstat_internal(uint64_t proc) {
+    return (get_proc_memstat_state(proc) & P_MEMSTAT_INTERNAL);
+}
+
+void vnode_lock(uint64_t vp) {
+    kexecute(GETOFFSET(lck_mtx_lock), ReadKernel64(vp + koffset(KSTRUCT_OFFSET_VNODE_V_LOCK)), 0, 0, 0, 0, 0, 0);
+}
+
+void vnode_unlock(uint64_t vp) {
+    kexecute(GETOFFSET(lck_mtx_unlock), ReadKernel64(vp + koffset(KSTRUCT_OFFSET_VNODE_V_LOCK)), 0, 0, 0, 0, 0, 0);
+}
+
+void mount_lock(uint64_t mp) {
+    kexecute(GETOFFSET(lck_mtx_lock), ReadKernel64(mp + koffset(KSTRUCT_OFFSET_MOUNT_MNT_MLOCK)), 0, 0, 0, 0, 0, 0);
+}
+
+void mount_unlock(uint64_t mp) {
+    kexecute(GETOFFSET(lck_mtx_unlock), ReadKernel64(mp + koffset(KSTRUCT_OFFSET_MOUNT_MNT_MLOCK)), 0, 0, 0, 0, 0, 0);
+}
