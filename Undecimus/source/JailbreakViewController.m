@@ -2434,7 +2434,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleDefault;
+    return UIStatusBarStyleLightContent;
 }
 
 - (IBAction)tappedOnPwn:(id)sender{
