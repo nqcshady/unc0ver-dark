@@ -1616,7 +1616,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
         
         needSubstrate = ( needStrap ||
                          (access("/usr/libexec/substrate", F_OK) != ERR_SUCCESS) ||
-                          !verifySums(@"/var/lib/dpkg/info/mobilesubstrate.md5sums", HASHTYPE_MD5));
+                         !verifySums(@"/var/lib/dpkg/info/mobilesubstrate.md5sums", HASHTYPE_MD5));
         if (needSubstrate) {
             LOG(@"We need substrate.");
             // Download substrate off the internet.
@@ -1851,11 +1851,11 @@ dictionary[@(name)] = ADDRSTRING(value); \
         if (pkgIsBy("Sam Bingner", "libapt")) {
             removePkg("libapt", true);
         }
-
+        
         if (pkgIsBy("Sam Bingner", "libapt-pkg-dev")) {
             removePkg("libapt-pkg-dev", true);
         }
-
+        
         if (pkgIsBy("Sam Bingner", "libapt-pkg5.0")) {
             removePkg("libapt-pkg5.0", true);
         }
@@ -1882,6 +1882,14 @@ dictionary[@(name)] = ADDRSTRING(value); \
                     [debsToInstall addObject:deb];
                 }
             }
+        }
+        
+        if(pkgIsInstalled("com.diatrus.sileo-installer")) {
+            LOG("Removing Diatrus's Sileo Installer...");
+            rv = system("removesileo");
+            _assert(WEXITSTATUS(rv) == EXIT_SUCCESS, message, false);
+            _assert(removePkg("com.diatrus.sileo-installer", true), message, false);
+            LOG("Removed Diatrus's Sileo Installer.");
         }
         
         if (debsToInstall.count > 0) {
@@ -2145,7 +2153,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
         // Unblock repos
         unblockDomainWithName("apt.saurik.com");
         unblockDomainWithName("electrarepo64.coolstar.org");
-
+        
         if (prefs.install_cydia) {
             // Install Cydia.
             
@@ -2421,7 +2429,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleDefault;
+    return UIStatusBarStyleLightContent;
 }
 
 - (IBAction)tappedOnPwn:(id)sender{

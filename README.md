@@ -1,11 +1,11 @@
 # unc0ver dark
-### The most advanced jailbreak ~~tool~~ fork
-![unc0ver logo](https://i.vgy.me/ewW0HT.png)
+### Join the dark side
+![Vader](https://diatr.us/img/dv.gif)
 
 jailbreak for iOS 11.0 - 12.1.2<br/>
 original unc0ver work by [pwn20wnd](https://twitter.com/Pwn20wnd) & [Sam Bingner](https://twitter.com/sbingner)<br/>
 original unc0ver UI by [Dennis Bednarz](https://twitter.com/DennisBednarz) & [Samg_is_a_Ninja](https://reddit.com/u/Samg_is_a_Ninja)<br/>
-**This fork requires a network connection to jailbreak.**
+**This fork requires a network connection for the initial jailbreaking process. Rejailbreaking will not require it. This means you cannot have Airplane Mode enabled when running u0 dark for the first time.**
 ## Changes from unc0ver
 * APT 1.7
 * New true black UI designed by [CodeRedKillah](https://twitter.com/coderedkillah) (This will ship at a later date.)
@@ -15,7 +15,7 @@ original unc0ver UI by [Dennis Bednarz](https://twitter.com/DennisBednarz) & [Sa
 ## Switching from the other jailbreaks
 * The RootFS will automatically be restored
 * Users of unc0ver will not have to restore rootfs
-* If you use Diatrus's Sileo Installer on regular unc0ver, you will need to run `removesileo` in the terminal before using unc0ver dark's version of Sileo.
+* If you used Diatrus's Sileo Installer on regular unc0ver, it will be automatically removed for you.
 ## Getting support
 * Use the built-in diagnostics tool
 * Join the u0 Dark [Discord](https://discord.gg/4pYwBCb)
