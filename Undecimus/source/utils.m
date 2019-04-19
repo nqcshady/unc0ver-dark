@@ -28,6 +28,9 @@
 extern char **environ;
 int logfd=-1;
 
+bool injectedToTrustCache = false;
+NSMutableArray *toInjectToTrustCache = nil;
+
 NSData *lastSystemOutput=nil;
 void injectDir(NSString *dir) {
     NSFileManager *fm = [NSFileManager defaultManager];
@@ -38,9 +41,17 @@ void injectDir(NSString *dir) {
             [toInject addObject:file];
         }
     }
-    LOG("Injecting %lu files for %@", (unsigned long)toInject.count, dir);
+    LOG("Will inject %lu files for %@", (unsigned long)toInject.count, dir);
     if (toInject.count > 0) {
-        injectTrustCache(toInject, GETOFFSET(trustcache), pmap_load_trust_cache);
+        if (injectedToTrustCache) {
+            LOG("Can't inject files - Trust cache already injected");
+        } else {
+            for (NSString *path in toInject) {
+                if (![toInjectToTrustCache containsObject:path]) {
+                    [toInjectToTrustCache addObject:path];
+                }
+            }
+        }
     }
 }
 
@@ -255,13 +266,22 @@ bool extractDeb(NSString *debPath) {
         NSMutableArray *toInject = [NSMutableArray new];
         NSDictionary *files = tar.files;
         for (NSString *file in files.allKeys) {
-            if (cdhashFor(file) != nil) {
-                [toInject addObject:file];
+            NSString *path = [@"/" stringByAppendingString:[file stringByStandardizingPath]];
+            if (cdhashFor(path) != nil) {
+                [toInject addObject:path];
             }
         }
-        LOG("Injecting %lu files for %@", (unsigned long)toInject.count, debPath);
+        LOG("Will inject %lu files for %@", (unsigned long)toInject.count, debPath);
         if (toInject.count > 0) {
-            injectTrustCache(toInject, GETOFFSET(trustcache), pmap_load_trust_cache);
+            if (injectedToTrustCache) {
+                LOG("Can't inject files - Trust cache already injected");
+            } else {
+                for (NSString *path in toInject) {
+                    if (![toInjectToTrustCache containsObject:path]) {
+                        [toInjectToTrustCache addObject:path];
+                    }
+                }
+            }
         }
     }
     return result;
@@ -1295,3 +1315,34 @@ bool airplaneModeEnabled() {
     }
 }
 
+bool installApp(const char *bundle) {
+    NSString *bundle_path = @(bundle);
+    NSURL *URL = [NSURL URLWithString:bundle_path];
+    NSString *info_plist_path = [bundle_path stringByAppendingPathComponent:@"Info.plist"];
+    NSMutableDictionary *info_plist = [NSMutableDictionary dictionaryWithContentsOfFile:info_plist_path];
+    NSString *bundle_identifier = info_plist[@"CFBundleIdentifier"];
+    NSMutableDictionary *options = [NSMutableDictionary new];
+    options[@"CFBundleIdentifier"] = bundle_identifier;
+    LSApplicationWorkspace *applicationWorkspace = [LSApplicationWorkspace defaultWorkspace];
+    if ([applicationWorkspace installApplication:URL withOptions:options]) {
+        return true;
+    } else {
+        LOG("Failed to install application");
+        return false;
+    }
+}
+
+bool rebuildApplicationDatabases() {
+    LSApplicationWorkspace *applicationWorkspace = [LSApplicationWorkspace defaultWorkspace];
+    if ([applicationWorkspace _LSPrivateRebuildApplicationDatabasesForSystemApps:YES internal:YES user:NO]) {
+        return true;
+    } else {
+        LOG("Failed to rebuild application databases");
+        return false;
+    }
+}
+
+__attribute__((constructor))
+static void ctor() {
+    toInjectToTrustCache = [NSMutableArray new];
+}

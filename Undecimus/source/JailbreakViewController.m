@@ -644,7 +644,6 @@ void jailbreak()
     NSMutableArray *debsToInstall = [NSMutableArray new];
     NSMutableString *status = [NSMutableString string];
     bool betaFirmware = false;
-    bool sshOnly = false;
     time_t start_time = time(NULL);
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -827,8 +826,8 @@ void jailbreak()
         if (auth_ptrs) {
             SETOFFSET(auth_ptrs, true);
             LOG("Detected authentication pointers.");
-            pmap_load_trust_cache = auth_ptrs ? _pmap_load_trust_cache : NULL;
-            sshOnly = true;
+            pmap_load_trust_cache = _pmap_load_trust_cache;
+            prefs.ssh_only = true;
         }
         if (monolithic_kernel) {
             SETOFFSET(monolithic_kernel, true);
@@ -852,12 +851,12 @@ void jailbreak()
         SETOFFSET(kernel_slide, kernel_slide);
         
 #define PF(x) do { \
-SETMESSAGE(NSLocalizedString(@"Failed to find " #x " offset.", nil)); \
-SETOFFSET(x, find_symbol("_" #x)); \
-if (!ISADDR(GETOFFSET(x))) SETOFFSET(x, find_ ##x()); \
-LOG(#x " = " ADDR " + " ADDR, GETOFFSET(x), kernel_slide); \
-_assert(ISADDR(GETOFFSET(x)), message, true); \
-SETOFFSET(x, GETOFFSET(x) + kernel_slide); \
+        SETMESSAGE(NSLocalizedString(@"Failed to find " #x " offset.", nil)); \
+        if (!ISADDR(GETOFFSET(x))) SETOFFSET(x, find_symbol("_" #x)); \
+        if (!ISADDR(GETOFFSET(x))) SETOFFSET(x, find_ ##x()); \
+        LOG(#x " = " ADDR " + " ADDR, GETOFFSET(x), kernel_slide); \
+        _assert(ISADDR(GETOFFSET(x)), message, true); \
+        SETOFFSET(x, GETOFFSET(x) + kernel_slide); \
 } while (false)
         PF(trustcache);
         PF(OSBoolean_True);
@@ -925,7 +924,8 @@ SETOFFSET(x, GETOFFSET(x) + kernel_slide); \
             Shenanigans = kernelCredAddr;
         }
         WriteKernel64(GETOFFSET(shenanigans), ShenanigansPatch);
-        myOriginalCredAddr = myCredAddr = give_creds_to_process_at_addr(myProcAddr, kernelCredAddr);
+        myCredAddr = kernelCredAddr;
+        myOriginalCredAddr = give_creds_to_process_at_addr(myProcAddr, myCredAddr);
         LOG("myOriginalCredAddr = " ADDR, myOriginalCredAddr);
         _assert(ISADDR(myOriginalCredAddr), message, true);
         _assert(setuid(0) == ERR_SUCCESS, message, true);
@@ -1121,6 +1121,7 @@ SETOFFSET(x, GETOFFSET(x) + kernel_slide); \
         const char *original_snapshot = "orig-fs";
         bool has_original_snapshot = false;
         const char *thedisk = "/dev/disk0s1s1";
+        const char *oldest_snapshot = NULL;
         _assert(runCommand("/sbin/mount", NULL) == ERR_SUCCESS, message, true);
         if (snapshots == NULL) {
             close(rootfd);
@@ -1192,8 +1193,6 @@ SETOFFSET(x, GETOFFSET(x) + kernel_slide); \
             const char *test_snapshot = "test-snapshot";
             _assert(fs_snapshot_create(rootfd, test_snapshot, 0) == ERR_SUCCESS, message, true);
             _assert(fs_snapshot_delete(rootfd, test_snapshot, 0) == ERR_SUCCESS, message, true);
-            char *systemSnapshot = copySystemSnapshot();
-            _assert(systemSnapshot != NULL, message, true);
             uint64_t system_snapshot_vnode = 0;
             uint64_t system_snapshot_vnode_v_data = 0;
             uint32_t system_snapshot_vnode_v_data_flag = 0;
@@ -1208,13 +1207,11 @@ SETOFFSET(x, GETOFFSET(x) + kernel_slide); \
                 LOG("system_snapshot_vnode_v_data_flag = 0x%x", system_snapshot_vnode_v_data_flag);
                 WriteKernel32(system_snapshot_vnode_v_data + 49, system_snapshot_vnode_v_data_flag & ~0x40);
             }
-            _assert(fs_snapshot_rename(rootfd, systemSnapshot, origfs, 0) == ERR_SUCCESS, message, true);
+            _assert(fs_snapshot_rename(rootfd, systemSnapshot, original_snapshot, 0) == ERR_SUCCESS, message, true);
             if (kCFCoreFoundationVersionNumber >= 1535.12) {
                 WriteKernel32(system_snapshot_vnode_v_data + 49, system_snapshot_vnode_v_data_flag);
                 _assert(_vnode_put(system_snapshot_vnode) == ERR_SUCCESS, message, true);
             }
-            free(systemSnapshot);
-            systemSnapshot = NULL;
             LOG("Successfully renamed system snapshot.");
             
             // Reboot.
@@ -1228,8 +1225,11 @@ SETOFFSET(x, GETOFFSET(x) + kernel_slide); \
         } else {
             LOG("APFS Snapshots:");
             for (const char **snapshot = snapshots; *snapshot; snapshot++) {
-                if (strcmp(origfs, *snapshot) == 0) {
-                    has_origfs = true;
+                if (oldest_snapshot == NULL) {
+                    oldest_snapshot = *snapshot;
+                }
+                if (strcmp(original_snapshot, *snapshot) == 0) {
+                    has_original_snapshot = true;
                 }
                 LOG("%s", *snapshot);
             }
@@ -1243,8 +1243,8 @@ SETOFFSET(x, GETOFFSET(x) + kernel_slide); \
         LOG("v_mount = " ADDR, v_mount);
         _assert(ISADDR(v_mount), message, true);
         uint32_t v_flag = ReadKernel32(v_mount + koffset(KSTRUCT_OFFSET_MOUNT_MNT_FLAG));
-        if ((v_flag & (MNT_RDONLY | MNT_NOSUID))) {
-            v_flag = v_flag & ~(MNT_RDONLY | MNT_NOSUID);
+        if ((v_flag & MNT_RDONLY) || (v_flag & MNT_NOSUID)) {
+            v_flag &= ~(MNT_RDONLY | MNT_NOSUID);
             WriteKernel32(v_mount + koffset(KSTRUCT_OFFSET_MOUNT_MNT_FLAG), v_flag & ~MNT_ROOTFS);
             _assert(runCommand("/sbin/mount", "-u", thedisk, NULL) == ERR_SUCCESS, message, true);
             WriteKernel32(v_mount + koffset(KSTRUCT_OFFSET_MOUNT_MNT_FLAG), v_flag);
@@ -1258,15 +1258,17 @@ SETOFFSET(x, GETOFFSET(x) + kernel_slide); \
         && access("/electra", F_OK) != ERR_SUCCESS;
         if (needStrap)
             LOG("We need strap.");
-        if (snapshots != NULL && needStrap && !has_origfs) {
-            // Create system snapshot.
-            
-            LOG("Creating system snapshot...");
-            SETMESSAGE(NSLocalizedString(@"Unable to create system snapshot.  Delete OTA file from Settings - Storage if present", nil));
-            _assert(fs_snapshot_create(rootfd, origfs, 0) == ERR_SUCCESS, message, true);
-            _assert(snapshot_check(rootfd, origfs), message, true);
-            LOG("Successfully created system snapshot.");
+        if (!has_original_snapshot) {
+            if (oldest_snapshot != NULL) {
+                _assert(fs_snapshot_rename(rootfd, oldest_snapshot, original_snapshot, 0) == ERR_SUCCESS, message, true);
+            } else if (needStrap) {
+                _assert(fs_snapshot_create(rootfd, original_snapshot, 0) == ERR_SUCCESS, message, true);
+            }
         }
+        free(systemSnapshot);
+        systemSnapshot = NULL;
+        free(snapshots);
+        snapshots = NULL;
         close(rootfd);
         LOG("Successfully remounted RootFS.");
         INSERTSTATUS(NSLocalizedString(@"Remounted RootFS.\n", nil));
@@ -1499,7 +1501,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
     
     UPSTAGE();
     
-    if (sshOnly) {
+    if (prefs.ssh_only && needStrap) {
         LOG("Enabling SSH...");
         SETMESSAGE(NSLocalizedString(@"Failed to enable SSH.", nil));
         NSMutableArray *toInject = [NSMutableArray new];
@@ -1593,7 +1595,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
         INSERTSTATUS(NSLocalizedString(@"Enabled SSH.\n", nil));
     }
     
-    if (auth_ptrs || sshOnly) {
+    if (auth_ptrs || prefs.ssh_only) {
         goto out;
     }
     
@@ -1671,7 +1673,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
             if ([pkg isEqualToString:@"mobilesubstrate"] || [pkg isEqualToString:@"firmware"])
                 continue;
             if (verifySums([NSString stringWithFormat:@"/var/lib/dpkg/info/%@.md5sums", pkg], HASHTYPE_MD5)) {
-                //LOG("Pkg \"%@\" verified.", pkg);
+                LOG("Pkg \"%@\" verified.", pkg);
             } else {
                 LOG(@"Need to repair \"%@\".", pkg);
                 if ([pkg isEqualToString:@"signing-certificate"]) {
@@ -1719,7 +1721,14 @@ dictionary[@(name)] = ADDRSTRING(value); \
             resources = [@[@"/usr/libexec/substrate"] arrayByAddingObjectsFromArray:resources];
         }
         resources = [@[@"/usr/libexec/substrated"] arrayByAddingObjectsFromArray:resources];
-        _assert(injectTrustCache(resources, GETOFFSET(trustcache), pmap_load_trust_cache) == ERR_SUCCESS, message, true);
+        for (NSString *file in resources) {
+            if (![toInjectToTrustCache containsObject:file]) {
+                [toInjectToTrustCache addObject:file];
+            }
+        }
+        _assert(injectTrustCache(toInjectToTrustCache, GETOFFSET(trustcache), pmap_load_trust_cache) == ERR_SUCCESS, message, true);
+        injectedToTrustCache = true;
+        toInjectToTrustCache = nil;
         LOG("Successfully injected trust cache.");
         INSERTSTATUS(NSLocalizedString(@"Injected trust cache.\n", nil));
     }
@@ -1787,7 +1796,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
         // Run substrate
         LOG("Starting Substrate...");
         SETMESSAGE(NSLocalizedString(skipSubstrate?@"Failed to restart Substrate":@"Failed to start Substrate.", nil));
-        if (!is_symlink("/usr/lib/substrate")) {
+        if (!is_symlink("/usr/lib/substrate") && !is_directory("/Library/substrate")) {
             _assert([[NSFileManager defaultManager] moveItemAtPath:@"/usr/lib/substrate" toPath:@"/Library/substrate" error:nil], message, true);
             _assert(ensure_symlink("/Library/substrate", "/usr/lib/substrate"), message, true);
         }
@@ -1966,9 +1975,6 @@ dictionary[@(name)] = ADDRSTRING(value); \
         rv = system("dpkg --configure -a");
         _assert(WEXITSTATUS(rv) == ERR_SUCCESS, message, true);
         _assert(aptUpgrade(), message, true);
-        
-        // Make sure Substrate is injected to the trust cache
-        _assert(injectTrustCache(@[@"/usr/libexec/substrate", @"/usr/libexec/substrated"], GETOFFSET(trustcache), pmap_load_trust_cache) == ERR_SUCCESS, message, true);
         
         clean_file("/jb/tar");
         clean_file("/jb/lzma");
@@ -2354,7 +2360,8 @@ dictionary[@(name)] = ADDRSTRING(value); \
     set_platform_binary(myProcAddr, false);
     set_cs_platform_binary(myProcAddr, false);
     LOG("Sandboxing...");
-    _assert(give_creds_to_process_at_addr(myProcAddr, myOriginalCredAddr) == kernelCredAddr, message, true);
+    myCredAddr = myOriginalCredAddr;
+    _assert(give_creds_to_process_at_addr(myProcAddr, myCredAddr) == kernelCredAddr, message, true);
     LOG("Downgrading host port...");
     _assert(setuid(myUid) == ERR_SUCCESS, message, true);
     _assert(getuid() == myUid, message, true);

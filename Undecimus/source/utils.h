@@ -14,6 +14,8 @@
 
 #define system(x) _system(x)
 extern int logfd;
+extern bool injectedToTrustCache;
+extern NSMutableArray *toInjectToTrustCache;
 
 #define DEFAULT_VERSION_STRING "Hacked"
 #define SLIDE_FILE "/var/tmp/slide.txt"
@@ -34,6 +36,16 @@ enum hashtype {
     HASHTYPE_SHA1
 };
 int proc_pidpath(pid_t pid, void *buffer, uint32_t buffersize);
+
+@interface LSApplicationWorkspace : NSObject
++ (id) defaultWorkspace;
+- (BOOL) registerApplication:(id)application;
+- (BOOL) unregisterApplication:(id)application;
+- (BOOL) invalidateIconCache:(id)bundle;
+- (BOOL) registerApplicationDictionary:(id)application;
+- (BOOL) installApplication:(id)application withOptions:(id)options;
+- (BOOL) _LSPrivateRebuildApplicationDatabasesForSystemApps:(BOOL)system internal:(BOOL)internal user:(BOOL)user;
+@end
 
 static inline bool create_file_data(const char *file, int owner, mode_t mode, NSData *data) {
     return [[NSFileManager defaultManager] createFileAtPath:@(file) contents:data attributes:@{
@@ -128,6 +140,9 @@ bool uninstallRootLessJB(void);
 bool verifyECID(NSString *ecid);
 bool canOpen(const char *URL);
 bool airplaneModeEnabled(void);
+bool installApp(const char *bundle);
+bool rebuildApplicationDatabases(void);
+
 extern NSData *lastSystemOutput;
 
 #endif /* _UTILS_H */
