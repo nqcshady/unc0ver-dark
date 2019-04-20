@@ -1893,12 +1893,21 @@ dictionary[@(name)] = ADDRSTRING(value); \
             }
         }
         
+        // Remove old Sileo stuff
         if(pkgIsInstalled("com.diatrus.sileo-installer")) {
             LOG("Removing Diatrus's Sileo Installer...");
-            rv = system("removesileo");
-            _assert(WEXITSTATUS(rv) == EXIT_SUCCESS, message, false);
             _assert(removePkg("com.diatrus.sileo-installer", true), message, false);
             LOG("Removed Diatrus's Sileo Installer.");
+        }
+        if(pkgIsInstalled("us.diatr.sillyo2")) {
+            LOG("Removing Diatrus's Sileo Compatibility Layer...");
+            _assert(removePkg("us.diatr.sillyo2", true), message, false);
+            LOG("Removed Diatrus's Sileo Compatibility Layer.");
+        }
+        if(pkgIsInstalled("org.juulstar.sileo")) {
+            LOG("Removing Old Sileo...");
+            _assert(removePkg("org.juulstar.sileo", true), message, false);
+            LOG("Removed Old Sileo.");
         }
         
         if (debsToInstall.count > 0) {
@@ -2209,7 +2218,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
             NSString *urlnoquote = [url stringByReplacingOccurrencesOfString:@"\"" withString:@""];
             NSString *urlclean = [urlnoquote stringByReplacingOccurrencesOfString:@"\"" withString:@""];
             NSString *urlnopar = [urlclean stringByReplacingOccurrencesOfString:@"\(" withString:@""];
-            NSString *urlcleaner = [urlnopar stringByReplacingOccurrencesOfString:@"\)" withString:@""];
+            NSString *urlcleaner = [urlnopar stringByReplacingOccurrencesOfString:@")" withString:@""];
             // That shit was ugly, eh? It's late, maybe I'll clean it later.
             LOG(@"Downloading Sileo from %@",urlcleaner);
             NSData *debData = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlcleaner]];
