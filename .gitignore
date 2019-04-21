@@ -98,3 +98,4 @@ Temporary Items
 packages/
 obj/
 
+*.ipa

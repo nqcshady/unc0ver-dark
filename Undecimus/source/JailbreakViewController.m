@@ -1888,16 +1888,19 @@ dictionary[@(name)] = ADDRSTRING(value); \
         if(pkgIsInstalled("com.diatrus.sileo-installer")) {
             LOG("Removing Diatrus's Sileo Installer...");
             _assert(removePkg("com.diatrus.sileo-installer", true), message, false);
+            clean_file("/etc/rc.d/restoresileo");
             LOG("Removed Diatrus's Sileo Installer.");
         }
         if(pkgIsInstalled("us.diatr.sillyo2")) {
             LOG("Removing Diatrus's Sileo Compatibility Layer...");
             _assert(removePkg("us.diatr.sillyo2", true), message, false);
+            clean_file("/etc/rc.d/restoresileo");
             LOG("Removed Diatrus's Sileo Compatibility Layer.");
         }
         if(pkgIsInstalled("org.juulstar.sileo")) {
             LOG("Removing Old Sileo...");
             _assert(removePkg("org.juulstar.sileo", true), message, false);
+            clean_file("/etc/rc.d/restoresileo");
             LOG("Removed Old Sileo.");
         }
         
