@@ -1813,8 +1813,9 @@ dictionary[@(name)] = ADDRSTRING(value); \
         LOG("Extracting bootstrap...");
         SETMESSAGE(NSLocalizedString(@"Failed to extract bootstrap.", nil));
         
-        if (pkgIsBy("CoolStar", "lzma")) {
+        if (pkgIsBy("Sam Bingner", "lzma") || pkgIsBy("Sam Bingner", "xz")) {
             removePkg("lzma", true);
+            removePkg("xz", true);
             extractDebsForPkg(@"lzma", debsToInstall, false);
         }
         
