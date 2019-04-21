@@ -193,7 +193,6 @@
             @"RestoreRootFS": [defaults objectForKey:K_RESTORE_ROOTFS],
             @"IncreaseMemoryLimit": [defaults objectForKey:K_INCREASE_MEMORY_LIMIT],
             @"InstallCydia": [defaults objectForKey:K_INSTALL_CYDIA],
-            @"InstallSileo": [defaults objectForKey:K_INSTALL_SILEO],
             @"InstallOpenSSH": [defaults objectForKey:K_INSTALL_OPENSSH]
         },
         @"AppVersion": appVersion(),
@@ -239,7 +238,6 @@
 }
 
 - (void)reloadData {
-    [self.TweakInjectionSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_TWEAK_INJECTION]];
     [self.LoadDaemonsSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_LOAD_DAEMONS]];
     [self.DumpAPTicketSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_DUMP_APTICKET]];
     [self.BootNonceTextField setPlaceholder:[[NSUserDefaults standardUserDefaults] objectForKey:K_BOOT_NONCE]];
@@ -248,7 +246,6 @@
     [self.KernelExploitSegmentedControl setSelectedSegmentIndex:[[NSUserDefaults standardUserDefaults] integerForKey:K_EXPLOIT]];
     [self.DisableAutoUpdatesSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_DISABLE_AUTO_UPDATES]];
     [self.DisableAppRevokesSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_DISABLE_APP_REVOKES]];
-    [self.KernelExploitSegmentedControl setEnabled:supportsExploit(empty_list_exploit) forSegmentAtIndex:empty_list_exploit];
     [self.KernelExploitSegmentedControl setEnabled:supportsExploit(async_wake_exploit) forSegmentAtIndex:async_wake_exploit];
     [self.KernelExploitSegmentedControl setEnabled:supportsExploit(voucher_swap_exploit) forSegmentAtIndex:voucher_swap_exploit];
     [self.KernelExploitSegmentedControl setEnabled:supportsExploit(mach_swap_exploit) forSegmentAtIndex:mach_swap_exploit];
@@ -262,7 +259,6 @@
     [self.IncreaseMemoryLimitSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_INCREASE_MEMORY_LIMIT]];
     [self.installSSHSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_INSTALL_OPENSSH]];
     [self.installCydiaSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_INSTALL_CYDIA]];
-    [self.installSileoSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_INSTALL_SILEO]];
     [self.ECIDLabel setPlaceholder:hexFromInt([[[NSUserDefaults standardUserDefaults] objectForKey:K_ECID] integerValue])];
     [self.ReloadSystemDaemonsSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_RELOAD_SYSTEM_DAEMONS]];
     [self.HideLogWindowSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_HIDE_LOG_WINDOW]];
@@ -275,11 +271,6 @@
     [self.tableView reloadData];
 }
 
-- (IBAction)TweakInjectionSwitchTriggered:(id)sender {
-    [[NSUserDefaults standardUserDefaults] setBool:[self.TweakInjectionSwitch isOn] forKey:K_TWEAK_INJECTION];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    [self reloadData];
-}
 - (IBAction)LoadDaemonsSwitchTriggered:(id)sender {
     [[NSUserDefaults standardUserDefaults] setBool:[self.LoadDaemonsSwitch isOn] forKey:K_LOAD_DAEMONS];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -421,12 +412,6 @@
 
 - (IBAction)installCydiaSwitchTriggered:(id)sender {
     [[NSUserDefaults standardUserDefaults] setBool:[self.installCydiaSwitch isOn] forKey:K_INSTALL_CYDIA];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    [self reloadData];
-}
-
-- (IBAction)installSileoSwitchTriggered:(id)sender {
-    [[NSUserDefaults standardUserDefaults] setBool:[self.installSileoSwitch isOn] forKey:K_INSTALL_SILEO];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [self reloadData];
 }

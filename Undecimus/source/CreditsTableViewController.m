@@ -50,6 +50,14 @@
     [[UIApplication sharedApplication] openURL:[CreditsTableViewController getURLForUserName:@"i41nbeer"] options:@{} completionHandler:nil];
 }
 
+-(IBAction)tappedOnPwn:(id)sender{
+    [[UIApplication sharedApplication] openURL:[CreditsTableViewController getURLForUserName:@"pwn20wnd"] options:@{} completionHandler:nil];
+}
+
+-(IBAction)tappedOnBingner:(id)sender{
+    [[UIApplication sharedApplication] openURL:[CreditsTableViewController getURLForUserName:@"sbingner"] options:@{} completionHandler:nil];
+}
+
 -(IBAction)tappedOnBazad:(id)sender{
     [[UIApplication sharedApplication] openURL:[CreditsTableViewController getURLForUserName:@"_bazad"] options:@{} completionHandler:nil];
 }

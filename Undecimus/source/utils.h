@@ -21,9 +21,7 @@ extern NSMutableArray *toInjectToTrustCache;
 #define SLIDE_FILE "/var/tmp/slide.txt"
 
 typedef enum {
-    empty_list_exploit = 0,
-    multi_path_exploit,
-    async_wake_exploit,
+    async_wake_exploit = 0,
     voucher_swap_exploit,
     mach_swap_exploit,
     mach_swap_2_exploit,
@@ -115,7 +113,6 @@ NSString *pathForResource(NSString *resource);
 pid_t pidOfProcess(const char *name);
 bool kernelVersionContains(const char *string);
 bool machineNameContains(const char *string);
-bool multi_path_tcp_enabled(void);
 bool jailbreakEnabled(void);
 bool supportsExploit(exploit_t exploit);
 bool jailbreakSupported(void);

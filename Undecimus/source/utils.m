@@ -661,39 +661,6 @@ bool machineNameContains(const char *string) {
     return (strstr(u.machine, string) != NULL);
 }
 
-#define AF_MULTIPATH 39
-
-bool multi_path_tcp_enabled() {
-    static bool enabled = false;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        int sock = socket(AF_MULTIPATH, SOCK_STREAM, 0);
-        if (sock < 0) {
-            return;
-        }
-        struct sockaddr* sockaddr_src = malloc(sizeof(struct sockaddr));
-        memset(sockaddr_src, 'A', sizeof(struct sockaddr));
-        sockaddr_src->sa_len = sizeof(struct sockaddr);
-        sockaddr_src->sa_family = AF_INET6;
-        struct sockaddr* sockaddr_dst = malloc(sizeof(struct sockaddr));
-        memset(sockaddr_dst, 'A', sizeof(struct sockaddr));
-        sockaddr_dst->sa_len = sizeof(struct sockaddr);
-        sockaddr_dst->sa_family = AF_INET;
-        sa_endpoints_t eps = {0};
-        eps.sae_srcif = 0;
-        eps.sae_srcaddr = sockaddr_src;
-        eps.sae_srcaddrlen = sizeof(struct sockaddr);
-        eps.sae_dstaddr = sockaddr_dst;
-        eps.sae_dstaddrlen = sizeof(struct sockaddr);
-        connectx(sock, &eps, SAE_ASSOCID_ANY, 0, NULL, 0, NULL, NULL);
-        enabled = (errno != EPERM);
-        free(sockaddr_src);
-        free(sockaddr_dst);
-        close(sock);
-    });
-    return enabled;
-}
-
 bool jailbreakEnabled() {
     return kernelVersionContains(DEFAULT_VERSION_STRING) ||
     access(SLIDE_FILE, F_OK) == ERR_SUCCESS;
@@ -708,63 +675,6 @@ bool supportsExploit(exploit_t exploit) {
 
     dispatch_once(&onceToken, ^{
         list = @[
-                 // Empty List
-                 @[@"4397.0.0.2.4~1",
-                   @"4481.0.0.2.1~1",
-                   @"4532.0.0.0.1~30",
-                   @"4556.0.0.2.5~1",
-                   @"4570.1.24.2.3~1",
-                   @"4570.2.3~8",
-                   @"4570.2.5~84",
-                   @"4570.2.5~167",
-                   @"4570.7.2~3",
-                   @"4570.20.55~10",
-                   @"4570.20.62~9",
-                   @"4570.20.62~4",
-                   @"4570.30.79~22",
-                   @"4570.30.85~18",
-                   @"4570.32.1~2",
-                   @"4570.32.1~1",
-                   @"4570.40.6~8",
-                   @"4570.40.9~7",
-                   @"4570.40.9~1",
-                   @"4570.50.243~9",
-                   @"4570.50.257~6",
-                   @"4570.50.279~9",
-                   @"4570.50.294~5",
-                   @"4570.52.2~3",
-                   @"4570.52.2~8",
-                   @"4570.60.10.0.1~16",
-                   @"4570.60.16~9",
-                   @"4570.60.19~25"],
-                 
-                 // Multi Path
-                 @[@"4397.0.0.2.4~1",
-                   @"4481.0.0.2.1~1",
-                   @"4532.0.0.0.1~30",
-                   @"4556.0.0.2.5~1",
-                   @"4570.1.24.2.3~1",
-                   @"4570.2.3~8",
-                   @"4570.2.5~84",
-                   @"4570.2.5~167",
-                   @"4570.7.2~3",
-                   @"4570.20.55~10",
-                   @"4570.20.62~9",
-                   @"4570.20.62~4",
-                   @"4570.30.79~22",
-                   @"4570.30.85~18",
-                   @"4570.32.1~2",
-                   @"4570.32.1~1",
-                   @"4570.40.6~8",
-                   @"4570.40.9~7",
-                   @"4570.40.9~1",
-                   @"4570.50.243~9",
-                   @"4570.50.257~6",
-                   @"4570.50.279~9",
-                   @"4570.50.294~5",
-                   @"4570.52.2~3",
-                   @"4570.52.2~8",],
-                 
                  // Async Wake
                  @[@"4397.0.0.2.4~1",
                    @"4481.0.0.2.1~1",
@@ -1028,12 +938,6 @@ bool supportsExploit(exploit_t exploit) {
     });
     
     switch (exploit) {
-        case multi_path_exploit: {
-            if (!multi_path_tcp_enabled()) {
-                return false;
-            }
-            break;
-        }
         case voucher_swap_exploit: {
             if (vm_kernel_page_size != 0x4000) {
                 return false;
@@ -1061,8 +965,6 @@ bool supportsExploit(exploit_t exploit) {
                 return false;
             break;
         }
-        case empty_list_exploit:
-            break;
         case async_wake_exploit:
             break;
         case necp_exploit:
@@ -1083,9 +985,7 @@ bool supportsExploit(exploit_t exploit) {
 }
 
 bool jailbreakSupported() {
-    return supportsExploit(empty_list_exploit) ||
-    supportsExploit(multi_path_exploit) ||
-    supportsExploit(async_wake_exploit) ||
+    return supportsExploit(async_wake_exploit) ||
     supportsExploit(voucher_swap_exploit) ||
     supportsExploit(mach_swap_exploit) ||
     supportsExploit(mach_swap_2_exploit);
@@ -1109,10 +1009,6 @@ NSInteger recommendedJailbreakSupport() {
         return voucher_swap_exploit;
     else if (supportsExploit(mach_swap_2_exploit))
         return mach_swap_2_exploit;
-    else if (supportsExploit(multi_path_exploit))
-        return multi_path_exploit;
-    else if (supportsExploit(empty_list_exploit))
-        return empty_list_exploit;
     else
         return -1;
 }

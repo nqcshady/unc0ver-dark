@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "common.h"
 
+#define K_TWEAK_INJECTION          @"TweakInjection"
+#define K_INSTALL_SILEO            @"InstallSileo"
+
 #define __FILENAME__ (__builtin_strrchr(__FILE__, '/') ? __builtin_strrchr(__FILE__, '/') + 1 : __FILE__)
 
 static NSString *message = nil;
@@ -36,6 +39,8 @@ while (false)
 
 @interface JailbreakViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIButton *goButton;
+@property (weak, nonatomic) IBOutlet UISwitch *TweakInjectionSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *installSileoSwitch;
 @property (weak, nonatomic) IBOutlet UITextView *outputView;
 @property (readonly) JailbreakViewController *sharedController;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *goButtonSpacing;

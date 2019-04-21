@@ -37,7 +37,6 @@
 #import <kerneldec.h>
 #import "JailbreakViewController.h"
 #include "KernelStructureOffsets.h"
-#include "empty_list_sploit.h"
 #include "KernelMemory.h"
 #include "KernelExecution.h"
 #include "KernelUtilities.h"
@@ -45,7 +44,6 @@
 #include "remote_call.h"
 #include "unlocknvram.h"
 #include "SettingsTableViewController.h"
-#include "multi_path_sploit.h"
 #include "async_wake.h"
 #include "utils.h"
 #include "ArchiveFile.h"
@@ -717,14 +715,6 @@ void jailbreak()
             exploit_success = true;
         } else {
             switch (prefs.exploit) {
-                case empty_list_exploit: {
-                    if (vfs_sploit() &&
-                        MACH_PORT_VALID(tfp0) &&
-                        ISADDR(kernel_base = find_kernel_base())) {
-                        exploit_success = true;
-                    }
-                    break;
-                }
                 case async_wake_exploit: {
                     if (async_wake_go() &&
                         MACH_PORT_VALID(tfp0) &&
@@ -2172,6 +2162,14 @@ dictionary[@(name)] = ADDRSTRING(value); \
         if (prefs.install_cydia) {
             // Install Cydia.
             
+            // These triggers cause loops
+            if(pkgIsInstalled("org.coolstar.Sileo")) {
+                _assert(removePkg("us.diatr.sillyo", true), message, false);
+                _assert(removePkg("us.diatr.sileorespring", true), message, false);
+                _assert(removePkg("org.coolstar.Sileo", true), message, false);
+                prefs.install_sileo = true;
+            }
+            
             LOG("Installing Cydia...");
             SETMESSAGE(NSLocalizedString(@"Failed to install Cydia.", nil));
             NSString *cydiaVer = versionOfPkg(@"cydia");
@@ -2197,6 +2195,11 @@ dictionary[@(name)] = ADDRSTRING(value); \
             INSERTSTATUS(NSLocalizedString(@"Installed Cydia.\n", nil));
         }
         if (prefs.install_sileo) {
+            // These triggers cause loops
+            if(pkgIsInstalled("us.diatr.sillyo")) {
+                _assert(removePkg("us.diatr.sillyo", true), message, false);
+            }
+            
             // Download electrarepo64 Packages file
             LOG("Finding Sileo...");
             NSString *packagesurl =  [NSString stringWithFormat: @"https://electrarepo64.coolstar.org/Packages"];
@@ -2228,7 +2231,11 @@ dictionary[@(name)] = ADDRSTRING(value); \
             // Install Sileo.
             LOG("Installing Sileo...");
             SETMESSAGE(NSLocalizedString(@"Failed to install Sileo.", nil));
-            _assert(aptInstall(@[sileoDeb]), message, true);
+            if(pkgIsInstalled("org.coolstar.Sileo")) {
+                _assert(aptInstall(@[@"--reinstall", sileoDeb]), message, true);
+            } else {
+                _assert(aptInstall(@[sileoDeb]), message, true);
+            }
             LOG("Successfully installed Sileo.");
             
             // Small compatibility layer to remove electrarepo
@@ -2437,6 +2444,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
             showAlert(NSLocalizedString(@"Error", nil), NSLocalizedString(@"Bundled Resources version is missing. This build is invalid.", nil), false, false);
         });
     }
+    [self reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -2448,20 +2456,20 @@ dictionary[@(name)] = ADDRSTRING(value); \
     return UIStatusBarStyleLightContent;
 }
 
-- (IBAction)tappedOnPwn:(id)sender{
-    [[UIApplication sharedApplication] openURL:[CreditsTableViewController getURLForUserName:@"Pwn20wnd"] options:@{} completionHandler:nil];
+- (void)reloadData {
+    [self.TweakInjectionSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_TWEAK_INJECTION]];
+    [self.installSileoSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_INSTALL_SILEO]];
 }
 
-- (IBAction)tappedOnDennis:(id)sender{
-    [[UIApplication sharedApplication] openURL:[CreditsTableViewController getURLForUserName:@"DennisBednarz"] options:@{} completionHandler:nil];
+- (IBAction)TweakInjectionSwitchTriggered:(id)sender {
+    [[NSUserDefaults standardUserDefaults] setBool:[self.TweakInjectionSwitch isOn] forKey:K_TWEAK_INJECTION];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self reloadData];
 }
-
-- (IBAction)tappedOnSamB:(id)sender{
-    [[UIApplication sharedApplication] openURL:[CreditsTableViewController getURLForUserName:@"sbingner"] options:@{} completionHandler:nil];
-}
-
-- (IBAction)tappedOnSamG:(id)sender{
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://reddit.com/u/Samg_is_a_Ninja"] options:@{} completionHandler:nil];
+- (IBAction)installSileoSwitchTriggered:(id)sender {
+    [[NSUserDefaults standardUserDefaults] setBool:[self.installSileoSwitch isOn] forKey:K_INSTALL_SILEO];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self reloadData];
 }
 
 // This intentionally returns nil if called before it's been created by a proper init

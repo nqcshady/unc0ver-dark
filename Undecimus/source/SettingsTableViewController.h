@@ -10,7 +10,6 @@
 #import "common.h"
 #import "utils.h"
 
-#define K_TWEAK_INJECTION          @"TweakInjection"
 #define K_LOAD_DAEMONS             @"LoadDaemons"
 #define K_DUMP_APTICKET            @"DumpAPTicket"
 #define K_REFRESH_ICON_CACHE       @"RefreshIconCache"
@@ -25,7 +24,6 @@
 #define K_ECID                     @"Ecid"
 #define K_INSTALL_OPENSSH          @"InstallOpenSSH"
 #define K_INSTALL_CYDIA            @"InstallCydia"
-#define K_INSTALL_SILEO            @"InstallSileo"
 #define K_RELOAD_SYSTEM_DAEMONS    @"ReloadSystemDaemons"
 #define K_HIDE_LOG_WINDOW          @"HideLogWindow"
 #define K_RESET_CYDIA_CACHE        @"ResetCydiaCache"
@@ -34,7 +32,6 @@
 #define K_SET_CS_DEBUGGED          @"SetCSDebugged"
 
 @interface SettingsTableViewController : UITableViewController <UITextFieldDelegate>
-@property (weak, nonatomic) IBOutlet UISwitch *TweakInjectionSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *LoadDaemonsSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *DumpAPTicketSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *RefreshIconCacheSwitch;
@@ -51,7 +48,6 @@
 @property (weak, nonatomic) IBOutlet UISwitch *ExportKernelTaskPortSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *RestoreRootFSSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *installCydiaSwitch;
-@property (weak, nonatomic) IBOutlet UISwitch *installSileoSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *installSSHSwitch;
 @property (weak, nonatomic) IBOutlet UITextField *UptimeLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *IncreaseMemoryLimitSwitch;
