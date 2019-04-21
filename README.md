@@ -1,5 +1,6 @@
 # unc0ver dark
-### Join the dark side
+### Join the u0 Dark [Discord](https://discord.gg/4pYwBCb)
+### Uninstall Cydown if your Cydia is crashing!
 ![Vader](https://diatr.us/img/dv.gif)
 
 jailbreak for iOS 11.0 - 12.1.2<br/>
