@@ -1,5 +1,7 @@
 # unc0ver dark
-### Join the dark side
+### Join the u0 Dark [Discord](https://discord.gg/4pYwBCb)
+### Uninstall CyDown if your Cydia is crashing!
+### join the dark side
 ![Vader](https://diatr.us/img/dv.gif)
 
 jailbreak for iOS 11.0 - 12.1.2<br/>
@@ -8,7 +10,7 @@ original unc0ver UI by [Dennis Bednarz](https://twitter.com/DennisBednarz) & [Sa
 **This fork requires a network connection for the initial jailbreaking process. Rejailbreaking will not require it. This means you cannot have Airplane Mode enabled when running u0 dark for the first time.**
 ## Changes from unc0ver
 * APT 1.7
-* New true black UI designed by [CodeRedKillah](https://twitter.com/coderedkillah) (This will ship at a later date.)
+* New true black UI designed by [CodeRedKillah](https://twitter.com/coderedkillah)
 * Substrate is downloaded from the Internet
 * Sileo support via [Diatrus](https://github.com/Diatrus)
 
