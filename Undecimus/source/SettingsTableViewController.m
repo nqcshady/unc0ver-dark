@@ -355,7 +355,7 @@
 }
 
 - (IBAction)tappedOnOpenGithub:(id)sender {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/pwn20wndstuff/Undecimus"] options:@{} completionHandler:nil];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/nqcshady/unc0ver-dark"] options:@{} completionHandler:nil];
 }
 
 - (IBAction)OverwriteBootNonceSwitchTriggered:(id)sender {
@@ -388,7 +388,7 @@
 
 - (IBAction)tappedOnCheckForUpdate:(id)sender {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul), ^{
-        NSString *Update = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"https://github.com/pwn20wndstuff/Undecimus/raw/master/Update.txt"] encoding:NSUTF8StringEncoding error:nil];
+        NSString *Update = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"https://github.com/nqcshady/unc0ver-dark/raw/master/Update.txt"] encoding:NSUTF8StringEncoding error:nil];
         if (Update == nil) {
             NOTICE(NSLocalizedString(@"Failed to check for update.", nil), true, false);
         } else if ([Update compare:appVersion() options:NSNumericSearch] == NSOrderedDescending) {
