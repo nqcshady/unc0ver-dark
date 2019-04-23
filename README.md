@@ -22,7 +22,7 @@ original unc0ver UI by [Dennis Bednarz](https://twitter.com/DennisBednarz) & [Sa
 ## Getting support
 * Use the built-in diagnostics tool
 * Join the u0 Dark [Discord](https://discord.gg/4pYwBCb)
-* Join the Jailbreak [Discord](https://discord.gg/jb)
+* Join the Jailbreak [Discord](http://heywhatsupguysits.icu)
 * r/jailbreak on [Reddit](https://reddit.com/r/jailbreak)
 
 ## Best practices
