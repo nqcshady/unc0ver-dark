@@ -71,15 +71,15 @@ static JailbreakViewController *sharedController = nil;
 static NSMutableString *output = nil;
 
 #define STATUS(msg, btnenbld, tbenbld) do { \
-LOG("STATUS: %@", msg); \
-dispatch_async(dispatch_get_main_queue(), ^{ \
-[UIView performWithoutAnimation:^{ \
-[[[JailbreakViewController sharedController] goButton] setEnabled:btnenbld]; \
-[[[[JailbreakViewController sharedController] tabBarController] tabBar] setUserInteractionEnabled:tbenbld]; \
-[[[JailbreakViewController sharedController] goButton] setTitle:msg forState: btnenbld ? UIControlStateNormal : UIControlStateDisabled]; \
-[[[JailbreakViewController sharedController] goButton] layoutIfNeeded]; \
-}]; \
-}); \
+        LOG("STATUS: %@", msg); \
+        dispatch_async(dispatch_get_main_queue(), ^{ \
+            [UIView performWithoutAnimation:^{ \
+                [[[JailbreakViewController sharedController] goButton] setEnabled:btnenbld]; \
+                [[[[JailbreakViewController sharedController] tabBarController] tabBar] setUserInteractionEnabled:tbenbld]; \
+                [[[JailbreakViewController sharedController] goButton] setTitle:msg forState: btnenbld ? UIControlStateNormal : UIControlStateDisabled]; \
+                [[[JailbreakViewController sharedController] goButton] layoutIfNeeded]; \
+            }]; \
+        }); \
 } while (false)
 
 int stage = __COUNTER__;
@@ -87,9 +87,9 @@ extern int maxStage;
 
 #define STATUSWITHSTAGE(Stage, MaxStage) STATUS(([NSString stringWithFormat:@"%@ (%d/%d)", NSLocalizedString(@"Exploiting", nil), Stage, MaxStage]), false, false)
 #define UPSTAGE() do { \
-__COUNTER__; \
-stage++; \
-STATUSWITHSTAGE(stage, maxStage); \
+    __COUNTER__; \
+    stage++; \
+    STATUSWITHSTAGE(stage, maxStage); \
 } while (false)
 
 typedef struct {
@@ -114,6 +114,27 @@ typedef struct {
     bool set_cs_debugged;
     int exploit;
 } prefs_t;
+
+#define FINDOFFSET(x, symbol, critical) do { \
+    if (!ISADDR(GETOFFSET(x))) { \
+        SETOFFSET(x, find_symbol(symbol != NULL ? symbol : "_" #x)); \
+    } \
+    if (!ISADDR(GETOFFSET(x))) { \
+        uint64_t (*_find_ ##x)(void) = dlsym(RTLD_DEFAULT, "find_" #x); \
+        if (_find_ ##x != NULL) { \
+            SETOFFSET(x, _find_ ##x()); \
+        } \
+    } \
+    if (ISADDR(GETOFFSET(x))) { \
+        LOG(#x " = " ADDR " + " ADDR, GETOFFSET(x), kernel_slide); \
+        SETOFFSET(x, GETOFFSET(x) + kernel_slide); \
+    } else { \
+        SETOFFSET(x, 0); \
+        if (critical) { \
+            _assert(false, message, true); \
+        } \
+    } \
+} while (false)
 
 #define ADDRSTRING(val)        [NSString stringWithFormat:@ADDR, val]
 
@@ -224,7 +245,7 @@ void set_all_image_info_addr(uint64_t kernel_task_kaddr) {
         // Adds any entries that are in kernel but we don't have
         merge_cache_blob(blob);
         free(blob);
-        
+
         // Free old offset cache - didn't bother comparing because it's faster to just replace it if it's the same
         kmem_free(dyld_info.all_image_info_addr, blob_size);
     }
@@ -430,7 +451,7 @@ uint64_t vnodeForPath(const char *path) {
         goto out;
     }
     vnode = *vpp;
-    out:
+out:
     if (vpp != NULL) {
         free(vpp);
         vpp = NULL;
@@ -521,7 +542,7 @@ uint64_t vnodeForSnapshot(int fd, char *name) {
     if (!ISADDR(snap_vnode)) {
         goto out;
     }
-    out:
+out:
     if (ISADDR(sdvpp)) {
         _vnode_put(sdvpp);
     }
@@ -649,7 +670,7 @@ void jailbreak()
     NSString *electraPackages = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"Packages"]];
     NSString *sileoDeb = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"sileo.deb"]];
 #define INSERTSTATUS(x) do { \
-[status appendString:x]; \
+    [status appendString:x]; \
 } while (false)
     
     UPSTAGE();
@@ -690,7 +711,7 @@ void jailbreak()
         myOriginalHost = myHost;
         pid_t pid = 0;
         if ((task_for_pid(mach_task_self(), 0, &persisted_kernel_task_port) == KERN_SUCCESS ||
-             host_get_special_port(myHost, 0, 4, &persisted_kernel_task_port) == KERN_SUCCESS) &&
+            host_get_special_port(myHost, 0, 4, &persisted_kernel_task_port) == KERN_SUCCESS) &&
             MACH_PORT_VALID(persisted_kernel_task_port) &&
             pid_for_task(persisted_kernel_task_port, &pid) == KERN_SUCCESS && pid == 0 &&
             task_info(persisted_kernel_task_port, TASK_DYLD_INFO, (task_info_t)&dyld_info, &count) == KERN_SUCCESS &&
@@ -699,7 +720,7 @@ void jailbreak()
             prepare_for_rw_with_fake_tfp0(persisted_kernel_task_port);
             kernel_base = KERNEL_SEARCH_ADDRESS + persisted_kernel_slide;
             kernel_slide = persisted_kernel_slide;
-            
+
             if (persisted_cache_blob != KERNEL_SEARCH_ADDRESS + persisted_kernel_slide) {
                 size_t blob_size = rk64(persisted_cache_blob);
                 LOG("Restoring persisted offsets cache");
@@ -830,7 +851,7 @@ void jailbreak()
             SETOFFSET(unrestrict-options, offset_options);
         }
     }
-    
+
     UPSTAGE();
     
     if (!found_offsets) {
@@ -839,54 +860,46 @@ void jailbreak()
         LOG("Finding offsets...");
         SETOFFSET(kernel_base, kernel_base);
         SETOFFSET(kernel_slide, kernel_slide);
-        
-#define PF(x) do { \
-        SETMESSAGE(NSLocalizedString(@"Failed to find " #x " offset.", nil)); \
-        if (!ISADDR(GETOFFSET(x))) SETOFFSET(x, find_symbol("_" #x)); \
-        if (!ISADDR(GETOFFSET(x))) SETOFFSET(x, find_ ##x()); \
-        LOG(#x " = " ADDR " + " ADDR, GETOFFSET(x), kernel_slide); \
-        _assert(ISADDR(GETOFFSET(x)), message, true); \
-        SETOFFSET(x, GETOFFSET(x) + kernel_slide); \
-} while (false)
-        PF(trustcache);
-        PF(OSBoolean_True);
-        PF(osunserializexml);
-        PF(smalloc);
+        FINDOFFSET(trustcache, NULL, true);
+        FINDOFFSET(OSBoolean_True, NULL, true);
+        FINDOFFSET(osunserializexml, NULL, true);
+        FINDOFFSET(smalloc, NULL, true);
         if (!auth_ptrs) {
-            PF(add_x0_x0_0x40_ret);
+            FINDOFFSET(add_x0_x0_0x40_ret, NULL, true);
         }
-        PF(zone_map_ref);
-        PF(vfs_context_current);
-        PF(vnode_lookup);
-        PF(vnode_put);
-        PF(kernel_task);
-        PF(shenanigans);
-        PF(lck_mtx_lock);
-        PF(lck_mtx_unlock);
+        FINDOFFSET(zone_map_ref, NULL, true);
+        FINDOFFSET(vfs_context_current, NULL, true);
+        FINDOFFSET(vnode_lookup, NULL, true);
+        FINDOFFSET(vnode_put, NULL, true);
+        FINDOFFSET(kernel_task, NULL, true);
+        FINDOFFSET(shenanigans, NULL, true);
         if (kCFCoreFoundationVersionNumber >= 1535.12) {
-            PF(vnode_get_snapshot);
-            PF(fs_lookup_snapshot_metadata_by_name_and_return_name);
-            PF(apfs_jhash_getvnode);
+            FINDOFFSET(vnode_get_snapshot, NULL, true);
+            FINDOFFSET(fs_lookup_snapshot_metadata_by_name_and_return_name, NULL, true);
+            FINDOFFSET(apfs_jhash_getvnode, NULL, true);
         }
         if (auth_ptrs) {
-            PF(pmap_load_trust_cache);
-            PF(paciza_pointer__l2tp_domain_module_start);
-            PF(paciza_pointer__l2tp_domain_module_stop);
-            PF(l2tp_domain_inited);
-            PF(sysctl__net_ppp_l2tp);
-            PF(sysctl_unregister_oid);
-            PF(mov_x0_x4__br_x5);
-            PF(mov_x9_x0__br_x1);
-            PF(mov_x10_x3__br_x6);
-            PF(kernel_forge_pacia_gadget);
-            PF(kernel_forge_pacda_gadget);
-            PF(IOUserClient__vtable);
-            PF(IORegistryEntry__getRegistryEntryID);
+            FINDOFFSET(pmap_load_trust_cache, NULL, true);
+            FINDOFFSET(paciza_pointer__l2tp_domain_module_start, NULL, true);
+            FINDOFFSET(paciza_pointer__l2tp_domain_module_stop, NULL, true);
+            FINDOFFSET(l2tp_domain_inited, NULL, true);
+            FINDOFFSET(sysctl__net_ppp_l2tp, NULL, true);
+            FINDOFFSET(sysctl_unregister_oid, NULL, true);
+            FINDOFFSET(mov_x0_x4__br_x5, NULL, true);
+            FINDOFFSET(mov_x9_x0__br_x1, NULL, true);
+            FINDOFFSET(mov_x10_x3__br_x6, NULL, true);
+            FINDOFFSET(kernel_forge_pacia_gadget, NULL, true);
+            FINDOFFSET(kernel_forge_pacda_gadget, NULL, true);
+            FINDOFFSET(IOUserClient__vtable, NULL, true);
+            FINDOFFSET(IORegistryEntry__getRegistryEntryID, NULL, true);
         }
-#undef PF
+        FINDOFFSET(lck_mtx_lock, NULL, false);
+        FINDOFFSET(lck_mtx_unlock, NULL, false);
+        FINDOFFSET(proc_find, NULL, false);
+        FINDOFFSET(proc_rele, NULL, false);
         found_offsets = true;
         LOG("Successfully found offsets.");
-        
+
         // Deinitialize patchfinder64.
         term_kernel();
     }
@@ -926,7 +939,7 @@ void jailbreak()
         LOG("Setting HSP4 as TFP0...");
         remap_tfp0_set_hsp4(&tfp0);
         LOG("Successfully set HSP4 as TFP0.");
-        INSERTSTATUS(NSLocalizedString(@"Set HSP4 as TFP0.", nil));
+        INSERTSTATUS(NSLocalizedString(@"Set HSP4 as TFP0.\n", nil));
         LOG("Initializing kexecute...");
         _assert(init_kexecute(), message, true);
         LOG("Successfully initialized kexecute.");
@@ -1243,9 +1256,9 @@ void jailbreak()
         _assert(runCommand("/sbin/mount", NULL) == ERR_SUCCESS, message, true);
         NSString *file = [NSString stringWithContentsOfFile:@"/.installed_unc0ver" encoding:NSUTF8StringEncoding error:nil];
         needStrap = (file == nil ||
-                     (![file isEqualToString:@""] &&
-                      ![file isEqualToString:[NSString stringWithFormat:@"%f\n", kCFCoreFoundationVersionNumber]]))
-        && access("/electra", F_OK) != ERR_SUCCESS;
+                    (![file isEqualToString:@""] &&
+                    ![file isEqualToString:[NSString stringWithFormat:@"%f\n", kCFCoreFoundationVersionNumber]]))
+                    && access("/electra", F_OK) != ERR_SUCCESS;
         if (needStrap)
             LOG("We need strap.");
         if (!has_original_snapshot) {
@@ -1263,7 +1276,7 @@ void jailbreak()
         LOG("Successfully remounted RootFS.");
         INSERTSTATUS(NSLocalizedString(@"Remounted RootFS.\n", nil));
     }
-    
+
     UPSTAGE();
     
     {
@@ -1326,7 +1339,7 @@ void jailbreak()
         NSString *offsetsFile = @"/jb/offsets.plist";
         NSMutableDictionary *dictionary = [NSMutableDictionary new];
 #define CACHEADDR(value, name) do { \
-dictionary[@(name)] = ADDRSTRING(value); \
+    dictionary[@(name)] = ADDRSTRING(value); \
 } while (false)
 #define CACHEOFFSET(offset, name) CACHEADDR(GETOFFSET(offset), name)
         CACHEADDR(kernel_base, "KernelBase");
@@ -1361,6 +1374,8 @@ dictionary[@(name)] = ADDRSTRING(value); \
         CACHEOFFSET(kernel_forge_pacda_gadget, "KernelForgePacdaGadget");
         CACHEOFFSET(IOUserClient__vtable, "IOUserClientVtable");
         CACHEOFFSET(IORegistryEntry__getRegistryEntryID, "IORegistryEntryGetRegistryEntryID");
+        CACHEOFFSET(proc_find, "ProcFind");
+        CACHEOFFSET(proc_rele, "ProcRele");
 #undef CACHEOFFSET
 #undef CACHEADDR
         if (![[NSMutableDictionary dictionaryWithContentsOfFile:offsetsFile] isEqual:dictionary]) {
@@ -1605,7 +1620,6 @@ dictionary[@(name)] = ADDRSTRING(value); \
         // Make sure we have an apt packages cache
         _assert(ensureAptPkgLists(), message, true);
         
-        
         needSubstrate = ( needStrap ||
                          (access("/usr/libexec/substrate", F_OK) != ERR_SUCCESS) ||
                          !verifySums(@"/var/lib/dpkg/info/mobilesubstrate.md5sums", HASHTYPE_MD5));
@@ -1633,6 +1647,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
                 LOG("Substrate is running, not extracting again for now.");
             }
         }
+        
         char *osversion = NULL;
         size_t size = 0;
         _assert(sysctlbyname("kern.osversion", NULL, &size, NULL, 0) == ERR_SUCCESS, message, true);
@@ -1655,7 +1670,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
         if (kCFCoreFoundationVersionNumber >= 1535.12) {
             resourcesPkgs = [@[@"com.ps.letmeblock"] arrayByAddingObjectsFromArray:resourcesPkgs];
         }
-        
+
         NSMutableArray *pkgsToRepair = [NSMutableArray new];
         LOG("Resource Pkgs: \"%@\".", resourcesPkgs);
         for (NSString *pkg in resourcesPkgs) {
@@ -1687,7 +1702,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
             _assert(access("/usr/libexec/ldid", F_OK) == ERR_SUCCESS, message, true);
             _assert(ensure_symlink("../libexec/ldid", "/usr/bin/ldid"), message, true);
         }
-        
+
         // These don't need to lay around
         clean_file("/Library/LaunchDaemons/jailbreakd.plist");
         clean_file("/jb/jailbreakd.plist");
@@ -1732,7 +1747,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
         SETMESSAGE(NSLocalizedString(@"Failed to repair filesystem.", nil));
         
         _assert(ensure_directory("/var/lib", 0, 0755), message, true);
-        
+
         // Make sure dpkg is not corrupted
         if (is_directory("/var/lib/dpkg")) {
             if (is_directory("/Library/dpkg")) {
@@ -1782,7 +1797,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
             _assert(create_file("/var/tmp/.substrated_disable_loader", 0, 644), message, true);
         }
         LOG("Successfully set Disable Loader.");
-        
+
         // Run substrate
         LOG("Starting Substrate...");
         SETMESSAGE(NSLocalizedString(skipSubstrate?@"Failed to restart Substrate":@"Failed to start Substrate.", nil));
@@ -1822,7 +1837,6 @@ dictionary[@(name)] = ADDRSTRING(value); \
         if (pkgIsInstalled("openssl") && compareInstalledVersion("openssl", "lt", "1.0.2q")) {
             removePkg("openssl", true);
         }
-        
         // Test dpkg
         if (!pkgIsConfigured("dpkg") || pkgIsBy("CoolStar", "dpkg")) {
             LOG("Extracting dpkg...");
@@ -1906,7 +1920,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
             LOG("Installing manually exctracted debs...");
             _assert(installDebs(debsToInstall, true), message, true);
         }
-        
+
         _assert(ensure_directory("/etc/apt/undecimus", 0, 0755), message, true);
         clean_file("/etc/apt/sources.list.d/undecimus.list");
         const char *listPath = "/etc/apt/undecimus/undecimus.list";
@@ -1937,7 +1951,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
             _assert(aptInstall(@[@"-f"]), message, true);
             debsToInstall = nil;
         }
-        
+
         // Dpkg and apt both work now
         
         if (needStrap) {
@@ -1983,7 +1997,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
         clean_file("/electra");
         clean_file("/.bootstrapped_electra");
         clean_file("/usr/lib/libjailbreak.dylib");
-        
+
         LOG("Successfully extracted bootstrap.");
         
         INSERTSTATUS(NSLocalizedString(@"Extracted Bootstrap.\n", nil));
@@ -2049,7 +2063,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
             LOG("Successfully increased memory limit.");
             INSERTSTATUS(NSLocalizedString(@"Increased Memory Limit.\n", nil));
         } else {
-            // Restored memory limit.
+            // Restore memory limit.
             
             LOG("Restoring memory limit...");
             SETMESSAGE(NSLocalizedString(@"Failed to restore memory limit.", nil));
@@ -2274,17 +2288,17 @@ dictionary[@(name)] = ADDRSTRING(value); \
             LOG("Loading Daemons...");
             SETMESSAGE(NSLocalizedString(@"Failed to load Daemons.", nil));
             system("echo 'really jailbroken';"
-                   "shopt -s nullglob;"
-                   "for a in /Library/LaunchDaemons/*.plist;"
-                   "do echo loading $a;"
-                   "launchctl load \"$a\" ;"
-                   "done; ");
+                    "shopt -s nullglob;"
+                    "for a in /Library/LaunchDaemons/*.plist;"
+                        "do echo loading $a;"
+                        "launchctl load \"$a\" ;"
+                    "done; ");
             // Substrate is already running, no need to run it again
             system("for file in /etc/rc.d/*; do "
-                   "if [[ -x \"$file\" && \"$file\" != \"/etc/rc.d/substrate\" ]]; then "
-                   "\"$file\";"
-                   "fi;"
-                   "done");
+                        "if [[ -x \"$file\" && \"$file\" != \"/etc/rc.d/substrate\" ]]; then "
+                            "\"$file\";"
+                         "fi;"
+                    "done");
             LOG("Successfully loaded Daemons.");
             
             INSERTSTATUS(NSLocalizedString(@"Loaded Daemons.\n", nil));
@@ -2310,7 +2324,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
             INSERTSTATUS(NSLocalizedString(@"Reset Cydia Cache.\n", nil));
         }
     }
-    
+
     UPSTAGE();
     
     {
@@ -2353,17 +2367,17 @@ dictionary[@(name)] = ADDRSTRING(value); \
             SETMESSAGE(NSLocalizedString(@"Failed to load tweaks.", nil));
             if (prefs.reload_system_daemons) {
                 rv = system("nohup bash -c \""
-                            "sleep 1 ;"
-                            "launchctl unload /System/Library/LaunchDaemons/com.apple.backboardd.plist && "
-                            "ldrestart ;"
-                            "launchctl load /System/Library/LaunchDaemons/com.apple.backboardd.plist"
-                            "\" >/dev/null 2>&1 &");
+                             "sleep 1 ;"
+                             "launchctl unload /System/Library/LaunchDaemons/com.apple.backboardd.plist && "
+                             "ldrestart ;"
+                             "launchctl load /System/Library/LaunchDaemons/com.apple.backboardd.plist"
+                             "\" >/dev/null 2>&1 &");
             } else {
                 rv = system("nohup bash -c \""
-                            "sleep 1 ;"
-                            "launchctl stop com.apple.mDNSResponder ;"
-                            "launchctl stop com.apple.backboardd"
-                            "\" >/dev/null 2>&1 &");
+                             "sleep 1 ;"
+                             "launchctl stop com.apple.mDNSResponder ;"
+                             "launchctl stop com.apple.backboardd"
+                             "\" >/dev/null 2>&1 &");
             }
             _assert(WEXITSTATUS(rv) == ERR_SUCCESS, message, true);
             LOG("Successfully loaded Tweaks.");
@@ -2371,7 +2385,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
             INSERTSTATUS(NSLocalizedString(@"Loaded Tweaks.\n", nil));
         }
     }
-    out:
+out:
     LOG("Deinitializing kexecute...");
     term_kexecute();
     LOG("Unplatformizing...");
@@ -2487,7 +2501,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
     static BOOL updateQueued = NO;
     static struct timeval last = {0,0};
     static dispatch_queue_t updateQueue;
-    
+
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         updateQueue = dispatch_queue_create("updateView", NULL);
@@ -2495,7 +2509,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
     
     dispatch_async(updateQueue, ^{
         struct timeval now;
-        
+
         if (fromQueue.boolValue) {
             updateQueued = NO;
         }
@@ -2541,7 +2555,7 @@ dictionary[@(name)] = ADDRSTRING(value); \
     });
     
     text = [remove stringByReplacingMatchesInString:text options:0 range:NSMakeRange(0, text.length) withTemplate:@""];
-    
+
     @synchronized (output) {
         [output appendString:text];
     }

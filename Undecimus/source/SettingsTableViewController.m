@@ -16,6 +16,7 @@
 #include "utils.h"
 #include "voucher_swap-poc.h"
 #include "necp.h"
+#include "kalloc_crash.h"
 
 @interface SettingsTableViewController ()
 
@@ -325,6 +326,10 @@
             }
             case voucher_swap_exploit: {
                 voucher_swap_poc();
+                break;
+            }
+            case kalloc_crash: {
+                do_kalloc_crash();
                 break;
             }
             default:

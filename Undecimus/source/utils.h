@@ -26,7 +26,8 @@ typedef enum {
     mach_swap_exploit,
     mach_swap_2_exploit,
     deja_xnu_exploit,
-    necp_exploit
+    necp_exploit,
+    kalloc_crash
 } exploit_t;
 
 enum hashtype {

@@ -58,6 +58,7 @@
 		22CFED9221CDFE6B00A216BE /* libmis.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 22CFED9121CDFE6B00A216BE /* libmis.tbd */; };
 		22F91CDB21E02CF300B2FCAE /* inject.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F91CD921E02CF200B2FCAE /* inject.m */; };
 		22F91CE321E033A500B2FCAE /* libsnappy.c in Sources */ = {isa = PBXBuildFile; fileRef = 22F91CE221E033A500B2FCAE /* libsnappy.c */; };
+		3656A107226FB0D000407B4D /* kalloc_crash.c in Sources */ = {isa = PBXBuildFile; fileRef = 3656A105226FB0D000407B4D /* kalloc_crash.c */; };
 		8D592A68218E47F60035D2BC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D592A67218E47F60035D2BC /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -187,6 +188,8 @@
 		364F7299226AE06300C1BD8A /* Lato-Hairline.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Hairline.ttf"; sourceTree = "<group>"; };
 		364F729A226AE06300C1BD8A /* Lato-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-MediumItalic.ttf"; sourceTree = "<group>"; };
 		364F729B226AE06300C1BD8A /* Lato-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-ThinItalic.ttf"; sourceTree = "<group>"; };
+		3656A105226FB0D000407B4D /* kalloc_crash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = kalloc_crash.c; sourceTree = "<group>"; };
+		3656A106226FB0D000407B4D /* kalloc_crash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kalloc_crash.h; sourceTree = "<group>"; };
 		36FFCD30226BBA0A00F10E34 /* Lato-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Semibold.ttf"; sourceTree = "<group>"; };
 		8D592A67218E47F60035D2BC /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -369,6 +372,7 @@
 		2170BDCB21B32FF10059BD10 /* source */ = {
 			isa = PBXGroup;
 			children = (
+				3656A104226FB0C300407B4D /* kalloc_crash */,
 				214A1771224EBE4900588EC4 /* kerneldec */,
 				21FF63C8224E5FCE008B76D9 /* offset-cache */,
 				21FFE0F3222E4B1600EC59B2 /* machswap */,
@@ -503,6 +507,15 @@
 			name = snappy;
 			sourceTree = "<group>";
 		};
+		3656A104226FB0C300407B4D /* kalloc_crash */ = {
+			isa = PBXGroup;
+			children = (
+				3656A105226FB0D000407B4D /* kalloc_crash.c */,
+				3656A106226FB0D000407B4D /* kalloc_crash.h */,
+			);
+			name = kalloc_crash;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -596,6 +609,7 @@
 				216F3F3E2228776E007DC1BC /* user_client.c in Sources */,
 				2150A9E022021348001C8677 /* parameters.c in Sources */,
 				21A97FD12148103C00DC0023 /* KernelExecution.m in Sources */,
+				3656A107226FB0D000407B4D /* kalloc_crash.c in Sources */,
 				2150A9E122021348001C8677 /* kernel_alloc.c in Sources */,
 				2150A9DD22021348001C8677 /* platform_match.c in Sources */,
 				212D8844216E4C4800A36DA5 /* find_port.c in Sources */,
