@@ -203,17 +203,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UIImageView *myImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Clouds"]];
-    [myImageView setContentMode:UIViewContentModeScaleAspectFill];
-    [myImageView setFrame:self.tableView.frame];
-    UIView *myView = [[UIView alloc] initWithFrame:myImageView.frame];
+    UIView *myView = [[UIView alloc] initWithFrame:CGRectMake(10,10,200,200)];
     [myView setBackgroundColor:[UIColor blackColor]];
     [myView setAlpha:1.0];
     [myView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
-    [myImageView addSubview:myView];
-    [self.tableView setBackgroundView:myImageView];
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [self.tableView setBackgroundView:myView];
     
     UIView *statusBar = [[[UIApplication sharedApplication] valueForKey:@"statusBarWindow"] valueForKey:@"statusBar"];
     

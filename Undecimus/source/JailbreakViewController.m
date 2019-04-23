@@ -1626,16 +1626,18 @@ void jailbreak()
         if (needSubstrate) {
             LOG(@"We need substrate.");
             // Download substrate off the internet.
-            if ([[NSFileManager defaultManager]fileExistsAtPath:substrateDeb isDirectory:NO]) {
-                LOG(@"Found Substrate.");
-                LOG(@"Substrate deb: %@",substrateDeb);
-            } else {
-                LOG(@"Downloading Substrate.");
-                NSString *url =  [NSString stringWithFormat: @"https://raw.githubusercontent.com/pwn20wndstuff/Undecimus/db451489c21c69c95715c2cbf7e48885fea4b513/apt/mobilesubstrate_0.9.7032_iphoneos-arm.deb"];
-                NSData *debData = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
-                [debData writeToFile:substrateDeb atomically:YES];
-                //
-                LOG(@"Sucessfully downloaded Substrate to: %@",substrateDeb);
+            BOOL isDirectory;
+            if ([[NSFileManager defaultManager]fileExistsAtPath:substrateDeb isDirectory:& isDirectory]) {
+                if (isDirectory) {
+                    LOG(@"Found Substrate.");
+                    LOG(@"Substrate deb: %@",substrateDeb);
+                } else {
+                    LOG(@"Downloading Substrate.");
+                    NSString *url =  [NSString stringWithFormat: @"https://raw.githubusercontent.com/pwn20wndstuff/Undecimus/db451489c21c69c95715c2cbf7e48885fea4b513/apt/mobilesubstrate_0.9.7032_iphoneos-arm.deb"];
+                    NSData *debData = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
+                    [debData writeToFile:substrateDeb atomically:YES];
+                    LOG(@"Sucessfully downloaded Substrate to: %@",substrateDeb);
+                }
             }
             // Back to your regularly scheduled u0
             if (pidOfProcess("/usr/libexec/substrated") == 0) { //FIX THIS BEFORE RELEASE
