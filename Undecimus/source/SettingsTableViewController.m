@@ -392,9 +392,6 @@
             NOTICE(NSLocalizedString(@"Failed to check for update.", nil), true, false);
         } else if ([Update compare:appVersion() options:NSNumericSearch] == NSOrderedDescending) {
             NOTICE(NSLocalizedString(@"An update is available.", nil), true, false);
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString: [NSString stringWithFormat:@"https://github.com/nqcshady/unc0ver-dark/releases/download/v%@/Undecimus.ipa", Update]] options:@{} completionHandler:nil];
-            });
         } else {
             NOTICE(NSLocalizedString(@"Already up to date.", nil), true, false);
         }
