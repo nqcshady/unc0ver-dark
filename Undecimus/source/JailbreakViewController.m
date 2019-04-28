@@ -2462,6 +2462,7 @@ out:
             showAlert(NSLocalizedString(@"Error", nil), NSLocalizedString(@"Bundled Resources version is missing. This build is invalid.", nil), false, false);
         });
     }
+    [[self installSileoSwitch] setEnabled:NO];
     [self reloadData];
 }
 
@@ -2476,7 +2477,9 @@ out:
 
 - (void)reloadData {
     [self.TweakInjectionSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_TWEAK_INJECTION]];
-    [self.installSileoSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_INSTALL_SILEO]];
+    // [self.installSileoSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_INSTALL_SILEO]];
+    [self.installSileoSwitch setOn:NO];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:K_INSTALL_SILEO];
 }
 
 - (IBAction)TweakInjectionSwitchTriggered:(id)sender {
