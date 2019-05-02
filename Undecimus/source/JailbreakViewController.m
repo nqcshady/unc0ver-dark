@@ -1354,7 +1354,6 @@ void jailbreak()
             const char *electra_snapshot = "electra-prejailbreak";
             const char *orig_snapshot = "orig-fs";
             _assert(fs_snapshot_create(rootfd, backup_snapshot, 0) == ERR_SUCCESS, message, true);
-            _assert(fs_snapshot_rename(rootfd, electra_snapshot, orig_snapshot, 0) == ERR_SUCCESS, message, true);
             _assert(clean_file("/.installed_electra"), message, true);
         }
         
