@@ -10,7 +10,7 @@ original unc0ver work by [pwn20wnd](https://twitter.com/Pwn20wnd) & [Sam Bingner
 original unc0ver UI by [Dennis Bednarz](https://twitter.com/DennisBednarz) & [Samg_is_a_Ninja](https://reddit.com/u/Samg_is_a_Ninja)<br/>
 **This fork requires a network connection for the initial jailbreaking process. Rejailbreaking will not require it. This means you cannot have Airplane Mode enabled when running u0 dark for the first time.**
 ## Changes from unc0ver
-* APT 1.7
+* APT 1.8
 * New true black UI designed by [CodeRedKillah](https://twitter.com/coderedkillah)
 * Substrate is downloaded from the Internet
 * Sileo support via [Diatrus](https://github.com/Diatrus)
