@@ -1292,6 +1292,81 @@ void jailbreak()
     UPSTAGE();
     
     {
+        // Backup old jailbreak if they had one
+        LOG("Backing up old jailbreak...");
+        SETMESSAGE(NSLocalizedString(@"Failed to backup old jailbreak.", nil));
+        
+        int rootfd = open("/", O_RDONLY);
+        _assert(rootfd > 0, message, true);
+        const char **snapshots = snapshot_list(rootfd);
+        
+        NSString *u0path = @"/.installed_unc0ver";
+        NSString *tw3lve_path = @"/.installed_tw3lve";
+        NSString *electra_path = @"/.installed_electra";
+        
+        if([[NSFileManager defaultManager] fileExistsAtPath:u0path]) {
+            // User has installed unc0ver before - let's check if it's u0 white or dark
+            NSString *sourcesPath = @"/etc/apt/cydiasources.d/cydia.list";
+            NSString *sourcesContents = [NSString stringWithContentsOfFile:sourcesPath encoding:NSUTF8StringEncoding error:nil];
+            NSArray *sourcesLines = [sourcesContents componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+            // LOG("sources array: %@", sourcesLines);
+            
+            // LOG("misceo installed? %s", [sourcesLines containsObject:@"deb https://diatr.us/apt/ ./"] ? "yes" : "no");
+            
+            // this is installed with Cydia
+            // which means if they have it, u0 dark is already installed (because cydia installation is done after this) and unfortunately we can't backup their old jailbreak
+            if([sourcesLines containsObject:@"deb https://diatr.us/apt/ ./"]) {
+                LOG("u0 dark detected, not doing anything");
+            } else {
+                const char *orig_snapshot = "orig-fs";
+                const char *backup_snapshot = "old-jb";
+                bool has_orig_fs = false;
+                bool has_old_jb = false;
+                for(const char **snapshot = snapshots; *snapshot; snapshot++) {
+                    if(strcmp(backup_snapshot, *snapshot) == 0)
+                        has_old_jb = true;
+                }
+                
+                if(has_old_jb) {
+                    _assert(fs_snapshot_delete(rootfd, backup_snapshot, 0) == ERR_SUCCESS, message, true);
+                    _assert(fs_snapshot_create(rootfd, backup_snapshot, 0) == ERR_SUCCESS, message, true);
+                    has_old_jb = false;
+                }
+                
+                if(has_orig_fs && !has_old_jb) {
+                    // User is installing u0 dark but doesn't have a backup of their old jailbreak, we should make one
+                    _assert(fs_snapshot_create(rootfd, backup_snapshot, 0) == ERR_SUCCESS, message, true);
+                } else {
+                    LOG("not doing anything");
+                }
+            }
+            
+        } else if([[NSFileManager defaultManager] fileExistsAtPath:tw3lve_path]) {
+            // User has tw3lve installed, we should create a backup
+            LOG("tw3lve detected, making backup snapshot");
+            const char *backup_snapshot = "old-jb";
+            _assert(fs_snapshot_create(rootfd, backup_snapshot, 0) == ERR_SUCCESS, message, true);
+            _assert(clean_file("/.installed_tw3lve"), message, true);
+        } else if([[NSFileManager defaultManager] fileExistsAtPath:electra_path]) {
+            // User has electra installed, we should create a backup and rename electra-prejailbreak to orig-fs
+            LOG("electra detected, making backup snapshot and renaming electra-prejailbreak to orig-fs");
+            const char *backup_snapshot = "old-jb";
+            const char *electra_snapshot = "electra-prejailbreak";
+            const char *orig_snapshot = "orig-fs";
+            _assert(fs_snapshot_create(rootfd, backup_snapshot, 0) == ERR_SUCCESS, message, true);
+            _assert(fs_snapshot_rename(rootfd, electra_snapshot, orig_snapshot, 0) == ERR_SUCCESS, message, true);
+            _assert(clean_file("/.installed_electra"), message, true);
+        }
+        
+        close(rootfd);
+        free(snapshots);
+        snapshots = NULL;
+        
+    }
+    
+    UPSTAGE();
+    
+    {
         NSArray <NSString *> *array = @[@"/var/Keychains/ocspcache.sqlite3",
                                         @"/var/Keychains/ocspcache.sqlite3-shm",
                                         @"/var/Keychains/ocspcache.sqlite3-wal"];
