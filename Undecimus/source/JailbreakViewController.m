@@ -1697,7 +1697,7 @@ void jailbreak()
         needSubstrate = ( needStrap ||
                          (access("/usr/libexec/substrate", F_OK) != ERR_SUCCESS) ||
                          !verifySums(@"/var/lib/dpkg/info/mobilesubstrate.md5sums", HASHTYPE_MD5));
-        if (needSubstrate) {
+        /*if (needSubstrate) {
             LOG(@"We need substrate.");
             // Download substrate off the internet.
             BOOL isDirectory;
@@ -1722,6 +1722,18 @@ void jailbreak()
                 skipSubstrate = true;
                 LOG("Substrate is running, not extracting again for now.");
             }
+        }*/ // Fix this later
+        
+        if (needSubstrate) {
+            LOG(@"We need substrate.");
+            NSString *substrateDeb = debForPkg(@"mobilesubstrate");
+            _assert(substrateDeb != nil, message, true);
+            if (pidOfProcess("/usr/libexec/substrated") == 0) {
+                _assert(extractDeb(substrateDeb), message, true);
+            } else {
+                LOG("Substrate is running, not extracting again for now.");
+            }
+            [debsToInstall addObject:substrateDeb];
         }
         
         char *osversion = NULL;
@@ -2240,22 +2252,6 @@ void jailbreak()
             }
             LOG("Successfully removed Electra's Cydia Upgrade Helper.");
         }
-        if (pkgIsInstalled("cydia") && compareInstalledVersion("cydia", "lt", "1.2.0")) {
-            _assert(removePkg("cydia", true), message, true);
-            if (!prefs.install_cydia) {
-                prefs.install_cydia = true;
-                _assert(modifyPlist(prefsFile, ^(id plist) {
-                    plist[K_INSTALL_CYDIA] = @YES;
-                }), message, true);
-            }
-            if (!prefs.run_uicache) {
-                prefs.run_uicache = true;
-                _assert(modifyPlist(prefsFile, ^(id plist) {
-                    plist[K_REFRESH_ICON_CACHE] = @YES;
-                }), message, true);
-            }
-            LOG("Will update Cydia...");
-        }
         if (access("/etc/apt/sources.list.d/electra.list", F_OK) == ERR_SUCCESS) {
             if (!prefs.install_cydia) {
                 prefs.install_cydia = true;
@@ -2320,7 +2316,7 @@ void jailbreak()
             }
             
             // Download electrarepo64 Packages file
-            LOG("Finding Sileo...");
+            /*LOG("Finding Sileo...");
             NSString *packagesurl =  [NSString stringWithFormat: @"https://electrarepo64.coolstar.org/Packages"];
             NSData *packagesData = [NSData dataWithContentsOfURL:[NSURL URLWithString:packagesurl]];
             [packagesData writeToFile:electraPackages atomically:YES];
@@ -2345,19 +2341,19 @@ void jailbreak()
             LOG(@"Downloading Sileo from %@",urlcleaner);
             NSData *debData = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlcleaner]];
             [debData writeToFile:sileoDeb atomically:YES];
-            LOG(@"Sucessfully downloaded Sileo to: %@",sileoDeb);
+            LOG(@"Sucessfully downloaded Sileo to: %@",sileoDeb);*/
             
             // Install Sileo.
             LOG("Installing Sileo...");
             SETMESSAGE(NSLocalizedString(@"Failed to install Sileo.", nil));
             if(pkgIsInstalled("org.coolstar.Sileo")) {
-                _assert(aptInstall(@[@"--reinstall", sileoDeb]), message, true);
+                _assert(aptInstall(@[@"--reinstall", @"org.coolstar.Sileo"]), message, true);
             } else {
-                _assert(aptInstall(@[sileoDeb]), message, true);
+                _assert(aptInstall(@[@"org.coolstar.Sileo"]), message, true);
             }
             LOG("Successfully installed Sileo.");
             
-            // Small compatibility layer to remove electrarepo
+            // Small compatibility layer to remove electrareƒpo
             LOG("Installing Sileo Compatibility Layer...");
             SETMESSAGE(NSLocalizedString(@"Failed to install Sileo Compatibility Layer.", nil));
             _assert(aptInstall(@[@"us.diatr.sillyo"]), message, true);
