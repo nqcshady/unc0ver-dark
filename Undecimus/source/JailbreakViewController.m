@@ -1914,7 +1914,7 @@ void jailbreak()
             removePkg("openssl", true);
         }
         // Test dpkg
-        if (!pkgIsConfigured("dpkg") || pkgIsBy("CoolStar", "dpkg")) {
+        if (!pkgIsConfigured("dpkg") || pkgIsBy("CoolStar", "dpkg") || compareInstalledVersion("dpkg", "lt", "1:0")) {
             LOG("Extracting dpkg...");
             _assert(extractDebsForPkg(@"dpkg", debsToInstall, false), message, true);
             NSString *dpkg_deb = debForPkg(@"dpkg");
@@ -1922,10 +1922,33 @@ void jailbreak()
             [debsToInstall removeObject:dpkg_deb];
         }
         
-        if (needStrap || !pkgIsConfigured("firmware")) {
-            LOG("Extracting Cydia...");
+        if ((needStrap || !pkgIsConfigured("firmware")) ||
+            (pkgIsConfigured("cydia") && compareInstalledVersion("cydia", "lt", "1:0"))) {
+            LOG("Extracting Cydia Compatibility Package...");
+            if (pkgIsConfigured("cydia") && compareInstalledVersion("cydia", "lt", "1:0")) {
+                NSArray *fwDebs = debsForPkgs(@[@"cydia", @"cydia-lproj"]);
+                _assert(fwDebs != nil, message, true);
+                _assert(installDebs(fwDebs, true), message, true);
+                rv = _system("/usr/libexec/cydia/firmware.sh");
+                _assert(WEXITSTATUS(rv) == 0, message, true);
+                if (!prefs.install_cydia) {
+                    prefs.install_cydia = true;
+                    _assert(modifyPlist(prefsFile, ^(id plist) {
+                        plist[K_INSTALL_CYDIA] = @YES;
+                    }), message, true);
+                }
+                if (!prefs.run_uicache) {
+                    prefs.run_uicache = true;
+                    _assert(modifyPlist(prefsFile, ^(id plist) {
+                        plist[K_REFRESH_ICON_CACHE] = @YES;
+                    }), message, true);
+                }
+            }
+            if (pkgIsConfigured("uikittools") && compareInstalledVersion("uikittools", "lt", "2.0.0")) {
+                _assert(installDeb("uikittools", true), message, true);
+            }
             if (access("/usr/libexec/cydia/firmware.sh", F_OK) != ERR_SUCCESS || !pkgIsConfigured("cydia")) {
-                NSArray *fwDebs = debsForPkgs(@[@"cydia", @"cydia-lproj", @"darwintools", @"uikittools", @"system-cmds"]);
+                NSArray *fwDebs = debsForPkgs(@[@"cydia", @"darwintools", @"uikittools", @"system-cmds"]);
                 _assert(fwDebs != nil, message, true);
                 _assert(installDebs(fwDebs, true), message, true);
                 rv = _system("/usr/libexec/cydia/firmware.sh");
@@ -1960,9 +1983,9 @@ void jailbreak()
             _assert(removePkg("jailbreak-resources-with-cert", true), message, true);
         }
         
-        if ((pkgIsInstalled("apt") && pkgIsBy("Sam Bingner", "apt")) ||
-            (pkgIsInstalled("apt-lib") && pkgIsBy("Sam Bingner", "apt-lib")) ||
-            (pkgIsInstalled("apt-key") && pkgIsBy("Sam Bingner", "apt-key"))
+        if ((pkgIsInstalled("apt") && !pkgIsBy("Diatrus", "apt")) ||
+            (pkgIsInstalled("apt-lib") && !pkgIsBy("Diatrus", "apt-lib")) ||
+            (pkgIsInstalled("apt-key") && !pkgIsBy("Diatrus", "apt-key"))
             ) {
             LOG("Installing newer version of apt");
             NSArray *aptdebs = debsForPkgs(@[@"apt-lib", @"apt-key", @"apt"]);
@@ -2000,7 +2023,7 @@ void jailbreak()
         _assert(ensure_directory("/etc/apt/undecimus", 0, 0755), message, true);
         clean_file("/etc/apt/sources.list.d/undecimus.list");
         const char *listPath = "/etc/apt/undecimus/undecimus.list";
-        NSString *listContents = @"deb file:///var/lib/undecimus/apt ./\n";
+        NSString *listContents = @"deb [trusted=yes] file:///var/lib/undecimus/apt ./\n";
         NSString *existingList = [NSString stringWithContentsOfFile:@(listPath) encoding:NSUTF8StringEncoding error:nil];
         if (![listContents isEqualToString:existingList]) {
             clean_file(listPath);
@@ -2256,17 +2279,21 @@ void jailbreak()
             
             // These triggers cause loops
             if(pkgIsInstalled("org.coolstar.Sileo")) {
-                _assert(removePkg("us.diatr.sillyo", true), message, false);
-                _assert(removePkg("us.diatr.sileorespring", true), message, false);
+                removePkg("us.diatr.sillyo", true);
+                removePkg("us.diatr.sileorespring", true);
                 _assert(removePkg("org.coolstar.Sileo", true), message, false);
                 prefs.install_sileo = true;
             }
             
             LOG("Installing Cydia...");
             SETMESSAGE(NSLocalizedString(@"Failed to install Cydia.", nil));
-            NSString *cydiaVer = versionOfPkg(@"cydia");
+            NSString *cydiaVer = versionOfPkg(@"cydia-dark");
             _assert(cydiaVer!=nil, message, true);
-            _assert(aptInstall(@[@"--reinstall", [@"cydia" stringByAppendingFormat:@"=%@", cydiaVer]]), message, true);
+            if (pkgIsInstalled("cydia-dark")) {
+                _assert(aptInstall(@[@"--reinstall", [@"cydia-dark" stringByAppendingFormat:@"=%@", cydiaVer]]), message, true);
+            } else {
+                _assert(aptInstall(@[@"cydia-dark"]), message, true);
+            }
             LOG("Successfully installed Cydia.");
             
             // Disable Install Cydia.
@@ -2309,7 +2336,7 @@ void jailbreak()
             NSString *urlEnd = [Filename stringByReplacingOccurrencesOfString:@"Filename: " withString:@""];
             NSArray *nospace = [urlEnd componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
             NSString *nospaceurlEnd = [nospace componentsJoinedByString:@""];
-            NSString *url =  [NSString stringWithFormat: @"https://electrarepo64.coolstar.org/./%@",nospaceurlEnd];
+            NSString *url =  [NSString stringWithFormat: @"https://repo.chimera.sh/./%@",nospaceurlEnd];
             NSString *urlnoquote = [url stringByReplacingOccurrencesOfString:@"\"" withString:@""];
             NSString *urlclean = [urlnoquote stringByReplacingOccurrencesOfString:@"\"" withString:@""];
             NSString *urlnopar = [urlclean stringByReplacingOccurrencesOfString:@"\(" withString:@""];
@@ -2409,7 +2436,7 @@ void jailbreak()
             
             LOG("Running uicache...");
             SETMESSAGE(NSLocalizedString(@"Failed to run uicache.", nil));
-            _assert(runCommand("/usr/bin/uicache", NULL) == ERR_SUCCESS, message, true);
+            _assert(runCommand("/usr/bin/uicache", "--all", NULL) == ERR_SUCCESS, message, true);
             prefs.run_uicache = false;
             _assert(modifyPlist(prefsFile, ^(id plist) {
                 plist[K_REFRESH_ICON_CACHE] = @NO;
@@ -2536,7 +2563,6 @@ out:
             showAlert(NSLocalizedString(@"Error", nil), NSLocalizedString(@"Bundled Resources version is missing. This build is invalid.", nil), false, false);
         });
     }
-    [[self installSileoSwitch] setEnabled:NO];
     [self reloadData];
 }
 
@@ -2551,9 +2577,7 @@ out:
 
 - (void)reloadData {
     [self.TweakInjectionSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_TWEAK_INJECTION]];
-    // [self.installSileoSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_INSTALL_SILEO]];
-    [self.installSileoSwitch setOn:NO];
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:K_INSTALL_SILEO];
+    [self.installSileoSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_INSTALL_SILEO]];
 }
 
 - (IBAction)TweakInjectionSwitchTriggered:(id)sender {
