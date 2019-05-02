@@ -664,11 +664,11 @@ void jailbreak()
     NSMutableString *status = [NSMutableString string];
     bool betaFirmware = false;
     time_t start_time = time(NULL);
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *substrateDeb = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"mobilesubstrate.deb"]];
-    NSString *electraPackages = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"Packages"]];
-    NSString *sileoDeb = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"sileo.deb"]];
+    //NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    //NSString *documentsDirectory = [paths objectAtIndex:0];
+    //NSString *substrateDeb = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"mobilesubstrate.deb"]];
+    //NSString *electraPackages = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"Packages"]];
+    //NSString *sileoDeb = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"sileo.deb"]];
 #define INSERTSTATUS(x) do { \
     [status appendString:x]; \
 } while (false)
@@ -2078,7 +2078,7 @@ void jailbreak()
             if (pkgIsInstalled("com.ex.substitute")) {
                 _assert(removePkg("com.ex.substitute", true), message, true);
             }
-            _assert(aptInstall(@[substrateDeb]), message, true);
+            _assert(aptInstall(@[@"mobilesubstrate"]), message, true);
         }
         if (!betaFirmware) {
             if (pkgIsInstalled("com.parrotgeek.nobetaalert")) {
@@ -2353,7 +2353,7 @@ void jailbreak()
             }
             LOG("Successfully installed Sileo.");
             
-            // Small compatibility layer to remove electrareƒpo
+            // Small compatibility layer to remove electrarepo
             LOG("Installing Sileo Compatibility Layer...");
             SETMESSAGE(NSLocalizedString(@"Failed to install Sileo Compatibility Layer.", nil));
             _assert(aptInstall(@[@"us.diatr.sillyo"]), message, true);
