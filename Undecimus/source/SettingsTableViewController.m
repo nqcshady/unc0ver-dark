@@ -261,6 +261,7 @@
     [self.SSHOnlySwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_SSH_ONLY]];
     [self.EnableGetTaskAllowSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_ENABLE_GET_TASK_ALLOW]];
     [self.SetCSDebuggedSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_SET_CS_DEBUGGED]];
+    [self.HideSileoSwitchSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_HIDE_SILEO_SWITCH]];
     [self.RestartSpringBoardButton setEnabled:respringSupported()];
     [self.restartButton setEnabled:restartSupported()];
     [self.tableView reloadData];
@@ -502,6 +503,12 @@
 
 - (IBAction)setCSDebugged:(id)sender {
     [[NSUserDefaults standardUserDefaults] setBool:[self.SetCSDebuggedSwitch isOn] forKey:K_SET_CS_DEBUGGED];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self reloadData];
+}
+
+- (IBAction)hideSileoSwitch:(id)sender {
+    [[NSUserDefaults standardUserDefaults] setBool:[self.HideSileoSwitchSwitch isOn] forKey:K_HIDE_SILEO_SWITCH];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [self reloadData];
 }

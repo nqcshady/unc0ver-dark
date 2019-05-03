@@ -664,11 +664,11 @@ void jailbreak()
     NSMutableString *status = [NSMutableString string];
     bool betaFirmware = false;
     time_t start_time = time(NULL);
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *substrateDeb = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"mobilesubstrate.deb"]];
-    NSString *electraPackages = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"Packages"]];
-    NSString *sileoDeb = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"sileo.deb"]];
+    //NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    //NSString *documentsDirectory = [paths objectAtIndex:0];
+    //NSString *substrateDeb = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"mobilesubstrate.deb"]];
+    //NSString *electraPackages = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"Packages"]];
+    //NSString *sileoDeb = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"sileo.deb"]];
 #define INSERTSTATUS(x) do { \
     [status appendString:x]; \
 } while (false)
@@ -1292,6 +1292,80 @@ void jailbreak()
     UPSTAGE();
     
     {
+        // Backup old jailbreak if they had one
+        LOG("Backing up old jailbreak...");
+        SETMESSAGE(NSLocalizedString(@"Failed to backup old jailbreak.", nil));
+        
+        int rootfd = open("/", O_RDONLY);
+        _assert(rootfd > 0, message, true);
+        const char **snapshots = snapshot_list(rootfd);
+        
+        NSString *u0path = @"/.installed_unc0ver";
+        NSString *tw3lve_path = @"/.installed_tw3lve";
+        NSString *electra_path = @"/.installed_electra";
+        
+        if([[NSFileManager defaultManager] fileExistsAtPath:u0path]) {
+            // User has installed unc0ver before - let's check if it's u0 white or dark
+            NSString *sourcesPath = @"/etc/apt/cydiasources.d/cydia.list";
+            NSString *sourcesContents = [NSString stringWithContentsOfFile:sourcesPath encoding:NSUTF8StringEncoding error:nil];
+            NSArray *sourcesLines = [sourcesContents componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+            // LOG("sources array: %@", sourcesLines);
+            
+            // LOG("misceo installed? %s", [sourcesLines containsObject:@"deb https://diatr.us/apt/ ./"] ? "yes" : "no");
+            
+            // this is installed with Cydia
+            // which means if they have it, u0 dark is already installed (because cydia installation is done after this) and unfortunately we can't backup their old jailbreak
+            if([sourcesLines containsObject:@"deb https://diatr.us/apt/ ./"]) {
+                LOG("u0 dark detected, not doing anything");
+            } else {
+                const char *orig_snapshot = "orig-fs";
+                const char *backup_snapshot = "old-jb";
+                bool has_orig_fs = false;
+                bool has_old_jb = false;
+                for(const char **snapshot = snapshots; *snapshot; snapshot++) {
+                    if(strcmp(backup_snapshot, *snapshot) == 0)
+                        has_old_jb = true;
+                }
+                
+                if(has_old_jb) {
+                    _assert(fs_snapshot_delete(rootfd, backup_snapshot, 0) == ERR_SUCCESS, message, true);
+                    _assert(fs_snapshot_create(rootfd, backup_snapshot, 0) == ERR_SUCCESS, message, true);
+                    has_old_jb = false;
+                }
+                
+                if(has_orig_fs && !has_old_jb) {
+                    // User is installing u0 dark but doesn't have a backup of their old jailbreak, we should make one
+                    _assert(fs_snapshot_create(rootfd, backup_snapshot, 0) == ERR_SUCCESS, message, true);
+                } else {
+                    LOG("not doing anything");
+                }
+            }
+            
+        } else if([[NSFileManager defaultManager] fileExistsAtPath:tw3lve_path]) {
+            // User has tw3lve installed, we should create a backup
+            LOG("tw3lve detected, making backup snapshot");
+            const char *backup_snapshot = "old-jb";
+            _assert(fs_snapshot_create(rootfd, backup_snapshot, 0) == ERR_SUCCESS, message, true);
+            _assert(clean_file("/.installed_tw3lve"), message, true);
+        } else if([[NSFileManager defaultManager] fileExistsAtPath:electra_path]) {
+            // User has electra installed, we should create a backup and rename electra-prejailbreak to orig-fs
+            LOG("electra detected, making backup snapshot and renaming electra-prejailbreak to orig-fs");
+            const char *backup_snapshot = "old-jb";
+            const char *electra_snapshot = "electra-prejailbreak";
+            const char *orig_snapshot = "orig-fs";
+            _assert(fs_snapshot_create(rootfd, backup_snapshot, 0) == ERR_SUCCESS, message, true);
+            _assert(clean_file("/.installed_electra"), message, true);
+        }
+        
+        close(rootfd);
+        free(snapshots);
+        snapshots = NULL;
+        
+    }
+    
+    UPSTAGE();
+    
+    {
         NSArray <NSString *> *array = @[@"/var/Keychains/ocspcache.sqlite3",
                                         @"/var/Keychains/ocspcache.sqlite3-shm",
                                         @"/var/Keychains/ocspcache.sqlite3-wal"];
@@ -1623,7 +1697,7 @@ void jailbreak()
         needSubstrate = ( needStrap ||
                          (access("/usr/libexec/substrate", F_OK) != ERR_SUCCESS) ||
                          !verifySums(@"/var/lib/dpkg/info/mobilesubstrate.md5sums", HASHTYPE_MD5));
-        if (needSubstrate) {
+        /*if (needSubstrate) {
             LOG(@"We need substrate.");
             // Download substrate off the internet.
             BOOL isDirectory;
@@ -1648,6 +1722,18 @@ void jailbreak()
                 skipSubstrate = true;
                 LOG("Substrate is running, not extracting again for now.");
             }
+        }*/ // Fix this later
+        
+        if (needSubstrate) {
+            LOG(@"We need substrate.");
+            NSString *substrateDeb = debForPkg(@"mobilesubstrate");
+            _assert(substrateDeb != nil, message, true);
+            if (pidOfProcess("/usr/libexec/substrated") == 0) {
+                _assert(extractDeb(substrateDeb), message, true);
+            } else {
+                LOG("Substrate is running, not extracting again for now.");
+            }
+            [debsToInstall addObject:substrateDeb];
         }
         
         char *osversion = NULL;
@@ -1840,7 +1926,7 @@ void jailbreak()
             removePkg("openssl", true);
         }
         // Test dpkg
-        if (!pkgIsConfigured("dpkg") || pkgIsBy("CoolStar", "dpkg")) {
+        if (!pkgIsConfigured("dpkg") || pkgIsBy("CoolStar", "dpkg") || compareInstalledVersion("dpkg", "lt", "1:0")) {
             LOG("Extracting dpkg...");
             _assert(extractDebsForPkg(@"dpkg", debsToInstall, false), message, true);
             NSString *dpkg_deb = debForPkg(@"dpkg");
@@ -1848,10 +1934,33 @@ void jailbreak()
             [debsToInstall removeObject:dpkg_deb];
         }
         
-        if (needStrap || !pkgIsConfigured("firmware")) {
-            LOG("Extracting Cydia...");
+        if ((needStrap || !pkgIsConfigured("firmware")) ||
+            (pkgIsConfigured("cydia") && compareInstalledVersion("cydia", "lt", "1:0"))) {
+            LOG("Extracting Cydia Compatibility Package...");
+            if (pkgIsConfigured("cydia") && compareInstalledVersion("cydia", "lt", "1:0")) {
+                NSArray *fwDebs = debsForPkgs(@[@"cydia", @"cydia-lproj"]);
+                _assert(fwDebs != nil, message, true);
+                _assert(installDebs(fwDebs, true), message, true);
+                rv = _system("/usr/libexec/cydia/firmware.sh");
+                _assert(WEXITSTATUS(rv) == 0, message, true);
+                if (!prefs.install_cydia) {
+                    prefs.install_cydia = true;
+                    _assert(modifyPlist(prefsFile, ^(id plist) {
+                        plist[K_INSTALL_CYDIA] = @YES;
+                    }), message, true);
+                }
+                if (!prefs.run_uicache) {
+                    prefs.run_uicache = true;
+                    _assert(modifyPlist(prefsFile, ^(id plist) {
+                        plist[K_REFRESH_ICON_CACHE] = @YES;
+                    }), message, true);
+                }
+            }
+            if (pkgIsConfigured("uikittools") && compareInstalledVersion("uikittools", "lt", "2.0.0")) {
+                _assert(installDeb("uikittools", true), message, true);
+            }
             if (access("/usr/libexec/cydia/firmware.sh", F_OK) != ERR_SUCCESS || !pkgIsConfigured("cydia")) {
-                NSArray *fwDebs = debsForPkgs(@[@"cydia", @"cydia-lproj", @"darwintools", @"uikittools", @"system-cmds"]);
+                NSArray *fwDebs = debsForPkgs(@[@"cydia", @"darwintools", @"uikittools", @"system-cmds"]);
                 _assert(fwDebs != nil, message, true);
                 _assert(installDebs(fwDebs, true), message, true);
                 rv = _system("/usr/libexec/cydia/firmware.sh");
@@ -1886,9 +1995,9 @@ void jailbreak()
             _assert(removePkg("jailbreak-resources-with-cert", true), message, true);
         }
         
-        if ((pkgIsInstalled("apt") && pkgIsBy("Sam Bingner", "apt")) ||
-            (pkgIsInstalled("apt-lib") && pkgIsBy("Sam Bingner", "apt-lib")) ||
-            (pkgIsInstalled("apt-key") && pkgIsBy("Sam Bingner", "apt-key"))
+        if ((pkgIsInstalled("apt") && !pkgIsBy("Diatrus", "apt")) ||
+            (pkgIsInstalled("apt-lib") && !pkgIsBy("Diatrus", "apt-lib")) ||
+            (pkgIsInstalled("apt-key") && !pkgIsBy("Diatrus", "apt-key"))
             ) {
             LOG("Installing newer version of apt");
             NSArray *aptdebs = debsForPkgs(@[@"apt-lib", @"apt-key", @"apt"]);
@@ -1926,7 +2035,7 @@ void jailbreak()
         _assert(ensure_directory("/etc/apt/undecimus", 0, 0755), message, true);
         clean_file("/etc/apt/sources.list.d/undecimus.list");
         const char *listPath = "/etc/apt/undecimus/undecimus.list";
-        NSString *listContents = @"deb file:///var/lib/undecimus/apt ./\n";
+        NSString *listContents = @"deb [trusted=yes] file:///var/lib/undecimus/apt ./\n";
         NSString *existingList = [NSString stringWithContentsOfFile:@(listPath) encoding:NSUTF8StringEncoding error:nil];
         if (![listContents isEqualToString:existingList]) {
             clean_file(listPath);
@@ -1969,7 +2078,7 @@ void jailbreak()
             if (pkgIsInstalled("com.ex.substitute")) {
                 _assert(removePkg("com.ex.substitute", true), message, true);
             }
-            _assert(aptInstall(@[substrateDeb]), message, true);
+            _assert(aptInstall(@[@"mobilesubstrate"]), message, true);
         }
         if (!betaFirmware) {
             if (pkgIsInstalled("com.parrotgeek.nobetaalert")) {
@@ -2143,22 +2252,6 @@ void jailbreak()
             }
             LOG("Successfully removed Electra's Cydia Upgrade Helper.");
         }
-        if (pkgIsInstalled("cydia") && compareInstalledVersion("cydia", "lt", "1.2.0")) {
-            _assert(removePkg("cydia", true), message, true);
-            if (!prefs.install_cydia) {
-                prefs.install_cydia = true;
-                _assert(modifyPlist(prefsFile, ^(id plist) {
-                    plist[K_INSTALL_CYDIA] = @YES;
-                }), message, true);
-            }
-            if (!prefs.run_uicache) {
-                prefs.run_uicache = true;
-                _assert(modifyPlist(prefsFile, ^(id plist) {
-                    plist[K_REFRESH_ICON_CACHE] = @YES;
-                }), message, true);
-            }
-            LOG("Will update Cydia...");
-        }
         if (access("/etc/apt/sources.list.d/electra.list", F_OK) == ERR_SUCCESS) {
             if (!prefs.install_cydia) {
                 prefs.install_cydia = true;
@@ -2182,17 +2275,21 @@ void jailbreak()
             
             // These triggers cause loops
             if(pkgIsInstalled("org.coolstar.Sileo")) {
-                _assert(removePkg("us.diatr.sillyo", true), message, false);
-                _assert(removePkg("us.diatr.sileorespring", true), message, false);
+                removePkg("us.diatr.sillyo", true);
+                removePkg("us.diatr.sileorespring", true);
                 _assert(removePkg("org.coolstar.Sileo", true), message, false);
                 prefs.install_sileo = true;
             }
             
             LOG("Installing Cydia...");
             SETMESSAGE(NSLocalizedString(@"Failed to install Cydia.", nil));
-            NSString *cydiaVer = versionOfPkg(@"cydia");
+            NSString *cydiaVer = versionOfPkg(@"cydia-dark");
             _assert(cydiaVer!=nil, message, true);
-            _assert(aptInstall(@[@"--reinstall", [@"cydia" stringByAppendingFormat:@"=%@", cydiaVer]]), message, true);
+            if (pkgIsInstalled("cydia-dark")) {
+                _assert(aptInstall(@[@"--reinstall", [@"cydia-dark" stringByAppendingFormat:@"=%@", cydiaVer]]), message, true);
+            } else {
+                _assert(aptInstall(@[@"cydia-dark"]), message, true);
+            }
             LOG("Successfully installed Cydia.");
             
             // Disable Install Cydia.
@@ -2219,7 +2316,7 @@ void jailbreak()
             }
             
             // Download electrarepo64 Packages file
-            LOG("Finding Sileo...");
+            /*LOG("Finding Sileo...");
             NSString *packagesurl =  [NSString stringWithFormat: @"https://electrarepo64.coolstar.org/Packages"];
             NSData *packagesData = [NSData dataWithContentsOfURL:[NSURL URLWithString:packagesurl]];
             [packagesData writeToFile:electraPackages atomically:YES];
@@ -2235,7 +2332,7 @@ void jailbreak()
             NSString *urlEnd = [Filename stringByReplacingOccurrencesOfString:@"Filename: " withString:@""];
             NSArray *nospace = [urlEnd componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
             NSString *nospaceurlEnd = [nospace componentsJoinedByString:@""];
-            NSString *url =  [NSString stringWithFormat: @"https://electrarepo64.coolstar.org/./%@",nospaceurlEnd];
+            NSString *url =  [NSString stringWithFormat: @"https://repo.chimera.sh/./%@",nospaceurlEnd];
             NSString *urlnoquote = [url stringByReplacingOccurrencesOfString:@"\"" withString:@""];
             NSString *urlclean = [urlnoquote stringByReplacingOccurrencesOfString:@"\"" withString:@""];
             NSString *urlnopar = [urlclean stringByReplacingOccurrencesOfString:@"\(" withString:@""];
@@ -2244,15 +2341,15 @@ void jailbreak()
             LOG(@"Downloading Sileo from %@",urlcleaner);
             NSData *debData = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlcleaner]];
             [debData writeToFile:sileoDeb atomically:YES];
-            LOG(@"Sucessfully downloaded Sileo to: %@",sileoDeb);
+            LOG(@"Sucessfully downloaded Sileo to: %@",sileoDeb);*/
             
             // Install Sileo.
             LOG("Installing Sileo...");
             SETMESSAGE(NSLocalizedString(@"Failed to install Sileo.", nil));
             if(pkgIsInstalled("org.coolstar.Sileo")) {
-                _assert(aptInstall(@[@"--reinstall", sileoDeb]), message, true);
+                _assert(aptInstall(@[@"--reinstall", @"org.coolstar.Sileo"]), message, true);
             } else {
-                _assert(aptInstall(@[sileoDeb]), message, true);
+                _assert(aptInstall(@[@"org.coolstar.Sileo"]), message, true);
             }
             LOG("Successfully installed Sileo.");
             
@@ -2335,7 +2432,7 @@ void jailbreak()
             
             LOG("Running uicache...");
             SETMESSAGE(NSLocalizedString(@"Failed to run uicache.", nil));
-            _assert(runCommand("/usr/bin/uicache", NULL) == ERR_SUCCESS, message, true);
+            _assert(runCommand("/usr/bin/uicache", "--all", NULL) == ERR_SUCCESS, message, true);
             prefs.run_uicache = false;
             _assert(modifyPlist(prefsFile, ^(id plist) {
                 plist[K_REFRESH_ICON_CACHE] = @NO;
@@ -2434,6 +2531,28 @@ out:
         }
         jailbreak();
     });
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    BOOL sileoSwitchOn = [[NSUserDefaults standardUserDefaults] boolForKey:K_HIDE_SILEO_SWITCH];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    if (sileoSwitchOn)
+    {
+        self.installSileoLabel.hidden = true;
+        self.installSileoSwitch.hidden = true;
+        CGRect buttonFrame = self.FakeButton.frame;
+        buttonFrame.size = CGSizeMake(222, 58);
+        self.FakeButton.frame = buttonFrame;
+    }
+    else
+    {
+        self.installSileoLabel.hidden = false;
+        self.installSileoSwitch.hidden = false;
+        CGRect buttonFrame = self.FakeButton.frame;
+        buttonFrame.size = CGSizeMake(222, 103);
+        self.FakeButton.frame = buttonFrame;
+    }
 }
 
 - (void)viewDidLoad {
