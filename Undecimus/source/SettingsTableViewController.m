@@ -261,6 +261,7 @@
     [self.SSHOnlySwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_SSH_ONLY]];
     [self.EnableGetTaskAllowSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_ENABLE_GET_TASK_ALLOW]];
     [self.SetCSDebuggedSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_SET_CS_DEBUGGED]];
+    [self.HideSileoSwitchSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_HIDE_SILEO_SWITCH]];
     [self.RestartSpringBoardButton setEnabled:respringSupported()];
     [self.restartButton setEnabled:restartSupported()];
     [self.tableView reloadData];
@@ -391,10 +392,20 @@
         if (Update == nil) {
             NOTICE(NSLocalizedString(@"Failed to check for update.", nil), true, false);
         } else if ([Update compare:appVersion() options:NSNumericSearch] == NSOrderedDescending) {
-            NOTICE(NSLocalizedString(@"An update is available.", nil), true, false);
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString: [NSString stringWithFormat:@"https://github.com/nqcshady/unc0ver-dark/releases/download/v%@/Undecimus.ipa", Update]] options:@{} completionHandler:nil];
-            });
+            //NOTICE(NSLocalizedString(@"An update is available.", nil), true, false);
+            UIAlertController *updateAlert = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"An update is available for version %@", Update] message:@"Would you like to update?" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *yesAction = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+                //dispatch_async(dispatch_get_main_queue(), ^{
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString: [NSString stringWithFormat:@"https://github.com/nqcshady/unc0ver-dark/releases/download/v%@/Undecimus.ipa", Update]] options:@{} completionHandler:nil];
+                });
+            }];
+            UIAlertAction *noAction = [UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+                
+            }];
+            [updateAlert addAction:yesAction];
+            [updateAlert addAction:noAction];
+            [self presentViewController:updateAlert animated:YES completion:nil];
         } else {
             NOTICE(NSLocalizedString(@"Already up to date.", nil), true, false);
         }
@@ -502,6 +513,12 @@
 
 - (IBAction)setCSDebugged:(id)sender {
     [[NSUserDefaults standardUserDefaults] setBool:[self.SetCSDebuggedSwitch isOn] forKey:K_SET_CS_DEBUGGED];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self reloadData];
+}
+
+- (IBAction)hideSileoSwitch:(id)sender {
+    [[NSUserDefaults standardUserDefaults] setBool:[self.HideSileoSwitchSwitch isOn] forKey:K_HIDE_SILEO_SWITCH];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [self reloadData];
 }

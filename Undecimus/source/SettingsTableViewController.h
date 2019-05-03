@@ -30,6 +30,7 @@
 #define K_SSH_ONLY                 @"SSHOnly"
 #define K_ENABLE_GET_TASK_ALLOW    @"EnableGetTaskAllow"
 #define K_SET_CS_DEBUGGED          @"SetCSDebugged"
+#define K_HIDE_SILEO_SWITCH        @"HideSileoSwitch"
 
 @interface SettingsTableViewController : UITableViewController <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UISwitch *LoadDaemonsSwitch;
@@ -59,6 +60,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *SSHOnlySwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *EnableGetTaskAllowSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *SetCSDebuggedSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *HideSileoSwitchSwitch;
 
 + (NSDictionary *)_provisioningProfileAtPath:(NSString *)path;
 

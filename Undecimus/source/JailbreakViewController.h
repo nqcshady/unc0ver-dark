@@ -45,6 +45,9 @@ while (false)
 @property (readonly) JailbreakViewController *sharedController;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *goButtonSpacing;
 @property (assign) BOOL canExit;
+//Added propertys
+@property (weak, nonatomic) IBOutlet UIButton *FakeButton;
+@property (weak, nonatomic) IBOutlet UILabel *installSileoLabel;
 
 double uptime(void);
 

@@ -173,6 +173,10 @@
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:K_SET_CS_DEBUGGED];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:K_HIDE_SILEO_SWITCH] == nil) {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:K_HIDE_SILEO_SWITCH];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
 }
 
 - (void)initShortcuts {

@@ -2533,6 +2533,29 @@ out:
     });
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    BOOL sileoSwitchOn = [[NSUserDefaults standardUserDefaults] boolForKey:K_HIDE_SILEO_SWITCH];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    if (sileoSwitchOn)
+    {
+        self.installSileoLabel.hidden = true;
+        self.installSileoSwitch.hidden = true;
+        CGRect buttonFrame = self.FakeButton.frame;
+        buttonFrame.size = CGSizeMake(222, 58);
+        self.FakeButton.frame = buttonFrame;
+    }
+    else
+    {
+        self.installSileoLabel.hidden = false;
+        self.installSileoSwitch.hidden = false;
+        CGRect buttonFrame = self.FakeButton.frame;
+        buttonFrame.size = CGSizeMake(222, 103);
+        self.FakeButton.frame = buttonFrame;
+    }
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     _canExit = YES;
@@ -2559,6 +2582,29 @@ out:
             showAlert(NSLocalizedString(@"Error", nil), NSLocalizedString(@"Bundled Resources version is missing. This build is invalid.", nil), false, false);
         });
     }
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul), ^{
+        NSString *Update = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"https://github.com/nqcshady/unc0ver-dark/raw/master/Update.txt"] encoding:NSUTF8StringEncoding error:nil];
+        if (Update == nil) {
+            NOTICE(NSLocalizedString(@"Failed to check for update.", nil), true, false);
+        } else if ([Update compare:appVersion() options:NSNumericSearch] == NSOrderedDescending) {
+            //NOTICE(NSLocalizedString(@"An update is available.", nil), true, false);
+            UIAlertController *updateAlert = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"An update is available for version %@", Update] message:@"Would you like to update?" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *yesAction = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+                //dispatch_async(dispatch_get_main_queue(), ^{
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString: [NSString stringWithFormat:@"https://github.com/nqcshady/unc0ver-dark/releases/download/v%@/Undecimus.ipa", Update]] options:@{} completionHandler:nil];
+                });
+            }];
+            UIAlertAction *noAction = [UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+                
+            }];
+            [updateAlert addAction:yesAction];
+            [updateAlert addAction:noAction];
+            [self presentViewController:updateAlert animated:YES completion:nil];
+        }
+    });
+    
     [self reloadData];
 }
 
