@@ -246,6 +246,7 @@
     [self.KernelExploitSegmentedControl setEnabled:supportsExploit(mach_swap_exploit) forSegmentAtIndex:mach_swap_exploit];
     [self.KernelExploitSegmentedControl setEnabled:supportsExploit(mach_swap_2_exploit) forSegmentAtIndex:mach_swap_2_exploit];
     [self.OpenCydiaButton setEnabled:[[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"cydia://"]]];
+    [self.OpenSileoButton setEnabled:[[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"sileo://"]]];
     [self.ExpiryLabel setPlaceholder:[NSString stringWithFormat:@"%d %@", (int)[[SettingsTableViewController _provisioningProfileAtPath:[[NSBundle mainBundle] pathForResource:@"embedded" ofType:@"mobileprovision"]][@"ExpirationDate"] timeIntervalSinceDate:[NSDate date]] / 86400, NSLocalizedString(@"Days", nil)]];
     [self.OverwriteBootNonceSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_OVERWRITE_BOOT_NONCE]];
     [self.ExportKernelTaskPortSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:K_EXPORT_KERNEL_TASK_PORT]];
@@ -352,6 +353,10 @@
 
 - (IBAction)tappedOnOpenCydia:(id)sender {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"cydia://"] options:@{} completionHandler:nil];
+}
+
+- (IBAction)tappedOnOpenSileo:(id)sender {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"sileo://"] options:@{} completionHandler:nil];
 }
 
 - (IBAction)tappedOnOpenGithub:(id)sender {

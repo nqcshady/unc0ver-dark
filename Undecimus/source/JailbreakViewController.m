@@ -112,6 +112,8 @@ typedef struct {
     bool ssh_only;
     bool enable_get_task_allow;
     bool set_cs_debugged;
+    bool uicache_sileo;
+    bool uicache_cydia;
     int exploit;
 } prefs_t;
 
@@ -1949,11 +1951,8 @@ void jailbreak()
                         plist[K_INSTALL_CYDIA] = @YES;
                     }), message, true);
                 }
-                if (!prefs.run_uicache) {
-                    prefs.run_uicache = true;
-                    _assert(modifyPlist(prefsFile, ^(id plist) {
-                        plist[K_REFRESH_ICON_CACHE] = @YES;
-                    }), message, true);
+                if (!prefs.run_uicache || !prefs.uicache_cydia) {
+                    prefs.uicache_cydia = true;
                 }
             }
             if (pkgIsConfigured("uikittools") && compareInstalledVersion("uikittools", "lt", "2.0.0")) {
@@ -2223,11 +2222,8 @@ void jailbreak()
                     plist[K_INSTALL_CYDIA] = @YES;
                 }), message, true);
             }
-            if (!prefs.run_uicache) {
-                prefs.run_uicache = true;
-                _assert(modifyPlist(prefsFile, ^(id plist) {
-                    plist[K_REFRESH_ICON_CACHE] = @YES;
-                }), message, true);
+            if (!prefs.run_uicache || !prefs.uicache_cydia) {
+                prefs.uicache_cydia = true;
             }
             LOG("Successfully removed Electra's Cydia.");
             
@@ -2244,11 +2240,8 @@ void jailbreak()
                     plist[K_INSTALL_CYDIA] = @YES;
                 }), message, true);
             }
-            if (!prefs.run_uicache) {
-                prefs.run_uicache = true;
-                _assert(modifyPlist(prefsFile, ^(id plist) {
-                    plist[K_REFRESH_ICON_CACHE] = @YES;
-                }), message, true);
+            if (!prefs.run_uicache || !prefs.uicache_cydia) {
+                prefs.uicache_cydia = true;
             }
             LOG("Successfully removed Electra's Cydia Upgrade Helper.");
         }
@@ -2259,37 +2252,34 @@ void jailbreak()
                     plist[K_INSTALL_CYDIA] = @YES;
                 }), message, true);
             }
-            if (!prefs.run_uicache) {
-                prefs.run_uicache = true;
-                _assert(modifyPlist(prefsFile, ^(id plist) {
-                    plist[K_REFRESH_ICON_CACHE] = @YES;
-                }), message, true);
+            if (!prefs.run_uicache || !prefs.uicache_cydia) {
+                prefs.uicache_cydia = true;
             }
         }
         // Unblock repos
         unblockDomainWithName("apt.saurik.com");
         unblockDomainWithName("electrarepo64.coolstar.org");
         
+        if (!prefs.install_cydia && !prefs.install_sileo && !pkgIsConfigured("cydia-dark") && !pkgIsConfigured("org.coolstar.Sileo")) {
+            prefs.install_cydia = true;
+        }
+        
         if (prefs.install_cydia) {
             // Install Cydia.
             
             // These triggers cause loops
-            if(pkgIsInstalled("org.coolstar.Sileo")) {
+            /*if(pkgIsInstalled("org.coolstar.Sileo")) {
                 removePkg("us.diatr.sillyo", true);
                 removePkg("us.diatr.sileorespring", true);
                 _assert(removePkg("org.coolstar.Sileo", true), message, false);
                 prefs.install_sileo = true;
-            }
+            }*/
             
             LOG("Installing Cydia...");
             SETMESSAGE(NSLocalizedString(@"Failed to install Cydia.", nil));
             NSString *cydiaVer = versionOfPkg(@"cydia-dark");
             _assert(cydiaVer!=nil, message, true);
-            if (pkgIsInstalled("cydia-dark")) {
-                _assert(aptInstall(@[@"--reinstall", [@"cydia-dark" stringByAppendingFormat:@"=%@", cydiaVer]]), message, true);
-            } else {
-                _assert(aptInstall(@[@"cydia-dark"]), message, true);
-            }
+            _assert(aptInstall(@[@"--reinstall", [@"cydia-dark" stringByAppendingFormat:@"=%@", cydiaVer]]), message, true);
             LOG("Successfully installed Cydia.");
             
             // Disable Install Cydia.
@@ -2299,11 +2289,8 @@ void jailbreak()
             _assert(modifyPlist(prefsFile, ^(id plist) {
                 plist[K_INSTALL_CYDIA] = @NO;
             }), message, true);
-            if (!prefs.run_uicache) {
-                prefs.run_uicache = true;
-                _assert(modifyPlist(prefsFile, ^(id plist) {
-                    plist[K_REFRESH_ICON_CACHE] = @YES;
-                }), message, true);
+            if (!prefs.run_uicache || !prefs.uicache_cydia) {
+                prefs.uicache_cydia = true;
             }
             LOG("Successfully disabled Install Cydia.");
             
@@ -2311,9 +2298,9 @@ void jailbreak()
         }
         if (prefs.install_sileo) {
             // These triggers cause loops
-            if(pkgIsInstalled("us.diatr.sillyo")) {
+            /*if(pkgIsInstalled("us.diatr.sillyo")) {
                 _assert(removePkg("us.diatr.sillyo", true), message, false);
-            }
+            }*/
             
             // Download electrarepo64 Packages file
             /*LOG("Finding Sileo...");
@@ -2346,17 +2333,13 @@ void jailbreak()
             // Install Sileo.
             LOG("Installing Sileo...");
             SETMESSAGE(NSLocalizedString(@"Failed to install Sileo.", nil));
-            if(pkgIsInstalled("org.coolstar.Sileo")) {
-                _assert(aptInstall(@[@"--reinstall", @"org.coolstar.Sileo"]), message, true);
-            } else {
-                _assert(aptInstall(@[@"org.coolstar.Sileo"]), message, true);
-            }
+            _assert(aptInstall(@[@"--reinstall", @"org.coolstar.Sileo"]), message, true);
             LOG("Successfully installed Sileo.");
             
             // Small compatibility layer to remove electrarepo
             LOG("Installing Sileo Compatibility Layer...");
             SETMESSAGE(NSLocalizedString(@"Failed to install Sileo Compatibility Layer.", nil));
-            _assert(aptInstall(@[@"us.diatr.sillyo"]), message, true);
+            _assert(aptInstall(@[@"--reinstall", @"us.diatr.sillyo"]), message, true);
             LOG("Successfully installed Sileo Compatibility Layer.");
             
             // Disable Install Sileo.
@@ -2366,11 +2349,8 @@ void jailbreak()
             _assert(modifyPlist(prefsFile, ^(id plist) {
                 plist[K_INSTALL_SILEO] = @NO;
             }), message, true);
-            if (!prefs.run_uicache) {
-                prefs.run_uicache = true;
-                _assert(modifyPlist(prefsFile, ^(id plist) {
-                    plist[K_REFRESH_ICON_CACHE] = @YES;
-                }), message, true);
+            if (!prefs.run_uicache || !prefs.uicache_sileo) {
+                prefs.uicache_sileo = true;
             }
             LOG("Successfully disabled Install Sileo.");
             
@@ -2427,7 +2407,7 @@ void jailbreak()
     UPSTAGE();
     
     {
-        if (prefs.run_uicache || !canOpen("cydia://")) {
+        if (prefs.run_uicache) {
             // Run uicache.
             
             LOG("Running uicache...");
@@ -2440,7 +2420,29 @@ void jailbreak()
             LOG("Successfully ran uicache.");
             INSERTSTATUS(NSLocalizedString(@"Ran uicache.\n", nil));
         }
+    
+    if (prefs.uicache_cydia || !canOpen("cydia://")) {
+        // Run uicache for Cydia only.
+        
+        LOG("Running uicache on Cydia...");
+        SETMESSAGE(NSLocalizedString(@"Failed to run uicache on Cydia.", nil));
+        _assert(runCommand("/usr/bin/uicache", "--path", "/Applications/Cydia.app/", NULL) == ERR_SUCCESS, message, true);
+        prefs.uicache_cydia = false;
+        LOG("Successfully ran uicache.");
+        INSERTSTATUS(NSLocalizedString(@"Ran uicache on Cydia.\n", nil));
     }
+
+    if (prefs.uicache_sileo || !canOpen("sileo://")) {
+        // Run uicache for Sileo only.
+        
+        LOG("Running uicache on Sileo...");
+        SETMESSAGE(NSLocalizedString(@"Failed to run uicache on Sileo.", nil));
+        _assert(runCommand("/usr/bin/uicache", "--path", "/Applications/Sileo.app/", NULL) == ERR_SUCCESS, message, true);
+        prefs.uicache_sileo = false;
+        LOG("Successfully ran uicache.");
+        INSERTSTATUS(NSLocalizedString(@"Ran uicache on Sileo.\n", nil));
+    }
+}
     
     UPSTAGE();
     

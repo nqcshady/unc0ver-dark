@@ -44,6 +44,7 @@
 @property (nonatomic) UITapGestureRecognizer *tap;
 @property (weak, nonatomic) IBOutlet UIButton *ShareDiagnosticsDataButton;
 @property (weak, nonatomic) IBOutlet UIButton *OpenCydiaButton;
+@property (weak, nonatomic) IBOutlet UIButton *OpenSileoButton;
 @property (weak, nonatomic) IBOutlet UITextField *ExpiryLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *OverwriteBootNonceSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *ExportKernelTaskPortSwitch;
