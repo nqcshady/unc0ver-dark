@@ -2260,7 +2260,7 @@ void jailbreak()
         unblockDomainWithName("apt.saurik.com");
         unblockDomainWithName("electrarepo64.coolstar.org");
         
-        if (!prefs.install_cydia && !prefs.install_sileo && !pkgIsConfigured("cydia-dark") && !pkgIsConfigured("org.coolstar.Sileo")) {
+        if (!prefs.install_cydia && !prefs.install_sileo && !pkgIsConfigured("cydia-dark") && !pkgIsConfigured("org.coolstar.sileo")) {
             prefs.install_cydia = true;
         }
         
@@ -2268,10 +2268,10 @@ void jailbreak()
             // Install Cydia.
             
             // These triggers cause loops
-            /*if(pkgIsInstalled("org.coolstar.Sileo")) {
+            /*if(pkgIsInstalled("org.coolstar.sileo")) {
                 removePkg("us.diatr.sillyo", true);
                 removePkg("us.diatr.sileorespring", true);
-                _assert(removePkg("org.coolstar.Sileo", true), message, false);
+                _assert(removePkg("org.coolstar.sileo", true), message, false);
                 prefs.install_sileo = true;
             }*/
             
@@ -2333,7 +2333,10 @@ void jailbreak()
             // Install Sileo.
             LOG("Installing Sileo...");
             SETMESSAGE(NSLocalizedString(@"Failed to install Sileo.", nil));
-            _assert(aptInstall(@[@"--reinstall", @"org.coolstar.Sileo"]), message, true);
+            NSString *sileoVer = versionOfPkg(@"org.coolstar.sileo");
+            NSLog(@"%@",sileoVer);
+            _assert(sileoVer!=nil, message, true);
+            _assert(aptInstall(@[@"--reinstall", [@"org.coolstar.sileo" stringByAppendingFormat:@"=%@", sileoVer]]), message, true);
             LOG("Successfully installed Sileo.");
             
             // Small compatibility layer to remove electrarepo
