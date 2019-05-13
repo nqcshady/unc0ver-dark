@@ -1994,9 +1994,9 @@ void jailbreak()
             _assert(removePkg("jailbreak-resources-with-cert", true), message, true);
         }
         
-        if ((pkgIsInstalled("apt") && !pkgIsBy("Diatrus", "apt")) ||
-            (pkgIsInstalled("apt-lib") && !pkgIsBy("Diatrus", "apt-lib")) ||
-            (pkgIsInstalled("apt-key") && !pkgIsBy("Diatrus", "apt-key"))
+        if ((pkgIsInstalled("apt") && pkgIsBy("Bingner", "apt")) ||
+            (pkgIsInstalled("apt-lib") && pkgIsBy("Bingner", "apt-lib")) ||
+            (pkgIsInstalled("apt-key") && pkgIsBy("Bingner", "apt-key"))
             ) {
             LOG("Installing newer version of apt");
             NSArray *aptdebs = debsForPkgs(@[@"apt-lib", @"apt-key", @"apt"]);
