@@ -2538,27 +2538,79 @@ out:
     });
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    BOOL sileoSwitchOn = [[NSUserDefaults standardUserDefaults] boolForKey:K_HIDE_SILEO_SWITCH];
+-(void)viewDidAppear:(BOOL)animated {
+    [self reloadData];
+    BOOL switchOn = [[NSUserDefaults standardUserDefaults] boolForKey:K_LIGHT_THEME];
+    BOOL sileoSwitchOn = [[NSUserDefaults standardUserDefaults] boolForKey:K_REINSTALL_SILEO_SWITCH];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    UIView *statusBar = [[[UIApplication sharedApplication] valueForKey:@"statusBarWindow"] valueForKey:@"statusBar"];
     
     if (sileoSwitchOn)
     {
         self.installSileoLabel.hidden = true;
         self.installSileoSwitch.hidden = true;
-        CGRect buttonFrame = self.FakeButton.frame;
+        CGRect buttonFrame = self.fakeButton.frame;
         buttonFrame.size = CGSizeMake(222, 58);
-        self.FakeButton.frame = buttonFrame;
+        self.fakeButton.frame = buttonFrame;
     }
     else
     {
         self.installSileoLabel.hidden = false;
         self.installSileoSwitch.hidden = false;
-        CGRect buttonFrame = self.FakeButton.frame;
+        CGRect buttonFrame = self.fakeButton.frame;
         buttonFrame.size = CGSizeMake(222, 103);
-        self.FakeButton.frame = buttonFrame;
+        self.fakeButton.frame = buttonFrame;
     }
     
+    if (switchOn)
+    {
+        if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
+            statusBar.backgroundColor = [UIColor whiteColor];
+        }
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+        self.u0Label.textColor = [UIColor blackColor];
+        self.backgroundView.backgroundColor = [UIColor whiteColor];
+        self.byLabel.textColor =  [UIColor blackColor];
+        self.forLabel.textColor = [UIColor blackColor];
+        self.fakeButton.backgroundColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
+        //[self.fakeButton setTitleColor: [UIColor whiteColor] forState:UIControlStateNormal];
+        self.loadTweaksLabel.textColor = [UIColor whiteColor];
+        self.installSileoLabel.textColor = [UIColor whiteColor];
+        self.goButton.backgroundColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
+        [self.goButton setTitleColor: [UIColor whiteColor] forState:UIControlStateNormal];
+        self.installSileoSwitch.onTintColor = [UIColor colorWithRed:0.30 green:0.85 blue:0.39 alpha:1.0];
+        self.TweakInjectionSwitch.onTintColor = [UIColor colorWithRed:0.30 green:0.85 blue:0.39 alpha:1.0];
+        [self.tabBarController.tabBar setSelectedImageTintColor:[UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0]];
+//        self.tabBarController.tabBar.backgroundColor = [UIColor whiteColor];
+//        [[UITabBar appearance] setBackgroundColor:[UIColor whiteColor]];
+//        [[UITabBar appearance] setBarTintColor:[UIColor whiteColor]];
+//        [[UITabBar appearance] setTintColor:[UIColor whiteColor]];
+        
+    }
+    else
+    {
+        if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
+            statusBar.backgroundColor = [UIColor blackColor];
+        }
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+        self.u0Label.textColor = [UIColor whiteColor];
+        self.backgroundView.backgroundColor = [UIColor blackColor];
+        self.byLabel.textColor =  [UIColor whiteColor];
+        self.forLabel.textColor = [UIColor whiteColor];
+        self.fakeButton.backgroundColor = [UIColor colorWithRed:0.05 green:0.05 blue:0.05 alpha:1.0];
+        //[self.fakeButton setTitleColor: [UIColor whiteColor] forState:UIControlStateNormal];
+        self.loadTweaksLabel.textColor = [UIColor whiteColor];
+        self.installSileoLabel.textColor = [UIColor whiteColor];
+        self.goButton.backgroundColor = [UIColor colorWithRed:0.05 green:0.05 blue:0.05 alpha:1.0];
+        [self.goButton setTitleColor: [UIColor whiteColor] forState:UIControlStateNormal];
+        self.installSileoSwitch.onTintColor = [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0];
+        self.TweakInjectionSwitch.onTintColor = [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0];
+        [self.tabBarController.tabBar setSelectedImageTintColor:[UIColor whiteColor]];
+//        self.tabBarController.tabBar.backgroundColor = [UIColor blackColor];
+//        [[UITabBar appearance] setBackgroundColor:[UIColor blackColor]];
+//        [[UITabBar appearance] setBarTintColor:[UIColor blackColor]];
+//        [[UITabBar appearance] setTintColor:[UIColor blackColor]];
+    }
 }
 
 - (void)viewDidLoad {
@@ -2569,6 +2621,21 @@ out:
         _outputView.hidden = YES;
         _outputView = nil;
         _goButtonSpacing.constant += 80;
+    }
+    BOOL switchOn = [[NSUserDefaults standardUserDefaults] boolForKey:K_LIGHT_THEME];
+    if (switchOn)
+    {
+        //self.t tabBarController.tabBar.backgroundColor = [UIColor whiteColor];
+        [[UITabBar appearance] setBackgroundColor:[UIColor whiteColor]];
+        [[UITabBar appearance] setBarTintColor:[UIColor whiteColor]];
+        [[UITabBar appearance] setTintColor:[UIColor whiteColor]];
+    }
+    else
+    {
+        //self.t tabBarController.tabBar.backgroundColor = [UIColor whiteColor];
+        [[UITabBar appearance] setBackgroundColor:[UIColor blackColor]];
+        [[UITabBar appearance] setBarTintColor:[UIColor blackColor]];
+        [[UITabBar appearance] setTintColor:[UIColor blackColor]];
     }
     sharedController = self;
     bundledResources = bundledResourcesVersion();

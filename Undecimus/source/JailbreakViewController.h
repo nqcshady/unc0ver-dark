@@ -45,9 +45,17 @@ while (false)
 @property (readonly) JailbreakViewController *sharedController;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *goButtonSpacing;
 @property (assign) BOOL canExit;
-//Added propertys
-@property (weak, nonatomic) IBOutlet UIButton *FakeButton;
+//Added code
+@property (weak, nonatomic) IBOutlet UILabel *u0Label;
+@property (weak, nonatomic) IBOutlet UIView *backgroundView;
+@property (weak, nonatomic) IBOutlet UILabel *byLabel;
+@property (weak, nonatomic) IBOutlet UILabel *forLabel;
+@property (weak, nonatomic) IBOutlet UIButton *fakeButton;
+@property (weak, nonatomic) IBOutlet UILabel *loadTweaksLabel;
 @property (weak, nonatomic) IBOutlet UILabel *installSileoLabel;
+@property (weak, nonatomic) IBOutlet UITabBarItem *jailbreakTabBarItem;
+
+
 
 double uptime(void);
 
