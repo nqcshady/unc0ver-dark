@@ -201,8 +201,8 @@
     };
 }
 
--(void)viewDidLayoutSubviews {
-    UIView *statusBar = [[[UIApplication sharedApplication] valueForKey:@"statusBarWindow"] valueForKey:@"statusBar"];
+-(void)viewWillAppear:(BOOL)animated {
+    
     if (self.LightThemeSwitch.isOn)
     {
 //        [self.navigationController.view setTintColor:[UIColor whiteColor]];
@@ -211,11 +211,6 @@
 //
 //        [self LightTheme];
 //
-        if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
-            statusBar.backgroundColor = [UIColor whiteColor];
-        }
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
-        
         self.restartButton.titleLabel.textColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
 
         self.ShareDiagnosticsDataButton.titleLabel.textColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
@@ -379,9 +374,9 @@
     [self.tableView setBackgroundView:myView];
     
     UIView *statusBar = [[[UIApplication sharedApplication] valueForKey:@"statusBarWindow"] valueForKey:@"statusBar"];
-
+    
     if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
-
+        
         statusBar.backgroundColor = [UIColor blackColor];//set whatever color you like
     }
     [self.BootNonceTextField setDelegate:self];
