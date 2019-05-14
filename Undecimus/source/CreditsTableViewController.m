@@ -24,6 +24,7 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
     if (switchOn)
     {
+        ///
         [myView setBackgroundColor:[UIColor clearColor]];
         [self.SpecialThanksTableView setBackgroundColor:[UIColor whiteColor]];
         
