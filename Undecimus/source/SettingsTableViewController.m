@@ -201,7 +201,7 @@
     };
 }
 
--(void)viewWillAppear:(BOOL)animated {
+-(void)viewDidLayoutSubviews {
     
     if (self.LightThemeSwitch.isOn)
     {
