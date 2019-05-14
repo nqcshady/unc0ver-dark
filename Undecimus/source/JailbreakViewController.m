@@ -2538,7 +2538,7 @@ out:
     });
 }
 
--(void)viewDidAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
     [self reloadData];
     BOOL switchOn = [[NSUserDefaults standardUserDefaults] boolForKey:K_LIGHT_THEME];
     BOOL sileoSwitchOn = [[NSUserDefaults standardUserDefaults] boolForKey:K_REINSTALL_SILEO_SWITCH];
@@ -2581,10 +2581,10 @@ out:
         self.installSileoSwitch.onTintColor = [UIColor colorWithRed:0.30 green:0.85 blue:0.39 alpha:1.0];
         self.TweakInjectionSwitch.onTintColor = [UIColor colorWithRed:0.30 green:0.85 blue:0.39 alpha:1.0];
         [self.tabBarController.tabBar setSelectedImageTintColor:[UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0]];
-//        self.tabBarController.tabBar.backgroundColor = [UIColor whiteColor];
-//        [[UITabBar appearance] setBackgroundColor:[UIColor whiteColor]];
-//        [[UITabBar appearance] setBarTintColor:[UIColor whiteColor]];
-//        [[UITabBar appearance] setTintColor:[UIColor whiteColor]];
+        //        self.tabBarController.tabBar.backgroundColor = [UIColor whiteColor];
+        //        [[UITabBar appearance] setBackgroundColor:[UIColor whiteColor]];
+        //        [[UITabBar appearance] setBarTintColor:[UIColor whiteColor]];
+        //        [[UITabBar appearance] setTintColor:[UIColor whiteColor]];
         
     }
     else
@@ -2606,10 +2606,10 @@ out:
         self.installSileoSwitch.onTintColor = [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0];
         self.TweakInjectionSwitch.onTintColor = [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0];
         [self.tabBarController.tabBar setSelectedImageTintColor:[UIColor whiteColor]];
-//        self.tabBarController.tabBar.backgroundColor = [UIColor blackColor];
-//        [[UITabBar appearance] setBackgroundColor:[UIColor blackColor]];
-//        [[UITabBar appearance] setBarTintColor:[UIColor blackColor]];
-//        [[UITabBar appearance] setTintColor:[UIColor blackColor]];
+        //        self.tabBarController.tabBar.backgroundColor = [UIColor blackColor];
+        //        [[UITabBar appearance] setBackgroundColor:[UIColor blackColor]];
+        //        [[UITabBar appearance] setBarTintColor:[UIColor blackColor]];
+        //        [[UITabBar appearance] setTintColor:[UIColor blackColor]];
     }
 }
 
