@@ -284,8 +284,18 @@
     UIView *myView = [[UIView alloc] initWithFrame:CGRectMake(10,10,200,200)];
     [myView setAlpha:0];
     [myView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
-    if (self.LightThemeSwitch.isOn)
+    UIView *statusBar = [[[UIApplication sharedApplication] valueForKey:@"statusBarWindow"] valueForKey:@"statusBar"];
+//    if (self.LightThemeSwitch.isOn)
+//    {
+    BOOL switchOn = [[NSUserDefaults standardUserDefaults] boolForKey:K_LIGHT_THEME];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    if (switchOn)
     {
+        if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
+            
+            statusBar.backgroundColor = [UIColor whiteColor];//set whatever color you like
+        }
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
         [myView setBackgroundColor:[UIColor clearColor]];
         [self.tableView setBackgroundColor:[UIColor whiteColor]];
         [self.SettingsTableView setBackgroundColor:[UIColor whiteColor]];
@@ -324,6 +334,11 @@
     }
     else
     {
+        if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
+            
+            statusBar.backgroundColor = [UIColor blackColor];//set whatever color you like
+        }
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
         [myView setBackgroundColor:[UIColor clearColor]];
         [self.tableView setBackgroundColor:[UIColor blackColor]];
         [self.SettingsTableView setBackgroundColor:[UIColor blackColor]];
@@ -374,12 +389,6 @@
     }
     [self.tableView setBackgroundView:myView];
     
-    UIView *statusBar = [[[UIApplication sharedApplication] valueForKey:@"statusBarWindow"] valueForKey:@"statusBar"];
-    
-    if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
-        
-        statusBar.backgroundColor = [UIColor blackColor];//set whatever color you like
-    }
     [self.BootNonceTextField setDelegate:self];
     self.tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userTappedAnyware:)];
     self.tap.cancelsTouchesInView = NO;
