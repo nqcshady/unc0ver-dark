@@ -173,8 +173,8 @@
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:K_SET_CS_DEBUGGED];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:K_LIGHT_THEME] == nil) {
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:K_LIGHT_THEME];
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:K_THEME] == nil) {
+        [[NSUserDefaults standardUserDefaults] setObject:@"dark" forKey:K_THEME];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
     if ([[NSUserDefaults standardUserDefaults] objectForKey:K_REINSTALL_SILEO_SWITCH] == nil) {

@@ -733,7 +733,7 @@
                                         <rect key="frame" x="0.0" y="671.5" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9ct-SK-aFD" id="P1b-ev-TlP">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A0K-zV-svL" userLabel="ReinstallSileo Switch Switch">
@@ -904,37 +904,40 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="bMO-0T-PD5">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="Rew-pt-cfc">
                                         <rect key="frame" x="0.0" y="891.5" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bMO-0T-PD5" id="MeR-t6-8nk">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Rew-pt-cfc" id="S9M-o5-lzG" userLabel="Theme Content View">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ohM-xS-uI0" userLabel="LightTheme Switch">
-                                                    <rect key="frame" x="251" y="6.5" width="51" height="31"/>
-                                                    <color key="onTintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <connections>
-                                                        <action selector="themeLight:" destination="ScN-Hx-Um8" eventType="valueChanged" id="wcu-bL-Z7f"/>
-                                                    </connections>
-                                                </switch>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Light theme" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qwg-wx-3Pr">
-                                                    <rect key="frame" x="15" y="11.5" width="225" height="20.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i6e-Dr-End">
+                                                    <rect key="frame" x="15" y="11.5" width="108" height="21"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="20.5" id="Eld-ss-kyh"/>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="225" id="YJ3-A4-9km"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="108" id="UgR-hi-FJn"/>
+                                                        <constraint firstAttribute="height" constant="21" id="eoE-uj-3V8"/>
                                                     </constraints>
+                                                    <string key="text" base64-UTF8="YES">
+VGgQZW1lA
+</string>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="dark" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jHd-uY-QvF">
+                                                    <rect key="frame" x="262" y="11.5" width="38" height="21"/>
+                                                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
-                                                <constraint firstItem="Qwg-wx-3Pr" firstAttribute="leading" secondItem="MeR-t6-8nk" secondAttribute="leading" constant="15" id="0f2-29-1FR"/>
-                                                <constraint firstItem="Qwg-wx-3Pr" firstAttribute="centerY" secondItem="MeR-t6-8nk" secondAttribute="centerY" id="7HP-MW-lIB"/>
-                                                <constraint firstItem="ohM-xS-uI0" firstAttribute="centerY" secondItem="MeR-t6-8nk" secondAttribute="centerY" id="KEH-CE-Yjw"/>
-                                                <constraint firstAttribute="trailing" secondItem="ohM-xS-uI0" secondAttribute="trailing" constant="20" id="krE-VJ-4ms"/>
+                                                <constraint firstItem="jHd-uY-QvF" firstAttribute="centerY" secondItem="S9M-o5-lzG" secondAttribute="centerY" id="00u-Qo-BrH"/>
+                                                <constraint firstItem="i6e-Dr-End" firstAttribute="centerY" secondItem="S9M-o5-lzG" secondAttribute="centerY" id="9iq-hF-a2K"/>
+                                                <constraint firstItem="i6e-Dr-End" firstAttribute="leading" secondItem="S9M-o5-lzG" secondAttribute="leading" constant="15" id="Le3-q9-FTB"/>
+                                                <constraint firstAttribute="trailing" secondItem="jHd-uY-QvF" secondAttribute="trailing" constant="20" id="m2V-Oh-agK"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1408,9 +1411,6 @@
                         <outlet property="KernelExploitContentView" destination="f58-Sa-aTz" id="0Nd-pL-mhM"/>
                         <outlet property="KernelExploitLabel" destination="F0s-FE-1BJ" id="iMF-Ki-shb"/>
                         <outlet property="KernelExploitSegmentedControl" destination="6Xx-ol-UYF" id="iLH-Ef-uaw"/>
-                        <outlet property="LightThemeContentView" destination="MeR-t6-8nk" id="hdM-c3-VpM"/>
-                        <outlet property="LightThemeLabel" destination="Qwg-wx-3Pr" id="3Zr-sQ-xKF"/>
-                        <outlet property="LightThemeSwitch" destination="ohM-xS-uI0" id="ZIy-N0-y2d"/>
                         <outlet property="LoadDaemonsContentView" destination="2Sj-NJ-eAQ" id="xmL-Pg-mha"/>
                         <outlet property="LoadDaemonsLabel" destination="OFl-Q2-9QH" id="8gy-Wd-e9Y"/>
                         <outlet property="LoadDaemonsSwitch" destination="sUh-Nj-0hf" id="rbY-Ms-vpR"/>
@@ -1455,6 +1455,8 @@
                         <outlet property="SpecialThanksContentView" destination="9m4-ed-7c0" id="1WB-1N-GQV"/>
                         <outlet property="SpecialThanksLabel" destination="wrA-kI-QcM" id="Iki-3b-p5A"/>
                         <outlet property="SpecialThanksTableViewCell" destination="gWH-ns-VTA" id="pMP-ug-10X"/>
+                        <outlet property="ThemeContentView" destination="S9M-o5-lzG" id="vaT-wo-NSt"/>
+                        <outlet property="ThemeLabel" destination="i6e-Dr-End" id="FTK-p0-SOe"/>
                         <outlet property="UptimeButton" destination="BVc-2b-57b" id="zu9-c6-cNF"/>
                         <outlet property="UptimeContentView" destination="UhO-Lz-lTj" id="8bx-T3-bAe"/>
                         <outlet property="UptimeLabel" destination="bqj-Fm-PHO" id="fjE-SR-FQI"/>
@@ -1464,11 +1466,12 @@
                         <outlet property="installSSHSwitch" destination="3dh-Ds-91D" id="sMT-Cr-pdA"/>
                         <outlet property="restartButton" destination="cVO-Jp-zmf" id="VdH-bW-Drq"/>
                         <outlet property="settingsNavigationItem" destination="gmU-Kt-ooy" id="wDa-VL-JEn"/>
+                        <outlet property="themeField" destination="jHd-uY-QvF" id="A5F-o2-ymG"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="upc-ND-SAi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2522.4000000000001" y="31.03448275862069"/>
+            <point key="canvasLocation" x="2521.875" y="30.633802816901408"/>
         </scene>
         <!--Special Thanks-->
         <scene sceneID="x6W-Dv-xaI">

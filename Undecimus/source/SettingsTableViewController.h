@@ -30,7 +30,7 @@
 #define K_SSH_ONLY                 @"SSHOnly"
 #define K_ENABLE_GET_TASK_ALLOW    @"EnableGetTaskAllow"
 #define K_SET_CS_DEBUGGED          @"SetCSDebugged"
-#define K_LIGHT_THEME              @"LightTheme"
+#define K_THEME              @"Theme"
 #define K_REINSTALL_SILEO_SWITCH   @"SileoSwitch"
 
 @interface SettingsTableViewController : UITableViewController <UITextFieldDelegate>
@@ -61,8 +61,9 @@
 @property (weak, nonatomic) IBOutlet UISwitch *SSHOnlySwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *EnableGetTaskAllowSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *SetCSDebuggedSwitch;
-//New code
-@property (weak, nonatomic) IBOutlet UISwitch *LightThemeSwitch;
+@property (weak, nonatomic) IBOutlet UITextField *themeField;
+@property (nonatomic) UIPickerView *themePicker;
+@property (nonatomic) NSMutableArray *themePickerData;
 @property (weak, nonatomic) IBOutlet UILabel *SpecialThanksLabel;
 @property (weak, nonatomic) IBOutlet UIView *SpecialThanksContentView;
 @property (weak, nonatomic) IBOutlet UITableViewCell *SpecialThanksTableViewCell;
@@ -101,8 +102,8 @@
 @property (weak, nonatomic) IBOutlet UIView *EnableGetTaskAllowContentView;
 @property (weak, nonatomic) IBOutlet UIView *SetCSDEBUGGEDContentView;
 @property (weak, nonatomic) IBOutlet UILabel *SetCSDEBUGGEDLabel;
-@property (weak, nonatomic) IBOutlet UILabel *LightThemeLabel;
-@property (weak, nonatomic) IBOutlet UIView *LightThemeContentView;
+@property (weak, nonatomic) IBOutlet UILabel *ThemeLabel;
+@property (weak, nonatomic) IBOutlet UIView *ThemeContentView;
 @property (weak, nonatomic) IBOutlet UILabel *KernelExploitLabel;
 @property (weak, nonatomic) IBOutlet UIView *KernelExploitContentView;
 @property (weak, nonatomic) IBOutlet UIButton *BootNonceButtonLabel;
@@ -133,7 +134,6 @@
 
 
 @property (strong, nonatomic) IBOutlet UITableView *SettingsTableView;
-
 
 + (NSDictionary *)_provisioningProfileAtPath:(NSString *)path;
 
