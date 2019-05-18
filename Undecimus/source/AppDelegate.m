@@ -174,7 +174,7 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
     if ([[NSUserDefaults standardUserDefaults] objectForKey:K_THEME] == nil) {
-        [[NSUserDefaults standardUserDefaults] setObject:@"dark" forKey:K_THEME];
+        [[NSUserDefaults standardUserDefaults] setObject:@"True Black" forKey:K_THEME];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
     if ([[NSUserDefaults standardUserDefaults] objectForKey:K_REINSTALL_SILEO_SWITCH] == nil) {
