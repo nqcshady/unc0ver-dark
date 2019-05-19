@@ -30,7 +30,7 @@ original unc0ver UI by [Dennis Bednarz](https://twitter.com/DennisBednarz) & [Sa
 * Turn off Siri before starting the jailbreak
 
 ## Source code
-* This project is completely open source and it will be kept like it in the future
+* This project is completely open source and it will stay that way
 * Any kind of contribution is welcome
 * The original source code can be found on [pwn20wndstuff](https://github.com/pwn20wndstuff)'s GitHub account
 
