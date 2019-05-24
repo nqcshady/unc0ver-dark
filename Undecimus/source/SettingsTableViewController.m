@@ -394,6 +394,7 @@
     [self.EnableGetTaskAllowSwitch setOn:(BOOL)prefs->enable_get_task_allow];
     [self.SetCSDebuggedSwitch setOn:(BOOL)prefs->set_cs_debugged];
     [self.AutoRespringSwitch setOn:(BOOL)prefs->auto_respring];
+    [self.HideProgressHUDSwitch setOn:(BOOL)prefs->hide_progress_hud];
     [self.ReInstallSileoSwitchSwitch setOn:(BOOL)prefs->reinstall_sileo_switch];
     NSDictionary *userDefaultsDictionary = [[[NSUserDefaults alloc] initWithUser:@"mobile"] dictionaryRepresentation];
     if (prefs->theme == 0) {
@@ -1244,6 +1245,14 @@
 - (IBAction)setAutoRespring:(id)sender {
     prefs_t *prefs = copy_prefs();
     prefs->auto_respring = (bool)self.AutoRespringSwitch.isOn;
+    set_prefs(prefs);
+    release_prefs(&prefs);
+    [self reloadData];
+}
+
+- (IBAction)setHideProgressHUD:(id)sender {
+    prefs_t *prefs = copy_prefs();
+    prefs->hide_progress_hud = (bool)self.HideProgressHUDSwitch.isOn;
     set_prefs(prefs);
     release_prefs(&prefs);
     [self reloadData];

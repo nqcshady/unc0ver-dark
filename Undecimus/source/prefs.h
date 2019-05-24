@@ -37,6 +37,7 @@
 #define K_THEME                    "Theme"
 #define K_REINSTALL_SILEO_SWITCH   "HideSileoSwitch"
 #define K_AUTO_RESPRING            "AutoRespring"
+#define K_HIDE_PROGRESS_HUD        "HideProgressHUD"
 
 typedef struct {
     bool load_tweaks;
@@ -65,6 +66,7 @@ typedef struct {
     int theme;
     bool reinstall_sileo_switch;
     bool auto_respring;
+    bool hide_progress_hud;
     int exploit;
 } prefs_t;
 

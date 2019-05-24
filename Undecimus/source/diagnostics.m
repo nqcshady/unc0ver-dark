@@ -125,6 +125,7 @@ NSDictionary *getDiagnostics() {
     diagnostics[@"Preferences"][@K_INCREASE_MEMORY_LIMIT] = [NSNumber numberWithBool:(BOOL)prefs->increase_memory_limit];
     diagnostics[@"Preferences"][@K_ECID] = [NSString stringWithUTF8String:(const char *)prefs->ecid];
     diagnostics[@"Preferences"][@K_INSTALL_CYDIA] = [NSNumber numberWithBool:(BOOL)prefs->install_cydia];
+    diagnostics[@"Preferences"][@K_INSTALL_SILEO] = [NSNumber numberWithBool:(BOOL)prefs->install_sileo];
     diagnostics[@"Preferences"][@K_INSTALL_OPENSSH] = [NSNumber numberWithBool:(BOOL)prefs->install_openssh];
     diagnostics[@"Preferences"][@K_RELOAD_SYSTEM_DAEMONS] = [NSNumber numberWithBool:(BOOL)prefs->reload_system_daemons];
     diagnostics[@"Preferences"][@K_RESET_CYDIA_CACHE] = [NSNumber numberWithBool:(BOOL)prefs->reset_cydia_cache];
@@ -135,7 +136,8 @@ NSDictionary *getDiagnostics() {
     diagnostics[@"Preferences"][@K_EXPLOIT] = [NSNumber numberWithInt:(int)prefs->exploit];
     diagnostics[@"AppVersion"] = [NSString stringWithString:appVersion()];
     diagnostics[@"LogFile"] = [NSString stringWithContentsOfFile:getLogFile() encoding:NSUTF8StringEncoding error:nil];
-    diagnostics[@"Sources"] = [NSArray arrayWithArray:sourcesFromFile(CYDIA_LIST)];
+    diagnostics[@"Cydia Sources"] = [NSArray arrayWithArray:sourcesFromFile(CYDIA_LIST)];
+    //diagnostics[@"Sileo Sources"] = [NSArray arrayWithArray:sourcesFromFile(SILEO_LIST)];
     diagnostics[@"Packages"] = [NSArray arrayWithArray:parsedPackageArray()];
     diagnostics[@"Uptime"] = [NSNumber numberWithDouble:getUptime()];
     SafeFreeNULL(OSVersion);

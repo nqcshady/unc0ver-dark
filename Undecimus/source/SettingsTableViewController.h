@@ -40,6 +40,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *EnableGetTaskAllowSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *SetCSDebuggedSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *AutoRespringSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *HideProgressHUDSwitch;
 
 @property (weak, nonatomic) IBOutlet UITextField *themeField;
 @property (nonatomic) UIPickerView *themePicker;
@@ -84,6 +85,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *SetCSDEBUGGEDLabel;
 @property (weak, nonatomic) IBOutlet UIView *AutoRespringContentView;
 @property (weak, nonatomic) IBOutlet UILabel *AutoRespringLabel;
+@property (weak, nonatomic) IBOutlet UIView *HideProgressHUDContentView;
+@property (weak, nonatomic) IBOutlet UILabel *HideProgressHUDLabel;
+
 @property (weak, nonatomic) IBOutlet UILabel *ThemeLabel;
 @property (weak, nonatomic) IBOutlet UIView *ThemeContentView;
 @property (weak, nonatomic) IBOutlet UILabel *KernelExploitLabel;

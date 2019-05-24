@@ -13,6 +13,7 @@
 
 #define STATUS_FILE @"/var/lib/dpkg/status"
 #define CYDIA_LIST @"/etc/apt/cydiasources.d/cydia.list"
+//#define SILEO_LIST @"/etc/apt/sources.list.d/sileo.sources"
 
 NSArray *dependencyArrayFromString(NSString *depends);
 NSArray *parsedPackageArray(void);

@@ -67,6 +67,7 @@ bool load_prefs(prefs_t *prefs) {
     prefs->auto_respring = (bool)[[userDefaults objectForKey:@K_AUTO_RESPRING inDomain:prefsFile] boolValue];
     prefs->theme = (int)[[userDefaults objectForKey:@K_THEME inDomain:prefsFile] intValue];
     prefs->reinstall_sileo_switch = (bool)[[userDefaults objectForKey:@K_REINSTALL_SILEO_SWITCH inDomain:prefsFile] boolValue];
+    prefs->hide_progress_hud = (bool)[[userDefaults objectForKey:@K_HIDE_PROGRESS_HUD inDomain:prefsFile] boolValue];
     return true;
 }
 
@@ -99,6 +100,7 @@ bool set_prefs(prefs_t *prefs) {
     [userDefaults setObject:[NSNumber numberWithBool:(BOOL)prefs->auto_respring] forKey:@K_AUTO_RESPRING inDomain:prefsFile];
     [userDefaults setObject:[NSNumber numberWithInt:(int)prefs->theme] forKey:@K_THEME inDomain:prefsFile];
     [userDefaults setObject:[NSNumber numberWithBool:(BOOL)prefs->reinstall_sileo_switch] forKey:@K_REINSTALL_SILEO_SWITCH inDomain:prefsFile];
+    [userDefaults setObject:[NSNumber numberWithBool:(BOOL)prefs->hide_progress_hud] forKey:@K_HIDE_PROGRESS_HUD inDomain:prefsFile];
     [userDefaults synchronize];
     return true;
 }
@@ -128,6 +130,7 @@ void register_default_prefs() {
     defaults[@K_AUTO_RESPRING] = @NO;
     defaults[@K_THEME] = [NSNumber numberWithInteger:0];
     defaults[@K_REINSTALL_SILEO_SWITCH] = @NO;
+    defaults[@K_HIDE_PROGRESS_HUD] = @NO;
     defaults[@K_EXPLOIT] = [NSNumber numberWithInteger:recommendedJailbreakSupport()];
     [userDefaults registerDefaults:defaults];
 }
