@@ -21,7 +21,7 @@ True Black, Dark Purple and White.
 ![Mockup](https://dark.diatr.us/img/mockup2v2.png)
 
 ## Switching from the other jailbreaks
-*The switching process is handled automatically by unc0ver dark. No rootFS restore is required.
+* The switching process is handled automatically by unc0ver dark. No rootFS restore is required.
 
 ## Getting support
 * Use the built-in diagnostics tool
