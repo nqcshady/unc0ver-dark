@@ -393,6 +393,7 @@
     [self.SSHOnlySwitch setOn:(BOOL)prefs->ssh_only];
     [self.EnableGetTaskAllowSwitch setOn:(BOOL)prefs->enable_get_task_allow];
     [self.SetCSDebuggedSwitch setOn:(BOOL)prefs->set_cs_debugged];
+    [self.AutoRespringSwitch setOn:(BOOL)prefs->auto_respring];
     [self.ReInstallSileoSwitchSwitch setOn:(BOOL)prefs->reinstall_sileo_switch];
     NSDictionary *userDefaultsDictionary = [[[NSUserDefaults alloc] initWithUser:@"mobile"] dictionaryRepresentation];
     if (prefs->theme == 0) {
@@ -817,6 +818,10 @@
         self.SetCSDEBUGGEDContentView.backgroundColor = [UIColor whiteColor];
         self.SetCSDebuggedSwitch.onTintColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
         
+        self.AutoRespringLabel.textColor = [UIColor blackColor];
+        self.AutoRespringContentView.backgroundColor = [UIColor whiteColor];
+        self.AutoRespringSwitch.onTintColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
+        
         self.themeField.textColor = [UIColor blackColor];
         self.ThemeContentView.backgroundColor = [UIColor whiteColor];
         self.ThemeLabel.textColor = [UIColor blackColor];
@@ -960,6 +965,10 @@
         self.SetCSDEBUGGEDLabel.textColor = [UIColor whiteColor];
         self.SetCSDEBUGGEDContentView.backgroundColor = [UIColor blackColor];
         self.SetCSDebuggedSwitch.onTintColor = [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0];
+
+        self.AutoRespringLabel.textColor = [UIColor whiteColor];
+        self.AutoRespringContentView.backgroundColor = [UIColor blackColor];
+        self.AutoRespringSwitch.onTintColor = [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0];
         
         self.themeField.textColor = [UIColor whiteColor];
         self.ThemeContentView.backgroundColor = [UIColor blackColor];
@@ -1105,6 +1114,10 @@
         self.SetCSDEBUGGEDContentView.backgroundColor = UIColorFromRGB(0x17151C);
         self.SetCSDebuggedSwitch.onTintColor = UIColorFromRGB(0x723F8C);
         
+        self.AutoRespringLabel.textColor = UIColorFromRGB(0xE9E9EA);
+        self.AutoRespringContentView.backgroundColor = UIColorFromRGB(0x17151C);
+        self.AutoRespringSwitch.onTintColor = UIColorFromRGB(0x723F8C);
+        
         self.themeField.textColor = UIColorFromRGB(0xE9E9EA);
         self.ThemeContentView.backgroundColor = UIColorFromRGB(0x17151C);
         self.ThemeLabel.textColor = UIColorFromRGB(0xE9E9EA);
@@ -1223,6 +1236,14 @@
 - (IBAction)setCSDebugged:(id)sender {
     prefs_t *prefs = copy_prefs();
     prefs->set_cs_debugged = (bool)self.SetCSDebuggedSwitch.isOn;
+    set_prefs(prefs);
+    release_prefs(&prefs);
+    [self reloadData];
+}
+
+- (IBAction)setAutoRespring:(id)sender {
+    prefs_t *prefs = copy_prefs();
+    prefs->auto_respring = (bool)self.AutoRespringSwitch.isOn;
     set_prefs(prefs);
     release_prefs(&prefs);
     [self reloadData];

@@ -39,6 +39,8 @@
 @property (weak, nonatomic) IBOutlet UISwitch *SSHOnlySwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *EnableGetTaskAllowSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *SetCSDebuggedSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *AutoRespringSwitch;
+
 @property (weak, nonatomic) IBOutlet UITextField *themeField;
 @property (nonatomic) UIPickerView *themePicker;
 @property (nonatomic) NSMutableArray *themePickerData;
@@ -80,6 +82,8 @@
 @property (weak, nonatomic) IBOutlet UIView *EnableGetTaskAllowContentView;
 @property (weak, nonatomic) IBOutlet UIView *SetCSDEBUGGEDContentView;
 @property (weak, nonatomic) IBOutlet UILabel *SetCSDEBUGGEDLabel;
+@property (weak, nonatomic) IBOutlet UIView *AutoRespringContentView;
+@property (weak, nonatomic) IBOutlet UILabel *AutoRespringLabel;
 @property (weak, nonatomic) IBOutlet UILabel *ThemeLabel;
 @property (weak, nonatomic) IBOutlet UIView *ThemeContentView;
 @property (weak, nonatomic) IBOutlet UILabel *KernelExploitLabel;

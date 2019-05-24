@@ -106,6 +106,7 @@ void jailbreak()
     bool needSubstrate = NO;
     bool skipSubstrate = NO;
     NSString *const homeDirectory = NSHomeDirectory();
+    NSString *const temporaryDirectory = NSTemporaryDirectory();
     NSMutableArray *debsToInstall = [NSMutableArray new];
     NSMutableString *status = [NSMutableString new];
     bool const betaFirmware = isBetaFirmware();
@@ -114,6 +115,9 @@ void jailbreak()
     JailbreakViewController *sharedController = [JailbreakViewController sharedController];
     NSMutableArray *resources = [NSMutableArray new];
     NSFileManager *const fileManager = [NSFileManager defaultManager];
+    bool const doInject = (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_12_0);
+    const char *success_file = [temporaryDirectory stringByAppendingPathComponent:@"jailbreak.completed"].UTF8String;
+    _assert(clean_file(success_file), localize(@"Unable to clean success file."), true);
 #define insertstatus(x) do { [status appendString:x]; } while (false)
 #define progress(x) do { LOG("Progress: %@", x); updateProgressHUD(hud, x); } while (false)
 #define sync_prefs() do { _assert(set_prefs(prefs), localize(@"Unable to synchronize app preferences. Please restart the app and try again."), true); } while (false)
@@ -842,8 +846,8 @@ void jailbreak()
             _assert(fs_snapshot_mount(rootfd, systemSnapshotMountPoint, snapshot, 0) == ERR_SUCCESS, localize(@"Unable to mount original snapshot."), true);
             const char *systemSnapshotLaunchdPath = [@(systemSnapshotMountPoint) stringByAppendingPathComponent:@"sbin/launchd"].UTF8String;
             _assert(waitForFile(systemSnapshotLaunchdPath) == ERR_SUCCESS, localize(@"Unable to verify mounted snapshot."), true);
-            _assert(extractDebsForPkg(@"rsync", nil, false), localize(@"Unable to extract rsync."), true);
-            _assert(extractDebsForPkg(@"uikittools", nil, false), localize(@"Unable to extract uikittools."), true);
+            _assert(extractDebsForPkg(@"rsync", nil, false, true), localize(@"Unable to extract rsync."), true);
+            _assert(extractDebsForPkg(@"uikittools", nil, false, true), localize(@"Unable to extract uikittools."), true);
             inject_trust_cache();
             if (kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber_iOS_11_3) {
                 _assert(runCommand("/usr/bin/rsync", "-vaxcH", "--progress", "--delete-after", "--exclude=/Developer", "--exclude=/usr/bin/uicache", "--exclude=/usr/bin/find", [@(systemSnapshotMountPoint) stringByAppendingPathComponent:@"."].UTF8String, "/", NULL) == 0, localize(@"Unable to sync /Applications."), true);
@@ -1039,7 +1043,7 @@ void jailbreak()
             NSString *const substrateDeb = debForPkg(@"mobilesubstrate");
             _assert(substrateDeb != nil, localize(@"Unable to get deb for Substrate."), true);
             if (pidOfProcess("/usr/libexec/substrated") == 0) {
-                _assert(extractDeb(substrateDeb), localize(@"Unable to extract Substrate."), true);
+                _assert(extractDeb(substrateDeb, doInject), localize(@"Unable to extract Substrate."), true);
             } else {
                 skipSubstrate = YES;
                 LOG("Substrate is running, not extracting again for now.");
@@ -1078,7 +1082,7 @@ void jailbreak()
             LOG(@"(Re-)Extracting \"%@\".", pkgsToRepair);
             NSArray <NSString *> *const debsToRepair = debsForPkgs(pkgsToRepair);
             _assert(debsToRepair.count == pkgsToRepair.count, localize(@"Unable to get debs for packages to repair."), true);
-            _assert(extractDebs(debsToRepair), localize(@"Unable to repair packages."), true);
+            _assert(extractDebs(debsToRepair, doInject), localize(@"Unable to repair packages."), true);
             [debsToInstall addObjectsFromArray:debsToRepair];
         }
         
@@ -1203,7 +1207,7 @@ void jailbreak()
         if (pkgIsBy("Sam Bingner", "lzma") || pkgIsBy("Sam Bingner", "xz")) {
             removePkg("lzma", true);
             removePkg("xz", true);
-            extractDebsForPkg(@"lzma", debsToInstall, false);
+            extractDebsForPkg(@"lzma", debsToInstall, false, doInject);
             inject_trust_cache();
         }
         
@@ -1214,7 +1218,7 @@ void jailbreak()
         // Test dpkg
         if (!pkgIsConfigured("dpkg") || pkgIsBy("CoolStar", "dpkg") || compareInstalledVersion("dpkg", "lt", "1:0")) {
             LOG("Extracting dpkg...");
-            _assert(extractDebsForPkg(@"dpkg", debsToInstall, false), localize(@"Unable to extract dpkg."), true);
+            _assert(extractDebsForPkg(@"dpkg", debsToInstall, false, doInject), localize(@"Unable to extract dpkg."), true);
             inject_trust_cache();
             NSString *const dpkg_deb = debForPkg(@"dpkg");
             _assert(installDeb(dpkg_deb.UTF8String, true), localize(@"Unable to install deb for dpkg."), true);
@@ -1632,23 +1636,24 @@ void jailbreak()
             // Load Tweaks.
             
             progress(localize(@"Loading Tweaks..."));
+            NSMutableString *waitCommand = [NSMutableString new];
+            [waitCommand appendFormat:@"while [[ ! -f %s ]]; do :; done;", success_file];
+            if (!prefs->auto_respring) {
+                [waitCommand appendFormat:@"while ps -p %d; do :; done;", myPid];
+            }
             if (prefs->reload_system_daemons && !needStrap) {
                 rv = systemf("nohup bash -c \""
-                             "while ps -p %d;"
-                             "do :;"
-                             "done;"
+                             "%s"
                              "launchctl unload /System/Library/LaunchDaemons/com.apple.backboardd.plist && "
                              "ldrestart ;"
                              "launchctl load /System/Library/LaunchDaemons/com.apple.backboardd.plist"
-                             "\" >/dev/null 2>&1 &", myPid);
+                             "\" >/dev/null 2>&1 &", waitCommand.UTF8String);
             } else {
                 rv = systemf("nohup bash -c \""
-                             "while ps -p %d;"
-                             "do :;"
-                             "done;"
+                             "%s"
                              "launchctl stop com.apple.mDNSResponder ;"
                              "sbreload"
-                             "\" >/dev/null 2>&1 &", myPid);
+                             "\" >/dev/null 2>&1 &", waitCommand.UTF8String);
             }
             _assert(WEXITSTATUS(rv) == ERR_SUCCESS, localize(@"Unable to load tweaks."), true);
             LOG("Successfully loaded Tweaks.");
@@ -1692,6 +1697,7 @@ out:;
     bool willRespring = (forceRespring);
     willRespring |= (prefs->load_tweaks);
     release_prefs(&prefs);
+    _assert(create_file(success_file, 501, 644), localize(@"Unable to create success file."), true);
     showAlert(@"Jailbreak Completed", [NSString stringWithFormat:@"%@\n\n%@\n%@", localize(@"Jailbreak Completed with Status:"), status, localize(willRespring ? @"The device will now respring." : @"The app will now exit.")], true, false);
     if (sharedController.canExit) {
         if (forceRespring) {

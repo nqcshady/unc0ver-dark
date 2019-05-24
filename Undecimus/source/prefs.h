@@ -36,6 +36,7 @@
 #define K_INSTALL_SILEO            "InstallSileo"
 #define K_THEME                    "Theme"
 #define K_REINSTALL_SILEO_SWITCH   "HideSileoSwitch"
+#define K_AUTO_RESPRING            "AutoRespring"
 
 typedef struct {
     bool load_tweaks;
@@ -63,6 +64,7 @@ typedef struct {
     bool uicache_cydia;
     int theme;
     bool reinstall_sileo_switch;
+    bool auto_respring;
     int exploit;
 } prefs_t;
 
