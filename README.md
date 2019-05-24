@@ -17,7 +17,9 @@ original unc0ver UI by [Dennis Bednarz](https://twitter.com/DennisBednarz) & [Sa
 * Theme switcher by [Diatrus](https://github.com/Diatrus) & [Hydri](https://twitter.com/HydriDev_)
 
 ## Available themes
-True Black, Dark Purple and White.
+* Dark Purple
+* True Black
+* White
 ![Mockup](https://dark.diatr.us/img/mockup2v2.png)
 
 ## Switching from the other jailbreaks
