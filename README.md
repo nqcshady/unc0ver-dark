@@ -14,11 +14,14 @@ original unc0ver UI by [Dennis Bednarz](https://twitter.com/DennisBednarz) & [Sa
 * New true black UI designed by [CodeRedKillah](https://twitter.com/coderedkillah)
 * Substrate is downloaded from the Internet
 * Sileo support via [Diatrus](https://github.com/Diatrus)
+* Theme switcher by [Diatrus](https://github.com/Diatrus) & [Hydri](https://twitter.com/HydriDev_)
+
+## Available themes
+True Black, Dark Purple and White.
 
 ## Switching from the other jailbreaks
-* The RootFS will automatically be restored
-* Users of unc0ver will not have to restore rootfs
-* If you used Diatrus's Sileo Installer on regular unc0ver, it will be automatically removed for you.
+*The switching process is handled automatically by unc0ver dark. No rootFS restore is required.
+
 ## Getting support
 * Use the built-in diagnostics tool
 * Join the u0 Dark [Discord](https://discord.gg/4pYwBCb)
