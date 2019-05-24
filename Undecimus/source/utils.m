@@ -44,12 +44,11 @@ void injectDir(NSString *dir) {
     LOG("Will inject %lu files for %@", (unsigned long)toInject.count, dir);
     if (toInject.count > 0) {
         if (injectedToTrustCache) {
-            LOG("Can't inject files - Trust cache already injected");
-        } else {
-            for (NSString *path in toInject) {
-                if (![toInjectToTrustCache containsObject:path]) {
-                    [toInjectToTrustCache addObject:path];
-                }
+            LOG("Warning: Trust cache already injected");
+        }
+        for (NSString *path in toInject) {
+            if (![toInjectToTrustCache containsObject:path]) {
+                [toInjectToTrustCache addObject:path];
             }
         }
     }
@@ -205,7 +204,7 @@ bool compareInstalledVersion(const char *packageID, const char *op, const char *
     return rv;
 }
 
-bool runDpkg(NSArray <NSString*> *args, bool forceDeps) {
+bool runDpkg(NSArray <NSString*> *args, bool forceDeps, bool forceAll) {
     if ([args count] < 2) {
         LOG("%s: Nothing to do", __FUNCTION__);
         return false;
@@ -218,7 +217,9 @@ bool runDpkg(NSArray <NSString*> *args, bool forceDeps) {
                         @"--no-triggers"
                      ]];
     
-    if (forceDeps) {
+    if (forceAll) {
+        [command addObject:@"--force-all"];
+    } else if (forceDeps) {
         [command addObjectsFromArray:@[@"--force-depends", @"--force-remove-essential"]];
     }
     for (NSString *arg in args) {
@@ -261,7 +262,7 @@ bool extractDeb(NSString *debPath) {
         [deb extractFileNum:3 toFd:pipe.fileHandleForWriting.fileDescriptor];
     });
     bool result = [tar extractToPath:@"/"];
-    if ((kCFCoreFoundationVersionNumber >= 1535.12) && result) {
+    if ((kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_12_0) && result) {
         chdir("/");
         NSMutableArray *toInject = [NSMutableArray new];
         NSDictionary *files = tar.files;
@@ -274,12 +275,11 @@ bool extractDeb(NSString *debPath) {
         LOG("Will inject %lu files for %@", (unsigned long)toInject.count, debPath);
         if (toInject.count > 0) {
             if (injectedToTrustCache) {
-                LOG("Can't inject files - Trust cache already injected");
-            } else {
-                for (NSString *path in toInject) {
-                    if (![toInjectToTrustCache containsObject:path]) {
-                        [toInjectToTrustCache addObject:path];
-                    }
+                LOG("Warning: Trust cache already injected");
+            }
+            for (NSString *path in toInject) {
+                if (![toInjectToTrustCache containsObject:path]) {
+                    [toInjectToTrustCache addObject:path];
                 }
             }
         }
@@ -300,19 +300,19 @@ bool extractDebs(NSArray <NSString *> *debPaths) {
 }
 
 bool installDeb(const char *debName, bool forceDeps) {
-    return runDpkg(@[@"-i", @(debName)], forceDeps);
+    return runDpkg(@[@"-i", @(debName)], forceDeps, false);
 }
 
-bool installDebs(NSArray <NSString*> *debs, bool forceDeps) {
+bool installDebs(NSArray <NSString*> *debs, bool forceDeps, bool forceAll) {
     if ([debs count] < 1) {
         LOG("%s: Nothing to install", __FUNCTION__);
         return false;
     }
-    return runDpkg([@[@"-i"] arrayByAddingObjectsFromArray:debs], forceDeps);
+    return runDpkg([@[@"-i"] arrayByAddingObjectsFromArray:debs], forceDeps, forceAll);
 }
 
 bool removePkg(char *packageID, bool forceDeps) {
-    return runDpkg(@[@"-r", @(packageID)], forceDeps);
+    return runDpkg(@[@"-r", @(packageID)], forceDeps, false);
 }
 
 bool removePkgs(NSArray <NSString*> *pkgs, bool forceDeps) {
@@ -320,7 +320,7 @@ bool removePkgs(NSArray <NSString*> *pkgs, bool forceDeps) {
         LOG("%s: Nothing to remove", __FUNCTION__);
         return false;
     }
-    return runDpkg([@[@"-r"] arrayByAddingObjectsFromArray:pkgs], forceDeps);
+    return runDpkg([@[@"-r"] arrayByAddingObjectsFromArray:pkgs], forceDeps, false);
 }
 
 bool runApt(NSArray <NSString*> *args) {
@@ -342,7 +342,7 @@ bool runApt(NSArray <NSString*> *args) {
     }
     argv[command.count] = NULL;
     int rv = runCommandv(argv[0], (int)[command count], argv, NULL);
-    return !WEXITSTATUS(rv);
+    return WIFEXITED(rv) && !WEXITSTATUS(rv);
 }
 
 bool aptUpdate() {
@@ -356,6 +356,10 @@ bool aptInstall(NSArray <NSString*> *pkgs) {
 
 bool aptUpgrade() {
     return runApt(@[@"-y", @"--allow-unauthenticated", @"--allow-downgrades", @"-f", @"dist-upgrade"]);
+}
+
+bool aptRepair() {
+    return runApt(@[@"-o", @"Dir::Etc::preferences=undecimus/preferences", @"-o", @"Dir::Etc::preferencesparts=''", @"-y", @"--allow-unauthenticated", @"--allow-remove-essential", @"--allow-downgrades", @"-f", @"dist-upgrade"]);
 }
 
 bool extractAptPkgList(NSString *path, ArchiveFile* listcache, id_t owner)
@@ -410,7 +414,7 @@ bool is_mountpoint(const char *filename) {
     assert(rv == ERR_SUCCESS);
     if (cwd) {
         chdir(cwd);
-        free(cwd);
+        SafeFreeNULL(cwd);
     }
     return buf.st_dev != p_buf.st_dev || buf.st_ino == p_buf.st_ino;
 }
@@ -629,36 +633,82 @@ pid_t pidOfProcess(const char *name) {
     pid_t pids[numberOfProcesses];
     bzero(pids, sizeof(pids));
     proc_listpids(PROC_ALL_PIDS, 0, pids, (int)sizeof(pids));
-    for (int i = 0; i < numberOfProcesses; ++i) {
+    bool foundProcess = false;
+    pid_t processPid = 0;
+    for (int i = 0; i < numberOfProcesses && !foundProcess; ++i) {
         if (pids[i] == 0) {
             continue;
         }
-        char pathBuffer[PROC_PIDPATHINFO_MAXSIZE];
-        bzero(pathBuffer, PROC_PIDPATHINFO_MAXSIZE);
-        proc_pidpath(pids[i], pathBuffer, sizeof(pathBuffer));
-        if (strlen(pathBuffer) > 0 && strcmp(pathBuffer, name) == 0) {
-            return pids[i];
+        char *path = get_path_for_pid(pids[i]);
+        if (path != NULL) {
+            if (strlen(path) > 0 && strcmp(path, name) == 0) {
+                processPid = pids[i];
+                foundProcess = true;
+            }
+            SafeFreeNULL(path);
         }
     }
-    return 0;
+    return processPid;
+}
+
+char *getKernelVersion() {
+    return sysctlWithName("kern.version");
+}
+
+char *getMachineName() {
+    return sysctlWithName("hw.machine");
+}
+char *getModelName() {
+    return sysctlWithName("hw.model");
 }
 
 bool kernelVersionContains(const char *string) {
-    static struct utsname u = { 0 };
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        uname(&u);
-    });
-    return (strstr(u.version, string) != NULL);
+    char *kernelVersion = getKernelVersion();
+    if (kernelVersion == NULL) return false;
+    bool ret = strstr(kernelVersion, string) != NULL;
+    SafeFreeNULL(kernelVersion);
+    return ret;
 }
 
 bool machineNameContains(const char *string) {
-    static struct utsname u = { 0 };
+    char *machineName = getMachineName();
+    if (machineName == NULL) return false;
+    bool ret = strstr(machineName, string) != NULL;
+    SafeFreeNULL(machineName);
+    return ret;
+}
+
+#define AF_MULTIPATH 39
+
+bool multi_path_tcp_enabled() {
+    static bool enabled = false;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        uname(&u);
+        int sock = socket(AF_MULTIPATH, SOCK_STREAM, 0);
+        if (sock < 0) {
+            return;
+        }
+        struct sockaddr* sockaddr_src = malloc(sizeof(struct sockaddr));
+        memset(sockaddr_src, 'A', sizeof(struct sockaddr));
+        sockaddr_src->sa_len = sizeof(struct sockaddr);
+        sockaddr_src->sa_family = AF_INET6;
+        struct sockaddr* sockaddr_dst = malloc(sizeof(struct sockaddr));
+        memset(sockaddr_dst, 'A', sizeof(struct sockaddr));
+        sockaddr_dst->sa_len = sizeof(struct sockaddr);
+        sockaddr_dst->sa_family = AF_INET;
+        sa_endpoints_t eps = {0};
+        eps.sae_srcif = 0;
+        eps.sae_srcaddr = sockaddr_src;
+        eps.sae_srcaddrlen = sizeof(struct sockaddr);
+        eps.sae_dstaddr = sockaddr_dst;
+        eps.sae_dstaddrlen = sizeof(struct sockaddr);
+        connectx(sock, &eps, SAE_ASSOCID_ANY, 0, NULL, 0, NULL, NULL);
+        enabled = (errno != EPERM);
+        SafeFreeNULL(sockaddr_src);
+        SafeFreeNULL(sockaddr_dst);
+        close(sock);
     });
-    return (strstr(u.machine, string) != NULL);
+    return enabled;
 }
 
 bool jailbreakEnabled() {
@@ -666,388 +716,94 @@ bool jailbreakEnabled() {
     access(SLIDE_FILE, F_OK) == ERR_SUCCESS;
 }
 
+NSString *getKernelBuildVersion() {
+    NSString *kernelBuild = nil;
+    NSString *cleanString = nil;
+    char *kernelVersion = NULL;
+    kernelVersion = getKernelVersion();
+    if (kernelVersion == NULL) return nil;
+    cleanString = [NSString stringWithUTF8String:kernelVersion];
+    SafeFreeNULL(kernelVersion);
+    cleanString = [[cleanString componentsSeparatedByString:@"; "] objectAtIndex:1];
+    cleanString = [[cleanString componentsSeparatedByString:@"-"] objectAtIndex:1];
+    cleanString = [[cleanString componentsSeparatedByString:@"/"] objectAtIndex:0];
+    kernelBuild = [cleanString copy];
+    return kernelBuild;
+}
+
 bool supportsExploit(exploit_t exploit) {
 #ifdef CAN_HAS_UNSUPPORTED_EXPLOIT
     return true;
 #else /* !CAN_HAS_UNSUPPORTED_EXPLOIT */
-    static NSArray *list;
-    static dispatch_once_t onceToken;
-
-    dispatch_once(&onceToken, ^{
-        list = @[
-                 // Async Wake
-                 @[@"4397.0.0.2.4~1",
-                   @"4481.0.0.2.1~1",
-                   @"4532.0.0.0.1~30",
-                   @"4556.0.0.2.5~1",
-                   @"4570.1.24.2.3~1",
-                   @"4570.2.3~8",
-                   @"4570.2.5~84",
-                   @"4570.2.5~167",
-                   @"4570.7.2~3",
-                   @"4570.20.55~10",
-                   @"4570.20.62~9",
-                   @"4570.20.62~4"],
-                 
-                 // Voucher Swap
-                 @[@"4397.0.0.2.4~1",
-                   @"4481.0.0.2.1~1",
-                   @"4532.0.0.0.1~30",
-                   @"4556.0.0.2.5~1",
-                   @"4570.1.24.2.3~1",
-                   @"4570.2.3~8",
-                   @"4570.2.5~84",
-                   @"4570.2.5~167",
-                   @"4570.7.2~3",
-                   @"4570.20.55~10",
-                   @"4570.20.62~9",
-                   @"4570.20.62~4",
-                   @"4570.30.79~22",
-                   @"4570.30.85~18",
-                   @"4570.32.1~2",
-                   @"4570.32.1~1",
-                   @"4570.40.6~8",
-                   @"4570.40.9~7",
-                   @"4570.40.9~1",
-                   @"4570.50.243~9",
-                   @"4570.50.257~6",
-                   @"4570.50.279~9",
-                   @"4570.50.294~5",
-                   @"4570.52.2~3",
-                   @"4570.52.2~8",
-                   @"4570.60.10.0.1~16",
-                   @"4570.60.16~9",
-                   @"4570.60.19~25",
-                   @"4570.60.21~7",
-                   @"4570.60.21~3",
-                   @"4570.70.14~16",
-                   @"4570.70.19~13",
-                   @"4570.70.24~9",
-                   @"4570.70.24~3",
-                   @"4903.200.199.12.3~1",
-                   @"4903.200.249.22.3~1",
-                   @"4903.200.274.32.3~1",
-                   @"4903.200.304.42.1~1",
-                   @"4903.200.327.52.1~1",
-                   @"4903.200.342.62.3~1",
-                   @"4903.200.354~11",
-                   @"4903.202.1~2",
-                   @"4903.202.2~2",
-                   @"4903.202.2~1",
-                   @"4903.220.42~21",
-                   @"4903.220.48~40",
-                   @"4903.222.1~7",
-                   @"4903.222.4~3",
-                   @"4903.222.5~3",
-                   @"4903.222.5~1",
-                   @"4903.230.15~8",
-                   @"4903.232.1~3",
-                   @"4903.232.2~2",
-                   @"4903.232.2~1",
-                   @"4903.240.8~8",
-                   @"4903.232.2~1"],
-                 
-                 // Mach Swap
-                 @[@"4397.0.0.2.4~1",
-                   @"4481.0.0.2.1~1",
-                   @"4532.0.0.0.1~30",
-                   @"4556.0.0.2.5~1",
-                   @"4570.1.24.2.3~1",
-                   @"4570.2.3~8",
-                   @"4570.2.5~84",
-                   @"4570.2.5~167",
-                   @"4570.7.2~3",
-                   @"4570.20.55~10",
-                   @"4570.20.62~9",
-                   @"4570.20.62~4",
-                   @"4570.30.79~22",
-                   @"4570.30.85~18",
-                   @"4570.32.1~2",
-                   @"4570.32.1~1",
-                   @"4570.40.6~8",
-                   @"4570.40.9~7",
-                   @"4570.40.9~1",
-                   @"4570.50.243~9",
-                   @"4570.50.257~6",
-                   @"4570.50.279~9",
-                   @"4570.50.294~5",
-                   @"4570.52.2~3",
-                   @"4570.52.2~8",
-                   @"4570.60.10.0.1~16",
-                   @"4570.60.16~9",
-                   @"4570.60.19~25",
-                   @"4570.60.21~7",
-                   @"4570.60.21~3",
-                   @"4570.70.14~16",
-                   @"4570.70.19~13",
-                   @"4570.70.24~9",
-                   @"4570.70.24~3",
-                   @"4903.200.199.12.3~1",
-                   @"4903.200.249.22.3~1",
-                   @"4903.200.274.32.3~1",
-                   @"4903.200.304.42.1~1",
-                   @"4903.200.327.52.1~1",
-                   @"4903.200.342.62.3~1",
-                   @"4903.200.354~11",
-                   @"4903.202.1~2",
-                   @"4903.202.2~2",
-                   @"4903.202.2~1",
-                   @"4903.220.42~21",
-                   @"4903.220.48~40",
-                   @"4903.222.1~7",
-                   @"4903.222.4~3",
-                   @"4903.222.5~3",
-                   @"4903.222.5~1",
-                   @"4903.230.15~8",
-                   @"4903.232.1~3",
-                   @"4903.232.2~2",
-                   @"4903.232.2~1",
-                   @"4903.240.8~8",
-                   @"4903.232.2~1"],
-                 
-                 // Mach Swap 2
-                 @[@"4397.0.0.2.4~1",
-                   @"4481.0.0.2.1~1",
-                   @"4532.0.0.0.1~30",
-                   @"4556.0.0.2.5~1",
-                   @"4570.1.24.2.3~1",
-                   @"4570.2.3~8",
-                   @"4570.2.5~84",
-                   @"4570.2.5~167",
-                   @"4570.7.2~3",
-                   @"4570.20.55~10",
-                   @"4570.20.62~9",
-                   @"4570.20.62~4",
-                   @"4570.30.79~22",
-                   @"4570.30.85~18",
-                   @"4570.32.1~2",
-                   @"4570.32.1~1",
-                   @"4570.40.6~8",
-                   @"4570.40.9~7",
-                   @"4570.40.9~1",
-                   @"4570.50.243~9",
-                   @"4570.50.257~6",
-                   @"4570.50.279~9",
-                   @"4570.50.294~5",
-                   @"4570.52.2~3",
-                   @"4570.52.2~8",
-                   @"4570.60.10.0.1~16",
-                   @"4570.60.16~9",
-                   @"4570.60.19~25",
-                   @"4570.60.21~7",
-                   @"4570.60.21~3",
-                   @"4570.70.14~16",
-                   @"4570.70.19~13",
-                   @"4570.70.24~9",
-                   @"4570.70.24~3",
-                   @"4903.200.199.12.3~1",
-                   @"4903.200.249.22.3~1",
-                   @"4903.200.274.32.3~1",
-                   @"4903.200.304.42.1~1",
-                   @"4903.200.327.52.1~1",
-                   @"4903.200.342.62.3~1",
-                   @"4903.200.354~11",
-                   @"4903.202.1~2",
-                   @"4903.202.2~2",
-                   @"4903.202.2~1",
-                   @"4903.220.42~21",
-                   @"4903.220.48~40",
-                   @"4903.222.1~7",
-                   @"4903.222.4~3",
-                   @"4903.222.5~3",
-                   @"4903.222.5~1",
-                   @"4903.230.15~8",
-                   @"4903.232.1~3",
-                   @"4903.232.2~2",
-                   @"4903.232.2~1",
-                   @"4903.240.8~8",
-                   @"4903.232.2~1"],
-                 
-                 // Deja Xnu
-                 @[@"4397.0.0.2.4~1",
-                   @"4481.0.0.2.1~1",
-                   @"4532.0.0.0.1~30",
-                   @"4556.0.0.2.5~1",
-                   @"4570.1.24.2.3~1",
-                   @"4570.2.3~8",
-                   @"4570.2.5~84",
-                   @"4570.2.5~167",
-                   @"4570.7.2~3",
-                   @"4570.20.55~10",
-                   @"4570.20.62~9",
-                   @"4570.20.62~4",
-                   @"4570.30.79~22",
-                   @"4570.30.85~18",
-                   @"4570.32.1~2",
-                   @"4570.32.1~1",
-                   @"4570.40.6~8",
-                   @"4570.40.9~7",
-                   @"4570.40.9~1",
-                   @"4570.50.243~9",
-                   @"4570.50.257~6",
-                   @"4570.50.279~9",
-                   @"4570.50.294~5",
-                   @"4570.52.2~3",
-                   @"4570.52.2~8",
-                   @"4570.60.10.0.1~16",
-                   @"4570.60.16~9",
-                   @"4570.60.19~25",
-                   @"4570.60.21~7",
-                   @"4570.60.21~3",
-                   @"4570.70.14~16",
-                   @"4570.70.19~13",
-                   @"4570.70.24~9",
-                   @"4570.70.24~3"],
-                 
-                 // Necp
-                 @[@"4397.0.0.2.4~1",
-                   @"4481.0.0.2.1~1",
-                   @"4532.0.0.0.1~30",
-                   @"4556.0.0.2.5~1",
-                   @"4570.1.24.2.3~1",
-                   @"4570.2.3~8",
-                   @"4570.2.5~84",
-                   @"4570.2.5~167",
-                   @"4570.7.2~3",
-                   @"4570.20.55~10",
-                   @"4570.20.62~9",
-                   @"4570.20.62~4",
-                   @"4570.30.79~22",
-                   @"4570.30.85~18",
-                   @"4570.32.1~2",
-                   @"4570.32.1~1",
-                   @"4570.40.6~8",
-                   @"4570.40.9~7",
-                   @"4570.40.9~1",
-                   @"4570.50.243~9",
-                   @"4570.50.257~6",
-                   @"4570.50.279~9",
-                   @"4570.50.294~5",
-                   @"4570.52.2~3",
-                   @"4570.52.2~8",
-                   @"4570.60.10.0.1~16",
-                   @"4570.60.16~9",
-                   @"4570.60.19~25",
-                   @"4570.60.21~7",
-                   @"4570.60.21~3",
-                   @"4570.70.14~16",
-                   @"4570.70.19~13",
-                   @"4570.70.24~9",
-                   @"4570.70.24~3"],
-                 
-                 // Kalloc Crash
-                 @[@"4397.0.0.2.4~1",
-                   @"4481.0.0.2.1~1",
-                   @"4532.0.0.0.1~30",
-                   @"4556.0.0.2.5~1",
-                   @"4570.1.24.2.3~1",
-                   @"4570.2.3~8",
-                   @"4570.2.5~84",
-                   @"4570.2.5~167",
-                   @"4570.7.2~3",
-                   @"4570.20.55~10",
-                   @"4570.20.62~9",
-                   @"4570.20.62~4",
-                   @"4570.30.79~22",
-                   @"4570.30.85~18",
-                   @"4570.32.1~2",
-                   @"4570.32.1~1",
-                   @"4570.40.6~8",
-                   @"4570.40.9~7",
-                   @"4570.40.9~1",
-                   @"4570.50.243~9",
-                   @"4570.50.257~6",
-                   @"4570.50.279~9",
-                   @"4570.50.294~5",
-                   @"4570.52.2~3",
-                   @"4570.52.2~8",
-                   @"4570.60.10.0.1~16",
-                   @"4570.60.16~9",
-                   @"4570.60.19~25",
-                   @"4570.60.21~7",
-                   @"4570.60.21~3",
-                   @"4570.70.14~16",
-                   @"4570.70.19~13",
-                   @"4570.70.24~9",
-                   @"4570.70.24~3",
-                   @"4903.200.199.12.3~1",
-                   @"4903.200.249.22.3~1",
-                   @"4903.200.274.32.3~1",
-                   @"4903.200.304.42.1~1",
-                   @"4903.200.327.52.1~1",
-                   @"4903.200.342.62.3~1",
-                   @"4903.200.354~11",
-                   @"4903.202.1~2",
-                   @"4903.202.2~2",
-                   @"4903.202.2~1",
-                   @"4903.220.42~21",
-                   @"4903.220.48~40",
-                   @"4903.222.1~7",
-                   @"4903.222.4~3",
-                   @"4903.222.5~3",
-                   @"4903.222.5~1",
-                   @"4903.230.15~8",
-                   @"4903.232.1~3",
-                   @"4903.232.2~2",
-                   @"4903.232.2~1",
-                   @"4903.240.8~8",
-                   @"4903.232.2~1",
-                   @"4903.240.8~8",
-                   @"4903.240.10~8",
-                   @"4903.242.2~2",
-                   @"4903.242.2~1",
-                   @"4903.250.305~10",
-                   @"4903.250.319~58",
-                   @"4903.250.336.0.1~10",
-                   @"4903.250.349~13",
-                   @"4903.252.2~2",
-                   @"4903.252.2~1"]
-                 ];
-    });
+    
+    NSString *minKernelBuildVersion = nil;
+    NSString *maxKernelBuildVersion = nil;
     
     switch (exploit) {
         case voucher_swap_exploit: {
-            if (vm_kernel_page_size != 0x4000) {
+            if (get_kernel_page_size() != 0x4000) {
                 return false;
             }
             if (machineNameContains("iPad5,") &&
-                kCFCoreFoundationVersionNumber >= 1535.12) {
+                kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_12_0) {
                 return false;
             }
+            minKernelBuildVersion = @"4397.0.0.2.4~1";
+            maxKernelBuildVersion = @"4903.240.8~8";
             break;
         }
         case mach_swap_exploit: {
-            if (vm_kernel_page_size != 0x1000 &&
+            if (get_kernel_page_size() != 0x1000 &&
                 !machineNameContains("iPad5,") &&
                 !machineNameContains("iPhone8,") &&
                 !machineNameContains("iPad6,")) {
                 return false;
             }
+            minKernelBuildVersion = @"4397.0.0.2.4~1";
+            maxKernelBuildVersion = @"4903.240.8~8";
             break;
         }
         case mach_swap_2_exploit: {
+            minKernelBuildVersion = @"4397.0.0.2.4~1";
+            maxKernelBuildVersion = @"4903.240.8~8";
             break;
         }
         case deja_xnu_exploit: {
             if (jailbreakEnabled())
                 return false;
+            minKernelBuildVersion = @"4397.0.0.2.4~1";
+            maxKernelBuildVersion = @"4570.70.24~9";
             break;
         }
-        case async_wake_exploit:
+        case async_wake_exploit: {
+            minKernelBuildVersion = @"4397.0.0.2.4~1";
+            maxKernelBuildVersion = @"4570.20.62~4";
             break;
-        case necp_exploit:
+        }
+        case necp_exploit: {
+            minKernelBuildVersion = @"4397.0.0.2.4~1";
+            maxKernelBuildVersion = @"4570.70.24~9";
             break;
-        case kalloc_crash:
+        }
+        case kalloc_crash: {
+            minKernelBuildVersion = @"4397.0.0.2.4~1";
+            maxKernelBuildVersion = @"4903.252.2~2";
             break;
+        }
         default:
             return false;
             break;
     }
     
-    for (NSString *string in list[exploit]) {
-        if (kernelVersionContains(string.UTF8String)) {
-            return true;
+    if (minKernelBuildVersion != nil && maxKernelBuildVersion != nil) {
+        NSString *kernelBuildVersion = getKernelBuildVersion();
+        if (kernelBuildVersion != nil) {
+            if ([kernelBuildVersion compare:minKernelBuildVersion options:NSNumericSearch] != NSOrderedAscending && [kernelBuildVersion compare:maxKernelBuildVersion options:NSNumericSearch] != NSOrderedDescending) {
+                return true;
+            }
         }
+    } else {
+        return true;
     }
 
     return false;
@@ -1255,12 +1011,17 @@ bool verifyECID(NSString *ecid) {
 bool canOpen(const char *URL) {
     __block bool canOpenURL = false;
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_block_t block = ^{
         if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@(URL)]]) {
             canOpenURL = true;
         }
         dispatch_semaphore_signal(semaphore);
-    });
+    };
+    if ([[NSThread currentThread] isMainThread]) {
+        block();
+    } else {
+        dispatch_async(dispatch_get_main_queue(), block);
+    }
     dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
     return canOpenURL;
 }
@@ -1309,6 +1070,221 @@ bool rebuildApplicationDatabases() {
         LOG("Failed to rebuild application databases");
         return false;
     }
+}
+
+char *get_path_for_pid(pid_t pid) {
+    char *ret = NULL;
+    uint32_t path_size = PROC_PIDPATHINFO_MAXSIZE;
+    char *path = malloc(path_size);
+    if (path != NULL) {
+        if (proc_pidpath(pid, path, path_size) >= 0) {
+            ret = strdup(path);
+        }
+        SafeFreeNULL(path);
+    }
+    return ret;
+}
+
+NSString *getECID() {
+    NSString *ECID = nil;
+    CFStringRef value = MGCopyAnswer(kMGUniqueChipID);
+    if (value != nil) {
+        ECID = [NSString stringWithFormat:@"%@", value];
+        CFRelease(value);
+    }
+    return ECID;
+}
+
+NSString *getUDID() {
+    NSString *UDID = nil;
+    CFStringRef value = MGCopyAnswer(kMGUniqueDeviceID);
+    if (value != nil) {
+        UDID = [NSString stringWithFormat:@"%@", value];
+        CFRelease(value);
+    }
+    return UDID;
+}
+
+char *sysctlWithName(const char *name) {
+    kern_return_t kr = KERN_FAILURE;
+    char *ret = NULL;
+    size_t *size = NULL;
+    size = (size_t *)malloc(sizeof(size_t));
+    if (size == NULL) goto out;
+    bzero(size, sizeof(size_t));
+    if (sysctlbyname(name, NULL, size, NULL, 0) != ERR_SUCCESS) goto out;
+    ret = (char *)malloc(*size);
+    if (ret == NULL) goto out;
+    bzero(ret, *size);
+    if (sysctlbyname(name, ret, size, NULL, 0) != ERR_SUCCESS) goto out;
+    kr = KERN_SUCCESS;
+out:
+    if (kr == KERN_FAILURE) SafeFreeNULL(ret);
+    SafeFreeNULL(size);
+    return ret;
+}
+
+char *getOSVersion() {
+    return sysctlWithName("kern.osversion");
+}
+
+char *getOSProductVersion() {
+    return sysctlWithName("kern.osproductversion");
+}
+
+void printOSDetails() {
+    char *machineName = NULL;
+    char *modelName = NULL;
+    char *kernelVersion = NULL;
+    char *OSProductVersion = NULL;
+    char *OSVersion = NULL;
+    machineName = getMachineName();
+    if (machineName == NULL) goto out;
+    modelName = getModelName();
+    if (modelName == NULL) goto out;
+    kernelVersion = getKernelVersion();
+    if (kernelVersion == NULL) goto out;
+    OSProductVersion = getOSProductVersion();
+    if (OSProductVersion == NULL) goto out;
+    OSVersion = getOSVersion();
+    if (OSVersion == NULL) goto out;
+    LOG("Machine Name: %s", machineName);
+    LOG("Model Name: %s", modelName);
+    LOG("Kernel Version: %s", kernelVersion);
+    LOG("Kernel Page Size: 0x%lx", get_kernel_page_size());
+    LOG("System Version: iOS %s (%s) (Build: %s)", OSProductVersion, isBetaFirmware() ? "Beta" : "Stable", OSVersion);
+out:
+    SafeFreeNULL(machineName);
+    SafeFreeNULL(modelName);
+    SafeFreeNULL(kernelVersion);
+    SafeFreeNULL(OSProductVersion);
+    SafeFreeNULL(OSVersion);
+}
+
+bool isBetaFirmware() {
+    bool ret = false;
+    char *OSVersion = getOSVersion();
+    if (OSVersion == NULL) return false;
+    if (strlen(OSVersion) > 6) ret = true;
+    SafeFreeNULL(OSVersion);
+    return ret;
+}
+
+double getUptime() {
+    double uptime = 0;
+    size_t *size = NULL;
+    struct timeval *boottime = NULL;
+    size = (size_t *)malloc(sizeof(size_t));
+    if (size == NULL) goto out;
+    bzero(size, sizeof(size_t));
+    *size = sizeof(struct timeval);
+    boottime = (struct timeval *)malloc(*size);
+    if (boottime == NULL) goto out;
+    bzero(boottime, *size);
+    int mib[2] = { CTL_KERN, KERN_BOOTTIME };
+    if (sysctl(mib, 2, boottime, size, NULL, 0) != ERR_SUCCESS) goto out;
+    time_t bsec = boottime->tv_sec, csec = time(NULL);
+    uptime = difftime(csec, bsec);
+out:
+    SafeFreeNULL(size);
+    SafeFreeNULL(boottime);
+    return uptime;
+}
+
+vm_size_t get_kernel_page_size() {
+    vm_size_t kernel_page_size = 0;
+    vm_size_t *out_page_size = NULL;
+    host_t host = mach_host_self();
+    if (!MACH_PORT_VALID(host)) goto out;
+    out_page_size = (vm_size_t *)malloc(sizeof(vm_size_t));
+    if (out_page_size == NULL) goto out;
+    bzero(out_page_size, sizeof(vm_size_t));
+    if (_host_page_size(host, out_page_size) != KERN_SUCCESS) goto out;
+    kernel_page_size = *out_page_size;
+out:
+    if (MACH_PORT_VALID(host)) mach_port_deallocate(mach_task_self(), host); host = HOST_NULL;
+    SafeFreeNULL(out_page_size);
+    return kernel_page_size;
+}
+
+int waitForFile(const char *filename) {
+    int rv = access(filename, F_OK);
+    for (int i = 0; !(i >= 100 || rv == ERR_SUCCESS); i++) {
+        usleep(100000);
+        rv = access(filename, F_OK);
+    }
+    return rv;
+}
+
+NSString *hexFromInt(NSInteger val) {
+    return [NSString stringWithFormat:@"0x%lX", (long)val];
+}
+
+void waitFor(int seconds) {
+    for (int i = 1; i <= seconds; i++) {
+        LOG("Waiting (%d/%d)", i, seconds);
+        sleep(1);
+    }
+}
+
+bool blockDomainWithName(const char *name) {
+    if (!unblockDomainWithName(name)) {
+        LOG("%s: Unable to clean hosts file", __FUNCTION__);
+        return false;
+    }
+    NSString *domain = @(name);
+    NSString *hosts_file = @"/etc/hosts";
+    NSString *hosts = [NSString stringWithContentsOfFile:hosts_file encoding:NSUTF8StringEncoding error:nil];
+    if (hosts == nil) {
+        LOG("%s: Unable to read hosts file", __FUNCTION__);
+        return false;
+    }
+    NSArray *redirects = @[@"127.0.0.1", @"n::1"];
+    for (NSString *redirect in redirects) {
+        NSString *line = [NSString stringWithFormat:@"\n%@\t%@\n", redirect, domain];
+        hosts = [hosts stringByAppendingString:line];
+    }
+    if (![hosts writeToFile:hosts_file atomically:YES encoding:NSUTF8StringEncoding error:nil]) {
+        LOG("%s: Unable to update hosts file", __FUNCTION__);
+        return false;
+    }
+    return true;
+}
+
+bool unblockDomainWithName(const char *name) {
+    NSString *domain = @(name);
+    NSString *hosts_file = @"/etc/hosts";
+    NSString *hosts = [NSString stringWithContentsOfFile:hosts_file encoding:NSUTF8StringEncoding error:nil];
+    if (hosts == nil) {
+        LOG("%s: Unable to read hosts file", __FUNCTION__);
+        return false;
+    }
+    for (NSString *line in [hosts componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]]) {
+        for (NSString *string in [line componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]) {
+            if ([string isEqualToString:domain]) {
+                hosts = [hosts stringByReplacingOccurrencesOfString:line withString:@""];
+            }
+        }
+    }
+    if (![hosts writeToFile:hosts_file atomically:YES encoding:NSUTF8StringEncoding error:nil]) {
+        LOG("%s: Unable to update hosts file", __FUNCTION__);
+        return false;
+    }
+    return true;
+}
+
+bool cydiaIsInstalled() {
+    if (access("/Applications/Cydia.app", F_OK) != ERR_SUCCESS) {
+        return false;
+    }
+    return true;
+}
+
+bool sileoIsInstalled() {
+    if (access("/Applications/Sileo.app", F_OK) != ERR_SUCCESS) {
+        return false;
+    }
+    return true;
 }
 
 __attribute__((constructor))

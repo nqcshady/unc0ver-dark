@@ -8,6 +8,7 @@
 
 #import "CreditsTableViewController.h"
 #include "SettingsTableViewController.h"
+#include "prefs.h"
 
 @interface CreditsTableViewController ()
 
@@ -18,10 +19,8 @@
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 -(void)viewDidLayoutSubviews {
-    
-    NSString *theme = [[NSUserDefaults standardUserDefaults] objectForKey:K_THEME];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    if ([theme isEqualToString:@"White"])
+    prefs_t *prefs = copy_prefs();
+    if (prefs->theme == 2)
     {
         self.pwn20wndButton.titleLabel.textColor = [UIColor blackColor];
         self.pwn20wndContentView.backgroundColor = [UIColor whiteColor];
@@ -143,7 +142,7 @@
         self.benjweaverdevButton.titleLabel.textColor = [UIColor blackColor];
         self.benjweaverdevContentView.backgroundColor = [UIColor whiteColor];
     }
-    if([theme isEqualToString:@"True Black"])
+    if(prefs->theme == 0)
     {
         
         self.pwn20wndButton.titleLabel.textColor = [UIColor whiteColor];
@@ -267,7 +266,7 @@
         self.benjweaverdevContentView.backgroundColor = [UIColor blackColor];
         
     }
-    if([theme isEqualToString:@"Dark Purple"])
+    if(prefs->theme == 1)
     {
         
         self.pwn20wndButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
@@ -389,8 +388,8 @@
         
         self.benjweaverdevButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
         self.benjweaverdevContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
     }
+    release_prefs(&prefs);
 }
 
 - (void)viewDidLoad {
@@ -398,9 +397,8 @@
     UIView *myView = [[UIView alloc] initWithFrame:CGRectMake(10,10,200,200)];
     [myView setAlpha:1.0];
     [myView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
-    NSString *theme = [[NSUserDefaults standardUserDefaults] objectForKey:K_THEME];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    if ([theme isEqualToString:@"True Black"])
+    prefs_t *prefs = copy_prefs();
+    if (prefs->theme == 0)
     {
         [myView setBackgroundColor:[UIColor clearColor]];
         [self.SpecialThanksTableView setBackgroundColor:[UIColor blackColor]];
@@ -530,7 +528,7 @@
         //        self.benjweaverdevButton.titleLabel.textColor = [UIColor whiteColor];
         //        self.benjweaverdevContentView.backgroundColor = [UIColor blackColor];
     }
-    if ([theme isEqualToString:@"Dark Purple"])
+    if (prefs->theme == 1)
     {
         [myView setBackgroundColor:[UIColor clearColor]];
         [self.SpecialThanksTableView setBackgroundColor:UIColorFromRGB(0x17151C)];
@@ -540,7 +538,7 @@
         self.navigationController.navigationBar.translucent = NO;
         self.navigationController.navigationBar.tintColor = UIColorFromRGB(0xE9E9EA);
     }
-    if ([theme isEqualToString:@"White"])
+    if (prefs->theme == 2)
     {
         [myView setBackgroundColor:[UIColor clearColor]];
         [self.SpecialThanksTableView setBackgroundColor:[UIColor whiteColor]];
@@ -671,6 +669,7 @@
         //        self.benjweaverdevContentView.backgroundColor = [UIColor whiteColor];
     }
     [self.tableView setBackgroundView:myView];
+    release_prefs(&prefs);
 }
 
 - (void)didReceiveMemoryWarning {

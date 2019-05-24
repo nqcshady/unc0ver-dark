@@ -43,7 +43,6 @@
 		21C0FC7721369EB800849420 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 21C0FC7521369EB800849420 /* LaunchScreen.storyboard */; };
 		21C0FC7A21369EB800849420 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 21C0FC7921369EB800849420 /* main.m */; };
 		21C0FC8721369EE900849420 /* KernelMemory.c in Sources */ = {isa = PBXBuildFile; fileRef = 21C0FC8021369EE900849420 /* KernelMemory.c */; };
-		21C0FC8A21369EE900849420 /* KernelStructureOffsets.m in Sources */ = {isa = PBXBuildFile; fileRef = 21C0FC8621369EE900849420 /* KernelStructureOffsets.m */; };
 		21C130E0214BC2880021AA9D /* unlocknvram.c in Sources */ = {isa = PBXBuildFile; fileRef = 21C130DE214BC2880021AA9D /* unlocknvram.c */; };
 		21C130EB214C03690021AA9D /* CreditsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21C130EA214C03690021AA9D /* CreditsTableViewController.m */; };
 		21F4D70E21FC7A590070D5E0 /* patchfinder64.c in Sources */ = {isa = PBXBuildFile; fileRef = 21F4D70C21FC7A590070D5E0 /* patchfinder64.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable -Wno-unused-function"; }; };
@@ -60,6 +59,10 @@
 		22F91CE321E033A500B2FCAE /* libsnappy.c in Sources */ = {isa = PBXBuildFile; fileRef = 22F91CE221E033A500B2FCAE /* libsnappy.c */; };
 		3656A107226FB0D000407B4D /* kalloc_crash.c in Sources */ = {isa = PBXBuildFile; fileRef = 3656A105226FB0D000407B4D /* kalloc_crash.c */; };
 		36B7A22C2290849D00ED2304 /* white@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 36B7A22B2290849D00ED2304 /* white@3x.png */; };
+		36B8C9B72297AEC000F51909 /* jailbreak.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B8C9B52297AEC000F51909 /* jailbreak.m */; settings = {COMPILER_FLAGS = "-Wno-unused-variable -Wno-unused-function -Wno-deprecated-declarations"; }; };
+		36BF95432297941600E19E02 /* KernelOffsets.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BF95422297941600E19E02 /* KernelOffsets.m */; };
+		36BF95462297941E00E19E02 /* diagnostics.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BF95452297941E00E19E02 /* diagnostics.m */; };
+		36BF95492297942700E19E02 /* prefs.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BF95482297942700E19E02 /* prefs.m */; };
 		36F52F73228F864E00088562 /* white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 36F52F6F228F864E00088562 /* white@2x.png */; };
 		36F52F79228F882400088562 /* white.png in Resources */ = {isa = PBXBuildFile; fileRef = 36F52F78228F882400088562 /* white.png */; };
 		36F6531D2290A565006B4327 /* purple.png in Resources */ = {isa = PBXBuildFile; fileRef = 36F6531A2290A564006B4327 /* purple.png */; };
@@ -141,9 +144,7 @@
 		21C0FC7821369EB800849420 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		21C0FC7921369EB800849420 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		21C0FC8021369EE900849420 /* KernelMemory.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = KernelMemory.c; sourceTree = "<group>"; };
-		21C0FC8221369EE900849420 /* KernelStructureOffsets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KernelStructureOffsets.h; sourceTree = "<group>"; };
 		21C0FC8321369EE900849420 /* KernelMemory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KernelMemory.h; sourceTree = "<group>"; };
-		21C0FC8621369EE900849420 /* KernelStructureOffsets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KernelStructureOffsets.m; sourceTree = "<group>"; };
 		21C0FC8B21369FC500849420 /* common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
 		21C0FC8F2136A2C500849420 /* iokit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = iokit.h; sourceTree = "<group>"; };
 		21C0FC902136A46500849420 /* SpringBoardServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpringBoardServices.framework; sourceTree = "<group>"; };
@@ -181,8 +182,17 @@
 		3656A105226FB0D000407B4D /* kalloc_crash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = kalloc_crash.c; sourceTree = "<group>"; };
 		3656A106226FB0D000407B4D /* kalloc_crash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kalloc_crash.h; sourceTree = "<group>"; };
 		36B7A22B2290849D00ED2304 /* white@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "white@3x.png"; sourceTree = "<group>"; };
+		36B8C9B52297AEC000F51909 /* jailbreak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = jailbreak.m; sourceTree = "<group>"; };
+		36B8C9B62297AEC000F51909 /* jailbreak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jailbreak.h; sourceTree = "<group>"; };
+		36BF95412297941300E19E02 /* KernelOffsets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KernelOffsets.h; sourceTree = "<group>"; };
+		36BF95422297941600E19E02 /* KernelOffsets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KernelOffsets.m; sourceTree = "<group>"; };
+		36BF95442297941B00E19E02 /* diagnostics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = diagnostics.h; sourceTree = "<group>"; };
+		36BF95452297941E00E19E02 /* diagnostics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = diagnostics.m; sourceTree = "<group>"; };
+		36BF95472297942500E19E02 /* prefs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = prefs.h; sourceTree = "<group>"; };
+		36BF95482297942700E19E02 /* prefs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = prefs.m; sourceTree = "<group>"; };
+		36BF954B2297968F00E19E02 /* archive_entry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = archive_entry.h; sourceTree = "<group>"; };
+		36BF954C229796B500E19E02 /* UIProgressHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIProgressHUD.h; sourceTree = "<group>"; };
 		36F52F6F228F864E00088562 /* white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "white@2x.png"; sourceTree = "<group>"; };
-		36F52F71228F864E00088562 /* white@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "white@3x.png"; sourceTree = "<group>"; };
 		36F52F78228F882400088562 /* white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = white.png; sourceTree = "<group>"; };
 		36F6531A2290A564006B4327 /* purple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = purple.png; sourceTree = "<group>"; };
 		36F6531B2290A564006B4327 /* purple@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "purple@2x.png"; sourceTree = "<group>"; };
@@ -324,10 +334,10 @@
 		2170BD3421B192750059BD10 /* include */ = {
 			isa = PBXGroup;
 			children = (
-				36F52F71228F864E00088562 /* white@3x.png */,
 				2150A9E322021381001C8677 /* mach_vm.h */,
 				2150A9E422021381001C8677 /* ipc_port.h */,
 				2150A9E52202138A001C8677 /* IOKitLib.h */,
+				36BF954B2297968F00E19E02 /* archive_entry.h */,
 				226689DA21EC145000262F66 /* archive.h */,
 				226689DB21EC145000262F66 /* libproc.h */,
 				211C372621CE2DD800ADBEA2 /* net */,
@@ -337,6 +347,7 @@
 				21C0FC8F2136A2C500849420 /* iokit.h */,
 				21E9642421A1DD6F000625F7 /* NSTask.h */,
 				21395357217CBA1000B17F8D /* MobileGestalt.h */,
+				36BF954C229796B500E19E02 /* UIProgressHUD.h */,
 			);
 			path = include;
 			sourceTree = "<group>";
@@ -380,8 +391,6 @@
 				21A97FC82148103B00DC0023 /* KernelExecution.m */,
 				21C0FC8021369EE900849420 /* KernelMemory.c */,
 				21C0FC8321369EE900849420 /* KernelMemory.h */,
-				21C0FC8221369EE900849420 /* KernelStructureOffsets.h */,
-				21C0FC8621369EE900849420 /* KernelStructureOffsets.m */,
 				21A97FC92148103B00DC0023 /* KernelUtilities.h */,
 				21A97FCC2148103B00DC0023 /* KernelUtilities.c */,
 				21C0FC7921369EB800849420 /* main.m */,
@@ -401,6 +410,14 @@
 				22C546AA21A8A8FD00EFC09C /* utils.m */,
 				222AD59421FA732A00DCBA2A /* FakeApt.h */,
 				222AD59221FA731800DCBA2A /* FakeApt.m */,
+				36BF95412297941300E19E02 /* KernelOffsets.h */,
+				36BF95422297941600E19E02 /* KernelOffsets.m */,
+				36BF95442297941B00E19E02 /* diagnostics.h */,
+				36BF95452297941E00E19E02 /* diagnostics.m */,
+				36BF95472297942500E19E02 /* prefs.h */,
+				36BF95482297942700E19E02 /* prefs.m */,
+				36B8C9B62297AEC000F51909 /* jailbreak.h */,
+				36B8C9B52297AEC000F51909 /* jailbreak.m */,
 			);
 			path = source;
 			sourceTree = "<group>";
@@ -604,6 +621,7 @@
 				2150A9E022021348001C8677 /* parameters.c in Sources */,
 				21A97FD12148103C00DC0023 /* KernelExecution.m in Sources */,
 				3656A107226FB0D000407B4D /* kalloc_crash.c in Sources */,
+				36BF95432297941600E19E02 /* KernelOffsets.m in Sources */,
 				2150A9E122021348001C8677 /* kernel_alloc.c in Sources */,
 				2150A9DD22021348001C8677 /* platform_match.c in Sources */,
 				212D8844216E4C4800A36DA5 /* find_port.c in Sources */,
@@ -614,21 +632,23 @@
 				22F91CE321E033A500B2FCAE /* libsnappy.c in Sources */,
 				21A97FD42148103C00DC0023 /* remote_call.c in Sources */,
 				21C130E0214BC2880021AA9D /* unlocknvram.c in Sources */,
+				36BF95462297941E00E19E02 /* diagnostics.m in Sources */,
 				214A1777224EBE5400588EC4 /* kerneldec.cpp in Sources */,
 				2116449A21737F9500250744 /* JailbreakViewController.m in Sources */,
 				21F4D70E21FC7A590070D5E0 /* patchfinder64.c in Sources */,
 				2150A9DE22021348001C8677 /* platform.c in Sources */,
+				36BF95492297942700E19E02 /* prefs.m in Sources */,
 				213E7828220865A100FDF3B7 /* voucher_swap-poc.c in Sources */,
 				22F91CDB21E02CF300B2FCAE /* inject.m in Sources */,
 				21C0FC8721369EE900849420 /* KernelMemory.c in Sources */,
 				21C0FC7A21369EB800849420 /* main.m in Sources */,
 				212D8847216E4DF600A36DA5 /* early_kalloc.c in Sources */,
+				36B8C9B72297AEC000F51909 /* jailbreak.m in Sources */,
 				21A97FD02148103C00DC0023 /* remote_memory.c in Sources */,
 				222AD59321FA731800DCBA2A /* FakeApt.m in Sources */,
 				21FF63CB224E5FDC008B76D9 /* offsetcache.c in Sources */,
 				216F3F3F2228776E007DC1BC /* pac.c in Sources */,
 				21A97FD32148103C00DC0023 /* KernelUtilities.c in Sources */,
-				21C0FC8A21369EE900849420 /* KernelStructureOffsets.m in Sources */,
 				21FFE0F9222E4C0600EC59B2 /* machswap_pwn.m in Sources */,
 				21FFE0F8222E4C0600EC59B2 /* machswap_offsets.m in Sources */,
 				212D884A216E4EBF00A36DA5 /* async_wake.c in Sources */,

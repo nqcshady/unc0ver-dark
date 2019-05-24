@@ -10,29 +10,6 @@
 #import "common.h"
 #import "utils.h"
 
-#define K_LOAD_DAEMONS             @"LoadDaemons"
-#define K_DUMP_APTICKET            @"DumpAPTicket"
-#define K_REFRESH_ICON_CACHE       @"RefreshIconCache"
-#define K_BOOT_NONCE               @"BootNonce"
-#define K_EXPLOIT                  @"Exploit"
-#define K_DISABLE_AUTO_UPDATES     @"DisableAutoUpdates"
-#define K_DISABLE_APP_REVOKES      @"DisableAppRevokes"
-#define K_OVERWRITE_BOOT_NONCE     @"OverwriteBootNonce"
-#define K_EXPORT_KERNEL_TASK_PORT  @"ExportKernelTaskPort"
-#define K_RESTORE_ROOTFS           @"RestoreRootFS"
-#define K_INCREASE_MEMORY_LIMIT    @"IncreaseMemoryLimit"
-#define K_ECID                     @"Ecid"
-#define K_INSTALL_OPENSSH          @"InstallOpenSSH"
-#define K_INSTALL_CYDIA            @"InstallCydia"
-#define K_RELOAD_SYSTEM_DAEMONS    @"ReloadSystemDaemons"
-#define K_HIDE_LOG_WINDOW          @"HideLogWindow"
-#define K_RESET_CYDIA_CACHE        @"ResetCydiaCache"
-#define K_SSH_ONLY                 @"SSHOnly"
-#define K_ENABLE_GET_TASK_ALLOW    @"EnableGetTaskAllow"
-#define K_SET_CS_DEBUGGED          @"SetCSDebugged"
-#define K_THEME              @"Theme"
-#define K_REINSTALL_SILEO_SWITCH   @"SileoSwitch"
-
 @interface SettingsTableViewController : UITableViewController <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UISwitch *LoadDaemonsSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *DumpAPTicketSwitch;
@@ -45,6 +22,7 @@
 @property (nonatomic) UITapGestureRecognizer *tap;
 @property (weak, nonatomic) IBOutlet UIButton *ShareDiagnosticsDataButton;
 @property (weak, nonatomic) IBOutlet UIButton *OpenCydiaButton;
+@property (weak, nonatomic) IBOutlet UIButton *OpenSileoButton;
 @property (weak, nonatomic) IBOutlet UITextField *ExpiryLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *OverwriteBootNonceSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *ExportKernelTaskPortSwitch;
@@ -120,7 +98,6 @@
 @property (weak, nonatomic) IBOutlet UIView *RestartButtonContentView;
 @property (weak, nonatomic) IBOutlet UIView *ShareDiagnosticsDataContentView;
 @property (weak, nonatomic) IBOutlet UIView *OpenCydiaContentView;
-@property (weak, nonatomic) IBOutlet UIButton *OpenSileoButton;
 @property (weak, nonatomic) IBOutlet UIView *OpenSileoContentView;
 @property (weak, nonatomic) IBOutlet UIButton *ViewSourceCodeButton;
 @property (weak, nonatomic) IBOutlet UIView *ViewSourceCodeContentView;
@@ -135,7 +112,7 @@
 
 @property (strong, nonatomic) IBOutlet UITableView *SettingsTableView;
 
-+ (NSDictionary *)_provisioningProfileAtPath:(NSString *)path;
++ (NSDictionary *)provisioningProfileAtPath:(NSString *)path;
 
 @end
 

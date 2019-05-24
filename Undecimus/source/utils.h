@@ -44,6 +44,7 @@ int proc_pidpath(pid_t pid, void *buffer, uint32_t buffersize);
 - (BOOL) registerApplicationDictionary:(id)application;
 - (BOOL) installApplication:(id)application withOptions:(id)options;
 - (BOOL) _LSPrivateRebuildApplicationDatabasesForSystemApps:(BOOL)system internal:(BOOL)internal user:(BOOL)user;
+- (BOOL) applicationIsInstalled:(id)arg1;
 @end
 
 static inline bool create_file_data(const char *file, int owner, mode_t mode, NSData *data) {
@@ -90,7 +91,7 @@ bool compareInstalledVersion(const char *packageID, const char *op, const char *
 bool extractDeb(NSString *debPath);
 bool extractDebs(NSArray <NSString *> *debPaths);
 bool installDeb(const char *debName, bool forceDeps);
-bool installDebs(NSArray <NSString*> *debs, bool forceDeps);
+bool installDebs(NSArray <NSString*> *debs, bool forceDeps, bool forceAll);
 bool removePkg(char *packageID, bool forceDeps);
 bool removePkgs(NSArray <NSString*> *packageIDs, bool forceDeps);
 BOOL compareDpkgVersion(NSString *version1, NSString *op, NSString *version2, BOOL *result);
@@ -98,6 +99,7 @@ NSString *debForPkg(NSString *pkg);
 bool aptUpdate(void);
 bool aptInstall(NSArray <NSString*> *pkgs);
 bool aptUpgrade(void);
+bool aptRepair(void);
 bool runApt(NSArray <NSString*> *args);
 bool extractAptPkgList(NSString *path, ArchiveFile* listcache, id_t owner);
 bool ensureAptPkgLists(void);
@@ -112,9 +114,13 @@ int runCommandv(const char *cmd, int argc, const char * const* argv, void (^unre
 int runCommand(const char *cmd, ...);
 NSString *pathForResource(NSString *resource);
 pid_t pidOfProcess(const char *name);
+char *getKernelVersion(void);
+char *getMachineName(void);
+char *getModelName(void);
 bool kernelVersionContains(const char *string);
 bool machineNameContains(const char *string);
 bool jailbreakEnabled(void);
+NSString *getKernelBuildVersion(void);
 bool supportsExploit(exploit_t exploit);
 bool jailbreakSupported(void);
 bool respringSupported(void);
@@ -140,6 +146,23 @@ bool canOpen(const char *URL);
 bool airplaneModeEnabled(void);
 bool installApp(const char *bundle);
 bool rebuildApplicationDatabases(void);
+char *get_path_for_pid(pid_t pid);
+NSString *getECID(void);
+NSString *getUDID(void);
+char *sysctlWithName(const char *name);
+char *getOSVersion(void);
+char *getOSProductVersion(void);
+void printOSDetails(void);
+bool isBetaFirmware(void);
+double getUptime(void);
+vm_size_t get_kernel_page_size(void);
+int waitForFile(const char *filename);
+NSString *hexFromInt(NSInteger val);
+void waitFor(int seconds);
+bool blockDomainWithName(const char *name);
+bool unblockDomainWithName(const char *name);
+bool cydiaIsInstalled(void);
+bool sileoIsInstalled(void);
 
 extern NSData *lastSystemOutput;
 
