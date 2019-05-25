@@ -1597,21 +1597,21 @@ void jailbreak()
         if (prefs->uicache_cydia || (!canOpen("cydia://") && cydiaIsInstalled())) {
             // Run uicache for Cydia only.
             
-            progress(localize(@"Refreshing icon cache..."));
-            _assert(runCommand("/usr/bin/uicache", "--path", "/Applications/Cydia.app/", NULL) == ERR_SUCCESS, localize(@"Unable to refresh icon cache."), true);
+            progress(localize(@"Refreshing Cydia's icon cache..."));
+            _assert(runCommand("/usr/bin/uicache", "--path", "/Applications/Cydia.app/", NULL) == ERR_SUCCESS, localize(@"Unable to refresh Cydia's icon cache."), true);
             prefs->uicache_cydia = false;
             sync_prefs();
-            LOG("Successfully ran uicache.");
+            LOG("Successfully ran uicache on Cydia.");
             insertstatus(localize(@"Ran uicache on Cydia.\n"));
         }
         if (prefs->uicache_sileo || (!canOpen("sileo://") && sileoIsInstalled())) {
             // Run uicache for Sileo only.
             
-            progress(localize(@"Refreshing icon cache..."));
-            _assert(runCommand("/usr/bin/uicache", "--path", "/Applications/Sileo.app/", NULL) == ERR_SUCCESS, localize(@"Unable to refresh icon cache."), true);
+            progress(localize(@"Refreshing Sileo's icon cache..."));
+            _assert(runCommand("/usr/bin/uicache", "--path", "/Applications/Sileo.app/", NULL) == ERR_SUCCESS, localize(@"Unable to refresh Sileo's icon cache."), true);
             prefs->uicache_sileo = false;
             sync_prefs();
-            LOG("Successfully ran uicache.");
+            LOG("Successfully ran uicache on Sileo.");
             insertstatus(localize(@"Ran uicache on Sileo.\n"));
         }
     }
