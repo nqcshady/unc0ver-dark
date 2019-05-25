@@ -39,6 +39,21 @@
 #define K_AUTO_RESPRING            "AutoRespring"
 #define K_HIDE_PROGRESS_HUD        "HideProgressHUD"
 
+#define K_BACKGROUND_COLOR         "Background Color"
+#define K_U0_COLOR                 "Unc0ver Logo Color"
+#define K_FAKE_BUTTON_COLOR        "Fake Button Color"
+#define K_FAKE_TINT_COLOR          "Fake Button Tint Color"
+#define K_FAKE_TEXT_COLOR          "Fake Button Text Color"
+#define K_GO_TEXT_COLOR            "Go Button Text Color"
+#define K_OUTPUT_COLOR             "Output View Color"
+#define K_OUTPUT_TEXT_COLOR        "Output View Text Color"
+#define K_PICKER_TINT_COLOR        "Exploit Picker Tint Color"
+#define K_TINT_COLOR               "Tint Color"
+#define K_TEXT_COLOR               "Text Color"
+#define K_DARK_TEXT_COLOR          "Dark Text Color"
+#define K_LINK_COLOR               "Link Color"
+#define K_DARK_STATUS_BAR          "Light Status Bar Content"
+
 typedef struct {
     bool load_tweaks;
     bool load_daemons;
@@ -68,6 +83,21 @@ typedef struct {
     bool auto_respring;
     bool hide_progress_hud;
     int exploit;
+    
+    int backgroundColor;
+    int u0Color;
+    int fakeButtonColor;
+    int fakeTintColor;
+    int fakeTextColor;
+    int goTextColor;
+    int outputColor;
+    int outputTextColor;
+    int pickerTintColor;
+    int tintColor;
+    int textColor;
+    int darkTextColor;
+    int linkColor;
+    bool darkStatusBar;
 } prefs_t;
 
 prefs_t *new_prefs(void);

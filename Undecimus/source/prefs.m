@@ -68,6 +68,21 @@ bool load_prefs(prefs_t *prefs) {
     prefs->theme = (int)[[userDefaults objectForKey:@K_THEME inDomain:prefsFile] intValue];
     prefs->reinstall_sileo_switch = (bool)[[userDefaults objectForKey:@K_REINSTALL_SILEO_SWITCH inDomain:prefsFile] boolValue];
     prefs->hide_progress_hud = (bool)[[userDefaults objectForKey:@K_HIDE_PROGRESS_HUD inDomain:prefsFile] boolValue];
+    
+    prefs->backgroundColor = (int)[[userDefaults objectForKey:@K_BACKGROUND_COLOR inDomain:prefsFile] intValue];
+    prefs->u0Color = (int)[[userDefaults objectForKey:@K_U0_COLOR inDomain:prefsFile] intValue];
+    prefs->fakeButtonColor = (int)[[userDefaults objectForKey:@K_FAKE_BUTTON_COLOR inDomain:prefsFile] intValue];
+    prefs->fakeTintColor = (int)[[userDefaults objectForKey:@K_FAKE_TINT_COLOR inDomain:prefsFile] intValue];
+    prefs->fakeTextColor = (int)[[userDefaults objectForKey:@K_FAKE_TEXT_COLOR inDomain:prefsFile] intValue];
+    prefs->goTextColor = (int)[[userDefaults objectForKey:@K_GO_TEXT_COLOR inDomain:prefsFile] intValue];
+    prefs->outputColor = (int)[[userDefaults objectForKey:@K_OUTPUT_COLOR inDomain:prefsFile] intValue];
+    prefs->outputTextColor = (int)[[userDefaults objectForKey:@K_OUTPUT_TEXT_COLOR inDomain:prefsFile] intValue];
+    prefs->pickerTintColor = (int)[[userDefaults objectForKey:@K_PICKER_TINT_COLOR inDomain:prefsFile] intValue];
+    prefs->tintColor = (int)[[userDefaults objectForKey:@K_TINT_COLOR inDomain:prefsFile] intValue];
+    prefs->textColor = (int)[[userDefaults objectForKey:@K_TEXT_COLOR inDomain:prefsFile] intValue];
+    prefs->darkTextColor = (int)[[userDefaults objectForKey:@K_DARK_TEXT_COLOR inDomain:prefsFile] intValue];
+    prefs->linkColor = (int)[[userDefaults objectForKey:@K_LINK_COLOR inDomain:prefsFile] intValue];
+    prefs->darkStatusBar = (bool)[[userDefaults objectForKey:@K_DARK_STATUS_BAR inDomain:prefsFile] boolValue];
     return true;
 }
 
@@ -101,6 +116,22 @@ bool set_prefs(prefs_t *prefs) {
     [userDefaults setObject:[NSNumber numberWithInt:(int)prefs->theme] forKey:@K_THEME inDomain:prefsFile];
     [userDefaults setObject:[NSNumber numberWithBool:(BOOL)prefs->reinstall_sileo_switch] forKey:@K_REINSTALL_SILEO_SWITCH inDomain:prefsFile];
     [userDefaults setObject:[NSNumber numberWithBool:(BOOL)prefs->hide_progress_hud] forKey:@K_HIDE_PROGRESS_HUD inDomain:prefsFile];
+    
+    [userDefaults setObject:[NSNumber numberWithInt:(int)prefs->backgroundColor] forKey:@K_BACKGROUND_COLOR inDomain:prefsFile];
+    [userDefaults setObject:[NSNumber numberWithInt:(int)prefs->u0Color] forKey:@K_U0_COLOR inDomain:prefsFile];
+    [userDefaults setObject:[NSNumber numberWithInt:(int)prefs->fakeButtonColor] forKey:@K_FAKE_BUTTON_COLOR inDomain:prefsFile];
+    [userDefaults setObject:[NSNumber numberWithInt:(int)prefs->fakeTintColor] forKey:@K_FAKE_TINT_COLOR inDomain:prefsFile];
+    [userDefaults setObject:[NSNumber numberWithInt:(int)prefs->fakeTextColor] forKey:@K_FAKE_TEXT_COLOR inDomain:prefsFile];
+    [userDefaults setObject:[NSNumber numberWithInt:(int)prefs->goTextColor] forKey:@K_GO_TEXT_COLOR inDomain:prefsFile];
+    [userDefaults setObject:[NSNumber numberWithInt:(int)prefs->outputColor] forKey:@K_OUTPUT_COLOR inDomain:prefsFile];
+    [userDefaults setObject:[NSNumber numberWithInt:(int)prefs->outputTextColor] forKey:@K_OUTPUT_TEXT_COLOR inDomain:prefsFile];
+    [userDefaults setObject:[NSNumber numberWithInt:(int)prefs->pickerTintColor] forKey:@K_PICKER_TINT_COLOR inDomain:prefsFile];
+    [userDefaults setObject:[NSNumber numberWithInt:(int)prefs->tintColor] forKey:@K_TINT_COLOR inDomain:prefsFile];
+    [userDefaults setObject:[NSNumber numberWithInt:(int)prefs->textColor] forKey:@K_TEXT_COLOR inDomain:prefsFile];
+    [userDefaults setObject:[NSNumber numberWithInt:(int)prefs->darkTextColor] forKey:@K_DARK_TEXT_COLOR inDomain:prefsFile];
+    [userDefaults setObject:[NSNumber numberWithInt:(int)prefs->linkColor] forKey:@K_LINK_COLOR inDomain:prefsFile];
+    [userDefaults setObject:[NSNumber numberWithBool:(BOOL)prefs->darkStatusBar] forKey:@K_DARK_STATUS_BAR inDomain:prefsFile];
+
     [userDefaults synchronize];
     return true;
 }
@@ -132,6 +163,21 @@ void register_default_prefs() {
     defaults[@K_REINSTALL_SILEO_SWITCH] = @NO;
     defaults[@K_HIDE_PROGRESS_HUD] = @NO;
     defaults[@K_EXPLOIT] = [NSNumber numberWithInteger:recommendedJailbreakSupport()];
+    
+    defaults[@K_BACKGROUND_COLOR] = [NSNumber numberWithInteger:0x000000];
+    defaults[@K_U0_COLOR] = [NSNumber numberWithInteger:0xffffff];
+    defaults[@K_FAKE_BUTTON_COLOR] = [NSNumber numberWithInteger:0x101010];
+    defaults[@K_FAKE_TINT_COLOR] = [NSNumber numberWithInteger:0x4B4B4B];
+    defaults[@K_FAKE_TEXT_COLOR] = [NSNumber numberWithInteger:0xffffff];
+    defaults[@K_GO_TEXT_COLOR] = [NSNumber numberWithInteger:0xffffff];
+    defaults[@K_OUTPUT_COLOR] = [NSNumber numberWithInteger:0x000000];
+    defaults[@K_OUTPUT_TEXT_COLOR] = [NSNumber numberWithInteger:0xffffff];
+    defaults[@K_PICKER_TINT_COLOR] = [NSNumber numberWithInteger:0xffffff];
+    defaults[@K_TINT_COLOR] = [NSNumber numberWithInteger:0x4B4B4B];
+    defaults[@K_TEXT_COLOR] = [NSNumber numberWithInteger:0xffffff];
+    defaults[@K_DARK_TEXT_COLOR] = [NSNumber numberWithInteger:0x56555A];
+    defaults[@K_LINK_COLOR] = [NSNumber numberWithInteger:0xffffff];
+    defaults[@K_LINK_COLOR] = @YES;
     [userDefaults registerDefaults:defaults];
 }
 

@@ -20,375 +20,127 @@
 
 -(void)viewDidLayoutSubviews {
     prefs_t *prefs = copy_prefs();
-    if (prefs->theme == 2)
-    {
-        self.pwn20wndButton.titleLabel.textColor = [UIColor blackColor];
-        self.pwn20wndContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.sbingnerButton.titleLabel.textColor = [UIColor blackColor];
-        self.sbingerContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.i41nbeerButton.titleLabel.textColor = [UIColor blackColor];
-        self.i41nbeerContentView.backgroundColor = [UIColor whiteColor];
-        
-        self._bazadButton.titleLabel.textColor = [UIColor blackColor];
-        self._bazadContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.MorpheusButton.titleLabel.textColor = [UIColor blackColor];
-        self.MorpheusContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.xerubButton.titleLabel.textColor = [UIColor blackColor];
-        self.xerubContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.ibsparkesButton.titleLabel.textColor = [UIColor blackColor];
-        self.ibsparkesContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.stek29Button.titleLabel.textColor = [UIColor blackColor];
-        self.stek29ContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.theninjaprawnButton.titleLabel.textColor = [UIColor blackColor];
-        self.theninjaprawnContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.jonathansealsButton.titleLabel.textColor = [UIColor blackColor];
-        self.JonathansealsContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.saurikButton.titleLabel.textColor = [UIColor blackColor];
-        self.saurikContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.fce365Button.titleLabel.textColor = [UIColor blackColor];
-        self.fce365ContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.tihmstarButton.titleLabel.textColor = [UIColor blackColor];
-        self.tihmstarContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.s1guzaButton.titleLabel.textColor = [UIColor blackColor];
-        self.s1guzaContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.S0rryMyBadButton.titleLabel.textColor = [UIColor blackColor];
-        self.s0rrymybadContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.externalistButton.titleLabel.textColor = [UIColor blackColor];
-        self.externatlistContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.realbrighiupButton.titleLabel.textColor = [UIColor blackColor];
-        self.realbrighiuoContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.pwn20wndButton.titleLabel.textColor = [UIColor blackColor];
-        self.pwn20wndContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.nitotvButton.titleLabel.textColor = [UIColor blackColor];
-        self.nitotvContentView.backgroundColor = [UIColor whiteColor];
-        
-        self._matchsticButton.titleLabel.textColor = [UIColor blackColor];
-        self.matchsticContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.umanghereButton.titleLabel.textColor = [UIColor blackColor];
-        self.umanghereContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.miscmistyButton.titleLabel.textColor = [UIColor blackColor];
-        self.miscmistyContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.pimskeksButton.titleLabel.textColor = [UIColor blackColor];
-        self.pimmskeksContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.coolstarorgButton.titleLabel.textColor = [UIColor blackColor];
-        self.coolstarorgContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.diatrusButton.titleLabel.textColor = [UIColor blackColor];
-        self.diatrusContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.HydriButton.titleLabel.textColor = [UIColor blackColor];
-        self.HydriContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.c9shadyButton.titleLabel.textColor = [UIColor blackColor];
-        self.c9shadyContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.pixelomerButton.titleLabel.textColor = [UIColor blackColor];
-        self.pixelomerContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.libimobiledeviceButton.titleLabel.textColor = [UIColor blackColor];
-        self.libimobiledeviceContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.undecimusresourcesButton.titleLabel.textColor = [UIColor blackColor];
-        self.undecimusresourcesContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.jakeashacksButton.titleLabel.textColor = [UIColor blackColor];
-        self.jakeashacksContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.notcomButton.titleLabel.textColor = [UIColor blackColor];
-        self.notcomContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.cryptiiicButton.titleLabel.textColor = [UIColor blackColor];
-        self.cryptiiicContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.xerusdesignButton.titleLabel.textColor = [UIColor blackColor];
-        self.xerusdesignContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.appledry05Button.titleLabel.textColor = [UIColor blackColor];
-        self.appledry05ContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.ayyitzrobButton.titleLabel.textColor = [UIColor blackColor];
-        self.ayyitzrobContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.midnightchipButton.titleLabel.textColor = [UIColor blackColor];
-        self.midnightchipContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.swag_iosButton.titleLabel.textColor = [UIColor blackColor];
-        self.swag_iosContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.jailbreakbusterButton.titleLabel.textColor = [UIColor blackColor];
-        self.jailbreakbusterContentView.backgroundColor = [UIColor whiteColor];
-        
-        self.benjweaverdevButton.titleLabel.textColor = [UIColor blackColor];
-        self.benjweaverdevContentView.backgroundColor = [UIColor whiteColor];
-    }
-    if(prefs->theme == 0)
-    {
-        
-        self.pwn20wndButton.titleLabel.textColor = [UIColor whiteColor];
-        self.pwn20wndContentView.backgroundColor = [UIColor blackColor];
-        
-        self.sbingnerButton.titleLabel.textColor = [UIColor whiteColor];
-        self.sbingerContentView.backgroundColor = [UIColor blackColor];
-        
-        self.i41nbeerButton.titleLabel.textColor = [UIColor whiteColor];
-        self.i41nbeerContentView.backgroundColor = [UIColor blackColor];
-        
-        self._bazadButton.titleLabel.textColor = [UIColor whiteColor];
-        self._bazadContentView.backgroundColor = [UIColor blackColor];
-        
-        self.MorpheusButton.titleLabel.textColor = [UIColor whiteColor];
-        self.MorpheusContentView.backgroundColor = [UIColor blackColor];
-        
-        self.xerubButton.titleLabel.textColor = [UIColor whiteColor];
-        self.xerubContentView.backgroundColor = [UIColor blackColor];
-        
-        self.ibsparkesButton.titleLabel.textColor = [UIColor whiteColor];
-        self.ibsparkesContentView.backgroundColor = [UIColor blackColor];
-        
-        self.stek29Button.titleLabel.textColor = [UIColor whiteColor];
-        self.stek29ContentView.backgroundColor = [UIColor blackColor];
-        
-        self.theninjaprawnButton.titleLabel.textColor = [UIColor whiteColor];
-        self.theninjaprawnContentView.backgroundColor = [UIColor blackColor];
-        
-        self.jonathansealsButton.titleLabel.textColor = [UIColor whiteColor];
-        self.JonathansealsContentView.backgroundColor = [UIColor blackColor];
-        
-        self.saurikButton.titleLabel.textColor = [UIColor whiteColor];
-        self.saurikContentView.backgroundColor = [UIColor blackColor];
-        
-        self.fce365Button.titleLabel.textColor = [UIColor whiteColor];
-        self.fce365ContentView.backgroundColor = [UIColor blackColor];
-        
-        self.tihmstarButton.titleLabel.textColor = [UIColor whiteColor];
-        self.tihmstarContentView.backgroundColor = [UIColor blackColor];
-        
-        self.s1guzaButton.titleLabel.textColor = [UIColor whiteColor];
-        self.s1guzaContentView.backgroundColor = [UIColor blackColor];
-        
-        self.S0rryMyBadButton.titleLabel.textColor = [UIColor whiteColor];
-        self.s0rrymybadContentView.backgroundColor = [UIColor blackColor];
-        
-        self.externalistButton.titleLabel.textColor = [UIColor whiteColor];
-        self.externatlistContentView.backgroundColor = [UIColor blackColor];
-        
-        self.realbrighiupButton.titleLabel.textColor = [UIColor whiteColor];
-        self.realbrighiuoContentView.backgroundColor = [UIColor blackColor];
-        
-        self.pwn20wndButton.titleLabel.textColor = [UIColor whiteColor];
-        self.pwn20wndContentView.backgroundColor = [UIColor blackColor];
-        
-        self.nitotvButton.titleLabel.textColor = [UIColor whiteColor];
-        self.nitotvContentView.backgroundColor = [UIColor blackColor];
-        
-        self._matchsticButton.titleLabel.textColor = [UIColor whiteColor];
-        self.matchsticContentView.backgroundColor = [UIColor blackColor];
-        
-        self.umanghereButton.titleLabel.textColor = [UIColor whiteColor];
-        self.umanghereContentView.backgroundColor = [UIColor blackColor];
-        
-        self.miscmistyButton.titleLabel.textColor = [UIColor whiteColor];
-        self.miscmistyContentView.backgroundColor = [UIColor blackColor];
-        
-        self.pimskeksButton.titleLabel.textColor = [UIColor whiteColor];
-        self.pimmskeksContentView.backgroundColor = [UIColor blackColor];
-        
-        self.coolstarorgButton.titleLabel.textColor = [UIColor whiteColor];
-        self.coolstarorgContentView.backgroundColor = [UIColor blackColor];
-        
-        self.diatrusButton.titleLabel.textColor = [UIColor whiteColor];
-        self.diatrusContentView.backgroundColor = [UIColor blackColor];
-        
-        self.HydriButton.titleLabel.textColor = [UIColor whiteColor];
-        self.HydriContentView.backgroundColor = [UIColor blackColor];
-        
-        self.c9shadyButton.titleLabel.textColor = [UIColor whiteColor];
-        self.c9shadyContentView.backgroundColor = [UIColor blackColor];
-        
-        self.pixelomerButton.titleLabel.textColor = [UIColor whiteColor];
-        self.pixelomerContentView.backgroundColor = [UIColor blackColor];
-        
-        self.libimobiledeviceButton.titleLabel.textColor = [UIColor whiteColor];
-        self.libimobiledeviceContentView.backgroundColor = [UIColor blackColor];
-        
-        self.undecimusresourcesButton.titleLabel.textColor = [UIColor whiteColor];
-        self.undecimusresourcesContentView.backgroundColor = [UIColor blackColor];
-        
-        self.jakeashacksButton.titleLabel.textColor = [UIColor whiteColor];
-        self.jakeashacksContentView.backgroundColor = [UIColor blackColor];
-        
-        self.notcomButton.titleLabel.textColor = [UIColor whiteColor];
-        self.notcomContentView.backgroundColor = [UIColor blackColor];
-        
-        self.cryptiiicButton.titleLabel.textColor = [UIColor whiteColor];
-        self.cryptiiicContentView.backgroundColor = [UIColor blackColor];
-        
-        self.xerusdesignButton.titleLabel.textColor = [UIColor whiteColor];
-        self.xerusdesignContentView.backgroundColor = [UIColor blackColor];
-        
-        self.appledry05Button.titleLabel.textColor = [UIColor whiteColor];
-        self.appledry05ContentView.backgroundColor = [UIColor blackColor];
-        
-        self.ayyitzrobButton.titleLabel.textColor = [UIColor whiteColor];
-        self.ayyitzrobContentView.backgroundColor = [UIColor blackColor];
-        
-        self.midnightchipButton.titleLabel.textColor = [UIColor whiteColor];
-        self.midnightchipContentView.backgroundColor = [UIColor blackColor];
-        
-        self.swag_iosButton.titleLabel.textColor = [UIColor whiteColor];
-        self.swag_iosContentView.backgroundColor = [UIColor blackColor];
-        
-        self.jailbreakbusterButton.titleLabel.textColor = [UIColor whiteColor];
-        self.jailbreakbusterContentView.backgroundColor = [UIColor blackColor];
-        
-        self.benjweaverdevButton.titleLabel.textColor = [UIColor whiteColor];
-        self.benjweaverdevContentView.backgroundColor = [UIColor blackColor];
-        
-    }
-    if(prefs->theme == 1)
-    {
-        
-        self.pwn20wndButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.pwn20wndContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.sbingnerButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.sbingerContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.i41nbeerButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.i41nbeerContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self._bazadButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self._bazadContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.MorpheusButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.MorpheusContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.xerubButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.xerubContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.ibsparkesButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.ibsparkesContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.stek29Button.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.stek29ContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.theninjaprawnButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.theninjaprawnContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.jonathansealsButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.JonathansealsContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.saurikButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.saurikContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.fce365Button.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.fce365ContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.tihmstarButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.tihmstarContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.s1guzaButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.s1guzaContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.S0rryMyBadButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.s0rrymybadContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.externalistButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.externatlistContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.realbrighiupButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.realbrighiuoContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.pwn20wndButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.pwn20wndContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.nitotvButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.nitotvContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self._matchsticButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.matchsticContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.umanghereButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.umanghereContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.miscmistyButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.miscmistyContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.pimskeksButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.pimmskeksContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.coolstarorgButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.coolstarorgContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.diatrusButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.diatrusContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.HydriButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.HydriContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.c9shadyButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.c9shadyContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.pixelomerButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.pixelomerContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.libimobiledeviceButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.libimobiledeviceContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.undecimusresourcesButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.undecimusresourcesContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.jakeashacksButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.jakeashacksContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.notcomButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.notcomContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.cryptiiicButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.cryptiiicContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.xerusdesignButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.xerusdesignContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.appledry05Button.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.appledry05ContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.ayyitzrobButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.ayyitzrobContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.midnightchipButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.midnightchipContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.swag_iosButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.swag_iosContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.jailbreakbusterButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.jailbreakbusterContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.benjweaverdevButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.benjweaverdevContentView.backgroundColor = UIColorFromRGB(0x17151C);
-    }
+    
+    self.pwn20wndButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.pwn20wndContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.sbingnerButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.sbingerContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.i41nbeerButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.i41nbeerContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self._bazadButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self._bazadContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.MorpheusButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.MorpheusContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.xerubButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.xerubContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.ibsparkesButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.ibsparkesContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.stek29Button.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.stek29ContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.theninjaprawnButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.theninjaprawnContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.jonathansealsButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.JonathansealsContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.saurikButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.saurikContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.fce365Button.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.fce365ContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.tihmstarButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.tihmstarContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.s1guzaButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.s1guzaContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.S0rryMyBadButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.s0rrymybadContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.externalistButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.externatlistContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.realbrighiupButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.realbrighiuoContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.pwn20wndButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.pwn20wndContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.nitotvButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.nitotvContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self._matchsticButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.matchsticContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.umanghereButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.umanghereContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.miscmistyButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.miscmistyContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.pimskeksButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.pimmskeksContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.coolstarorgButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.coolstarorgContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.diatrusButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.diatrusContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.HydriButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.HydriContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.c9shadyButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.c9shadyContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.pixelomerButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.pixelomerContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.libimobiledeviceButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.libimobiledeviceContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.undecimusresourcesButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.undecimusresourcesContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.jakeashacksButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.jakeashacksContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.notcomButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.notcomContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.cryptiiicButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.cryptiiicContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.xerusdesignButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.xerusdesignContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.appledry05Button.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.appledry05ContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.ayyitzrobButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.ayyitzrobContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.midnightchipButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.midnightchipContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.swag_iosButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.swag_iosContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.jailbreakbusterButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.jailbreakbusterContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.benjweaverdevButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.benjweaverdevContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
     release_prefs(&prefs);
 }
 
@@ -398,276 +150,15 @@
     [myView setAlpha:1.0];
     [myView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     prefs_t *prefs = copy_prefs();
-    if (prefs->theme == 0)
-    {
-        [myView setBackgroundColor:[UIColor clearColor]];
-        [self.SpecialThanksTableView setBackgroundColor:[UIColor blackColor]];
-        
-        [self.navigationController.view setTintColor:[UIColor blackColor]];
-        self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
-        self.navigationController.navigationBar.translucent = NO;
-        self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-        
-        //        self.pwn20wndButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.pwn20wndContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.sbingnerButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.sbingerContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.i41nbeerButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.i41nbeerContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self._bazadButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self._bazadContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.MorpheusButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.MorpheusContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.xerubButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.xerubContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.ibsparkesButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.ibsparkesContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.stek29Button.titleLabel.textColor = [UIColor whiteColor];
-        //        self.stek29ContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.theninjaprawnButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.theninjaprawnContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.jonathansealsButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.JonathansealsContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.saurikButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.saurikContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.fce365Button.titleLabel.textColor = [UIColor whiteColor];
-        //        self.fce365ContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.tihmstarButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.tihmstarContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.s1guzaButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.s1guzaContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.S0rryMyBadButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.s0rrymybadContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.externalistButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.externatlistContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.realbrighiupButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.realbrighiuoContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.pwn20wndButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.pwn20wndContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.nitotvButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.nitotvContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self._matchsticButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.matchsticContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.umanghereButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.umanghereContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.miscmistyButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.miscmistyContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.pimskeksButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.pimmskeksContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.coolstarorgButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.coolstarorgContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.diatrusButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.diatrusContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.HydriButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.HydriContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.c9shadyButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.c9shadyContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.pixelomerButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.pixelomerContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.libimobiledeviceButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.libimobiledeviceContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.undecimusresourcesButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.undecimusresourcesContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.jakeashacksButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.jakeashacksContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.notcomButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.notcomContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.cryptiiicButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.cryptiiicContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.xerusdesignButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.xerusdesignContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.appledry05Button.titleLabel.textColor = [UIColor whiteColor];
-        //        self.appledry05ContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.ayyitzrobButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.ayyitzrobContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.midnightchipButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.midnightchipContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.swag_iosButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.swag_iosContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.jailbreakbusterButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.jailbreakbusterContentView.backgroundColor = [UIColor blackColor];
-        //
-        //        self.benjweaverdevButton.titleLabel.textColor = [UIColor whiteColor];
-        //        self.benjweaverdevContentView.backgroundColor = [UIColor blackColor];
-    }
-    if (prefs->theme == 1)
-    {
-        [myView setBackgroundColor:[UIColor clearColor]];
-        [self.SpecialThanksTableView setBackgroundColor:UIColorFromRGB(0x17151C)];
-        
-        [self.navigationController.view setTintColor:UIColorFromRGB(0x17151C)];
-        self.navigationController.navigationBar.barTintColor = UIColorFromRGB(0x17151C);
-        self.navigationController.navigationBar.translucent = NO;
-        self.navigationController.navigationBar.tintColor = UIColorFromRGB(0xE9E9EA);
-    }
-    if (prefs->theme == 2)
-    {
-        [myView setBackgroundColor:[UIColor clearColor]];
-        [self.SpecialThanksTableView setBackgroundColor:[UIColor whiteColor]];
-        
-        [self.navigationController.view setTintColor:[UIColor whiteColor]];
-        self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
-        self.navigationController.navigationBar.translucent = NO;
-        self.navigationController.navigationBar.tintColor = [UIColor blackColor];
-        
-        //        self.pwn20wndButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.pwn20wndContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.sbingnerButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.sbingerContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.i41nbeerButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.i41nbeerContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self._bazadButton.titleLabel.textColor = [UIColor blackColor];
-        //        self._bazadContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.MorpheusButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.MorpheusContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.xerubButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.xerubContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.ibsparkesButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.ibsparkesContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.stek29Button.titleLabel.textColor = [UIColor blackColor];
-        //        self.stek29ContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.theninjaprawnButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.theninjaprawnContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.jonathansealsButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.JonathansealsContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.saurikButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.saurikContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.fce365Button.titleLabel.textColor = [UIColor blackColor];
-        //        self.fce365ContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.tihmstarButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.tihmstarContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.s1guzaButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.s1guzaContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.S0rryMyBadButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.s0rrymybadContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.externalistButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.externatlistContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.realbrighiupButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.realbrighiuoContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.pwn20wndButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.pwn20wndContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.nitotvButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.nitotvContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self._matchsticButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.matchsticContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.umanghereButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.umanghereContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.miscmistyButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.miscmistyContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.pimskeksButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.pimmskeksContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.coolstarorgButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.coolstarorgContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.diatrusButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.diatrusContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.HydriButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.HydriContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.c9shadyButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.c9shadyContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.pixelomerButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.pixelomerContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.libimobiledeviceButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.libimobiledeviceContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.undecimusresourcesButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.undecimusresourcesContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.jakeashacksButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.jakeashacksContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.notcomButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.notcomContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.cryptiiicButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.cryptiiicContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.xerusdesignButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.xerusdesignContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.appledry05Button.titleLabel.textColor = [UIColor blackColor];
-        //        self.appledry05ContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.ayyitzrobButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.ayyitzrobContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.midnightchipButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.midnightchipContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.swag_iosButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.swag_iosContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.jailbreakbusterButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.jailbreakbusterContentView.backgroundColor = [UIColor whiteColor];
-        //
-        //        self.benjweaverdevButton.titleLabel.textColor = [UIColor blackColor];
-        //        self.benjweaverdevContentView.backgroundColor = [UIColor whiteColor];
-    }
+
+    [myView setBackgroundColor:[UIColor clearColor]];
+    [self.SpecialThanksTableView setBackgroundColor:UIColorFromRGB(prefs->backgroundColor)];
+    
+    [self.navigationController.view setTintColor:UIColorFromRGB(prefs->backgroundColor)];
+    self.navigationController.navigationBar.barTintColor = UIColorFromRGB(prefs->backgroundColor);
+    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.tintColor = UIColorFromRGB(prefs->textColor);
+
     [self.tableView setBackgroundView:myView];
     release_prefs(&prefs);
 }

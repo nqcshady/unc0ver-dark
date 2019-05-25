@@ -45,108 +45,30 @@
 
 -(void)viewDidLayoutSubviews {
     prefs_t *prefs = copy_prefs();
-    if (prefs->theme == 2)
-    {
-//        [self.navigationController.view setTintColor:[UIColor whiteColor]];
-//        self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
-//        self.navigationController.navigationBar.translucent = NO;
-//
-//        [self LightTheme];
-//
-        //
-        self.restartButton.titleLabel.textColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
 
-        self.ShareDiagnosticsDataButton.titleLabel.textColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
+    self.restartButton.titleLabel.textColor = UIColorFromRGB(prefs->linkColor);
 
-        self.OpenCydiaButton.titleLabel.textColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
+    self.ShareDiagnosticsDataButton.titleLabel.textColor = UIColorFromRGB(prefs->linkColor);
 
-        self.OpenSileoButton.titleLabel.textColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
+    self.OpenCydiaButton.titleLabel.textColor = UIColorFromRGB(prefs->linkColor);
 
-        self.ViewSourceCodeButton.titleLabel.textColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
+    self.OpenSileoButton.titleLabel.textColor = UIColorFromRGB(prefs->linkColor);
 
-        self.AutoSelectExploitButton.titleLabel.textColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
+    self.ViewSourceCodeButton.titleLabel.textColor = UIColorFromRGB(prefs->linkColor);
 
-        self.RestartSpringBoardButton.titleLabel.textColor = [UIColor colorWithRed:0.43 green:0.43 blue:0.45 alpha:1.0];
+    self.AutoSelectExploitButton.titleLabel.textColor = UIColorFromRGB(prefs->linkColor);
 
-        self.CleanDiagnosticsDataButton.titleLabel.textColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
+    self.RestartSpringBoardButton.titleLabel.textColor = UIColorFromRGB(prefs->darkTextColor);
 
-        self.CheckForUpdateButton.titleLabel.textColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-    }
+    self.CleanDiagnosticsDataButton.titleLabel.textColor = UIColorFromRGB(prefs->linkColor);
+
+    self.CheckForUpdateButton.titleLabel.textColor = UIColorFromRGB(prefs->linkColor);
     
-    if (prefs->theme == 1)
-    {
-        [self.navigationController.view setTintColor:UIColorFromRGB(0x17151C)];
-        self.navigationController.navigationBar.barTintColor = UIColorFromRGB(0x17151C);
-        self.navigationController.navigationBar.translucent = NO;
-        //
-        //        [self LightTheme];
-        //
-        //
-        self.restartButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        
-        self.ShareDiagnosticsDataButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        
-        self.OpenCydiaButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        
-        self.OpenSileoButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        
-        self.ViewSourceCodeButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        
-        self.AutoSelectExploitButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        
-        self.RestartSpringBoardButton.titleLabel.textColor = UIColorFromRGB(0x56555A);
-        
-        self.CleanDiagnosticsDataButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        
-        self.CheckForUpdateButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-    }
-    
-    if (prefs->theme == 0)
-    {
-//        //[myView setBackgroundColor:[UIColor clearColor]];
-//        //[self.tableView setBackgroundColor:[UIColor blackColor]];
-//        //[self.SettingsTableView setBackgroundColor:[UIColor blackColor]];
-//
-////        [[UINavigationBar appearance] setTintColor:[UIColor blackColor]];
-////        UINavigationBar *bar = [self.navigationController navigationBar];
-////        [bar setBarTintColor:[UIColor blackColor]];
-////        self.navigationController.navigationBar.backgroundColor = [UIColor blackColor];
-////        [self.navigationController.view setBackgroundColor:[UIColor blackColor]];
-        [self.navigationController.view setTintColor:[UIColor blackColor]];
-        self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
-        self.navigationController.navigationBar.translucent = NO;
-////        [self.navigationController.navigationBar setBarTintColor:[UIColor blackColor]];
-////        [self.navigationController.navigationBar setTranslucent:NO];
-//
-//        [self LightTheme];
-//
-//        self.restartButton.titleLabel.textColor = [UIColor whiteColor];
-//        //self.RestartButtonContentView.backgroundColor = [UIColor blackColor];
-//
-//        self.ShareDiagnosticsDataButton.titleLabel.textColor = [UIColor whiteColor];
-//        //self.ShareDiagnosticsDataContentView.backgroundColor = [UIColor blackColor];
-//
-//        self.OpenCydiaButton.titleLabel.textColor = [UIColor whiteColor];
-//        //self.OpenCydiaContentView.backgroundColor = [UIColor blackColor];
-//
-//        self.OpenSileoButton.titleLabel.textColor = [UIColor whiteColor];
-//        //self.OpenSileoContentView.backgroundColor = [UIColor blackColor];
-//
-//        self.ViewSourceCodeButton.titleLabel.textColor = [UIColor whiteColor];
-//        //self.ViewSourceCodeContentView.backgroundColor = [UIColor blackColor];
-//
-//        self.AutoSelectExploitButton.titleLabel.textColor = [UIColor whiteColor];
-//        //self.AutoSelectExploitContentView.backgroundColor = [UIColor blackColor];
-//
-//        self.RestartSpringBoardButton.titleLabel.textColor = [UIColor colorWithRed:0.92 green:0.92 blue:0.92 alpha:1.0];
-//        //self.RestartSpringBoardContentView.backgroundColor = [UIColor blackColor];
-//
-//        self.CleanDiagnosticsDataButton.titleLabel.textColor = [UIColor whiteColor];
-//        //self.CleanDiagnosticsDataContentView.backgroundColor = [UIColor blackColor];
-//
-//        self.CheckForUpdateButton.titleLabel.textColor = [UIColor whiteColor];
-//        //self.CheckForUpdateContentView.backgroundColor = [UIColor blackColor];
-    }
+    [self.navigationController.view setTintColor:UIColorFromRGB(prefs->backgroundColor)];
+    self.navigationController.navigationBar.barTintColor = UIColorFromRGB(prefs->backgroundColor);
+    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : UIColorFromRGB(prefs->textColor)};
+    self.navigationController.navigationBar.translucent = NO;
+
     release_prefs(&prefs);
 }
 
@@ -157,157 +79,53 @@
     [myView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     UIView *statusBar = [[[UIApplication sharedApplication] valueForKey:@"statusBarWindow"] valueForKey:@"statusBar"];
     prefs_t *prefs = copy_prefs();
-    if (prefs->theme == 0)
-    {
-        if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
-            
-            statusBar.backgroundColor = [UIColor blackColor]; //set whatever color you like
-        }
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-        [myView setBackgroundColor:[UIColor clearColor]];
-        [self.tableView setBackgroundColor:[UIColor blackColor]];
-        [self.SettingsTableView setBackgroundColor:[UIColor blackColor]];
-        [[UINavigationBar appearance] setTintColor:[UIColor blackColor]];
-        UINavigationBar *bar = [self.navigationController navigationBar];
-        [bar setBarTintColor:[UIColor blackColor]];
-        self.navigationController.navigationBar.backgroundColor = [UIColor blackColor];
-        [self.navigationController.view setBackgroundColor:[UIColor blackColor]];
-        [self.navigationController.view setTintColor:[UIColor blackColor]];
-        self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
-        self.navigationController.navigationBar.translucent = NO;
-        [self.navigationController.navigationBar setBarTintColor:[UIColor blackColor]];
-        [self.navigationController.navigationBar setTranslucent:NO];
-        
-        [self.navigationController.view setTintColor:[UIColor blackColor]];
-        self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
-        self.navigationController.navigationBar.translucent = NO;
-        //        [self.navigationController.navigationBar setBarTintColor:[UIColor blackColor]];
-        //        [self.navigationController.navigationBar setTranslucent:NO];
-        
-        self.restartButton.titleLabel.textColor = [UIColor whiteColor];
-        //self.RestartButtonContentView.backgroundColor = [UIColor blackColor];
-        
-        self.ShareDiagnosticsDataButton.titleLabel.textColor = [UIColor whiteColor];
-        //self.ShareDiagnosticsDataContentView.backgroundColor = [UIColor blackColor];
-        
-        self.OpenCydiaButton.titleLabel.textColor = [UIColor whiteColor];
-        //self.OpenCydiaContentView.backgroundColor = [UIColor blackColor];
-        
-        self.OpenSileoButton.titleLabel.textColor = [UIColor whiteColor];
-        //self.OpenSileoContentView.backgroundColor = [UIColor blackColor];
-        
-        self.ViewSourceCodeButton.titleLabel.textColor = [UIColor whiteColor];
-        //self.ViewSourceCodeContentView.backgroundColor = [UIColor blackColor];
-        
-        self.AutoSelectExploitButton.titleLabel.textColor = [UIColor whiteColor];
-        //self.AutoSelectExploitContentView.backgroundColor = [UIColor blackColor];
-        
-        self.RestartSpringBoardButton.titleLabel.textColor = [UIColor colorWithRed:0.92 green:0.92 blue:0.92 alpha:1.0];
-        //self.RestartSpringBoardContentView.backgroundColor = [UIColor blackColor];
-        
-        self.CleanDiagnosticsDataButton.titleLabel.textColor = [UIColor whiteColor];
-        //self.CleanDiagnosticsDataContentView.backgroundColor = [UIColor blackColor];
-        
-        self.CheckForUpdateButton.titleLabel.textColor = [UIColor whiteColor];
-        //self.CheckForUpdateContentView.backgroundColor = [UIColor blackColor];
+    if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
+        statusBar.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
     }
-    if (prefs->theme == 1)
-    {
-        if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
-            
-            statusBar.backgroundColor = UIColorFromRGB(0x17151C); //set whatever color you like
-        }
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-        [myView setBackgroundColor:[UIColor clearColor]];
-        [self.tableView setBackgroundColor:UIColorFromRGB(0x17151C)];
-        [self.SettingsTableView setBackgroundColor:UIColorFromRGB(0x17151C)];
-        [[UINavigationBar appearance] setTintColor:UIColorFromRGB(0x17151C)];
-        UINavigationBar *bar = [self.navigationController navigationBar];
-        [bar setBarTintColor:UIColorFromRGB(0x17151C)];
-        self.navigationController.navigationBar.backgroundColor = UIColorFromRGB(0x17151C);
-        [self.navigationController.view setBackgroundColor:UIColorFromRGB(0x17151C)];
-        [self.navigationController.view setTintColor:UIColorFromRGB(0x17151C)];
-        self.navigationController.navigationBar.barTintColor = UIColorFromRGB(0x17151C);
-        self.navigationController.navigationBar.translucent = NO;
-        [self.navigationController.navigationBar setBarTintColor:UIColorFromRGB(0x17151C)];
-        [self.navigationController.navigationBar setTranslucent:NO];
-        
-        [self.navigationController.view setTintColor:UIColorFromRGB(0x17151C)];
-        self.navigationController.navigationBar.barTintColor = UIColorFromRGB(0x17151C);
-        self.navigationController.navigationBar.translucent = NO;
-        //        [self.navigationController.navigationBar setBarTintColor:[UIColor blackColor]];
-        //        [self.navigationController.navigationBar setTranslucent:NO];
-        
-        self.restartButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        //self.RestartButtonContentView.backgroundColor = [UIColor blackColor];
-        
-        self.ShareDiagnosticsDataButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        //self.ShareDiagnosticsDataContentView.backgroundColor = [UIColor blackColor];
-        
-        self.OpenCydiaButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        //self.OpenCydiaContentView.backgroundColor = [UIColor blackColor];
-        
-        self.OpenSileoButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        //self.OpenSileoContentView.backgroundColor = [UIColor blackColor];
-        
-        self.ViewSourceCodeButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        //self.ViewSourceCodeContentView.backgroundColor = [UIColor blackColor];
-        
-        self.AutoSelectExploitButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        //self.AutoSelectExploitContentView.backgroundColor = [UIColor blackColor];
-        
-        self.RestartSpringBoardButton.titleLabel.textColor = UIColorFromRGB(0x56555A);
-        //self.RestartSpringBoardContentView.backgroundColor = [UIColor blackColor];
-        
-        self.CleanDiagnosticsDataButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        //self.CleanDiagnosticsDataContentView.backgroundColor = [UIColor blackColor];
-        
-        self.CheckForUpdateButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        //self.CheckForUpdateContentView.backgroundColor = [UIColor blackColor];
-    }
-    if (prefs->theme == 2)
-    {
-        if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
-            
-            statusBar.backgroundColor = [UIColor whiteColor]; //set whatever color you like
-        }
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
-        [myView setBackgroundColor:[UIColor clearColor]];
-        [self.tableView setBackgroundColor:[UIColor whiteColor]];
-        [self.SettingsTableView setBackgroundColor:[UIColor whiteColor]];
-        [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
-        UINavigationBar *bar = [self.navigationController navigationBar];
-        [bar setBarTintColor:[UIColor whiteColor]];
-        self.navigationController.navigationBar.backgroundColor = [UIColor whiteColor];
-        [self.navigationController.view setBackgroundColor:[UIColor whiteColor]];
-        [self.navigationController.view setTintColor:[UIColor whiteColor]];
-        self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
-        self.navigationController.navigationBar.translucent = NO;
-        [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
-        [self.navigationController.navigationBar setTranslucent:NO];
-        
-        [self.navigationController.view setTintColor:[UIColor whiteColor]];
-        self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
-        self.navigationController.navigationBar.translucent = NO;
-        
-        self.restartButton.titleLabel.textColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        
-        self.ShareDiagnosticsDataButton.titleLabel.textColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        
-        self.OpenCydiaButton.titleLabel.textColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        
-        self.OpenSileoButton.titleLabel.textColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        
-        self.ViewSourceCodeButton.titleLabel.textColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        
-        self.AutoSelectExploitButton.titleLabel.textColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        
-        self.RestartSpringBoardButton.titleLabel.textColor = [UIColor colorWithRed:0.43 green:0.43 blue:0.45 alpha:1.0];
-        
-        self.CleanDiagnosticsDataButton.titleLabel.textColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        
-        self.CheckForUpdateButton.titleLabel.textColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-    }
+    [myView setBackgroundColor:[UIColor clearColor]];
+    [self.tableView setBackgroundColor:UIColorFromRGB(prefs->backgroundColor)];
+    [self.SettingsTableView setBackgroundColor:UIColorFromRGB(prefs->backgroundColor)];
+    [[UINavigationBar appearance] setTintColor:UIColorFromRGB(prefs->backgroundColor)];
+    UINavigationBar *bar = [self.navigationController navigationBar];
+    [bar setBarTintColor:UIColorFromRGB(prefs->backgroundColor)];
+    self.navigationController.navigationBar.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    [self.navigationController.view setBackgroundColor:UIColorFromRGB(prefs->backgroundColor)];
+    [self.navigationController.view setTintColor:UIColorFromRGB(prefs->backgroundColor)];
+    self.navigationController.navigationBar.barTintColor = UIColorFromRGB(prefs->backgroundColor);
+    self.navigationController.navigationBar.translucent = NO;
+    [self.navigationController.navigationBar setBarTintColor:UIColorFromRGB(prefs->backgroundColor)];
+    [self.navigationController.navigationBar setTranslucent:NO];
+    
+    [self.navigationController.view setTintColor:UIColorFromRGB(prefs->backgroundColor)];
+    self.navigationController.navigationBar.barTintColor = UIColorFromRGB(prefs->backgroundColor);
+    self.navigationController.navigationBar.translucent = NO;
+    
+    self.restartButton.titleLabel.textColor = UIColorFromRGB(prefs->linkColor);
+    //self.RestartButtonContentView.backgroundColor = [UIColor blackColor];
+    
+    self.ShareDiagnosticsDataButton.titleLabel.textColor = UIColorFromRGB(prefs->linkColor);
+    //self.ShareDiagnosticsDataContentView.backgroundColor = [UIColor blackColor];
+    
+    self.OpenCydiaButton.titleLabel.textColor = UIColorFromRGB(prefs->linkColor);
+    //self.OpenCydiaContentView.backgroundColor = [UIColor blackColor];
+    
+    self.OpenSileoButton.titleLabel.textColor = UIColorFromRGB(prefs->linkColor);
+    //self.OpenSileoContentView.backgroundColor = [UIColor blackColor];
+    
+    self.ViewSourceCodeButton.titleLabel.textColor = UIColorFromRGB(prefs->linkColor);
+    //self.ViewSourceCodeContentView.backgroundColor = [UIColor blackColor];
+    
+    self.AutoSelectExploitButton.titleLabel.textColor = UIColorFromRGB(prefs->linkColor);
+    //self.AutoSelectExploitContentView.backgroundColor = [UIColor blackColor];
+    
+    self.RestartSpringBoardButton.titleLabel.textColor = UIColorFromRGB(prefs->darkTextColor);
+    //self.RestartSpringBoardContentView.backgroundColor = [UIColor blackColor];
+    
+    self.CleanDiagnosticsDataButton.titleLabel.textColor = UIColorFromRGB(prefs->linkColor);
+    //self.CleanDiagnosticsDataContentView.backgroundColor = [UIColor blackColor];
+    
+    self.CheckForUpdateButton.titleLabel.textColor = UIColorFromRGB(prefs->linkColor);
+    //self.CheckForUpdateContentView.backgroundColor = [UIColor blackColor];
     
     CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
     UIBarButtonItem *moveOver = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
@@ -329,15 +147,12 @@
     [self.themeField setInputView:themeFieldInputView];
     if (prefs->theme == 0) {
         [self.themePicker selectRow:0 inComponent:0 animated:YES];
-        set_prefs(prefs);
     }
     if (prefs->theme == 1) {
         [self.themePicker selectRow:1 inComponent:0 animated:YES];
-        set_prefs(prefs);
     }
-    if(prefs->theme == 2) {
+    if (prefs->theme == 2) {
         [self.themePicker selectRow:2 inComponent:0 animated:YES];
-        set_prefs(prefs);
     }
     [[NSUserDefaults standardUserDefaults] synchronize];
     [self.tableView setBackgroundView:myView];
@@ -650,6 +465,11 @@
     set_prefs(prefs);
     release_prefs(&prefs);
     [self reloadData];
+    void (^const block)(void) = ^(void) {
+        notice(localize(@"Preference was changed. The app will now exit."), true, false);
+        exit(EXIT_SUCCESS);
+    };
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul), block);
 }
 
 - (IBAction)tappedRestartSpringBoard:(id)sender {
@@ -744,451 +564,157 @@
 
 -(void)Theme {
     prefs_t *prefs = copy_prefs();
+        
+    self.SpecialThanksLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.SpecialThanksContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    self.SpecialThanksTableViewCell.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
     
-    if (prefs->theme == 2) {
-        
-        self.SpecialThanksLabel.textColor = [UIColor blackColor];
-        self.SpecialThanksContentView.backgroundColor = [UIColor whiteColor];
-        self.SpecialThanksTableViewCell.backgroundColor = [UIColor whiteColor];
-        
-        self.LoadDaemonsLabel.textColor = [UIColor blackColor];
-        self.LoadDaemonsContentView.backgroundColor = [UIColor whiteColor];
-        self.LoadDaemonsSwitch.onTintColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        
-        self.DumpApTicketLabel.textColor = [UIColor blackColor];
-        self.DumpApTicketContentView.backgroundColor = [UIColor whiteColor];
-        self.DumpAPTicketSwitch.onTintColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        
-        self.RefreshIconCacheLabel.textColor = [UIColor blackColor];
-        self.RefreshIconCacheContentView.backgroundColor = [UIColor whiteColor];
-        self.RefreshIconCacheSwitch.onTintColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        
-        self.DisableAutoUpdatesLabel.textColor = [UIColor blackColor];
-        self.DisableAutoUpdatesContentView.backgroundColor = [UIColor whiteColor];
-        self.DisableAutoUpdatesSwitch.onTintColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        
-        self.DisableAppRevokesLabel.textColor = [UIColor blackColor];
-        self.DisableAppRevokesContentView.backgroundColor = [UIColor whiteColor];
-        self.DisableAppRevokesSwitch.onTintColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        
-        self.OverwriteBootNonceLabel.textColor = [UIColor blackColor];
-        self.OverwriteBootNonceContentView.backgroundColor = [UIColor whiteColor];
-        self.OverwriteBootNonceSwitch.onTintColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        
-        self.ExportTFP0Label.textColor = [UIColor blackColor];
-        self.ExportTFP0ContentView.backgroundColor = [UIColor whiteColor];
-        self.ExportKernelTaskPortSwitch.onTintColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        
-        self.RestoreRootFSLabel.textColor = [UIColor blackColor];
-        self.RestoreRootFSContentView.backgroundColor = [UIColor whiteColor];
-        self.RestoreRootFSSwitch.onTintColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        
-        self.IncreaseMemoryLimitLabel.textColor = [UIColor blackColor];
-        self.IncreaseMemoryLimitContentView.backgroundColor = [UIColor whiteColor];
-        self.IncreaseMemoryLimitSwitch.onTintColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        
-        self.ReInstallOpenSSHLabel.textColor = [UIColor blackColor];
-        self.ReInstallOpenSSHContentView.backgroundColor = [UIColor whiteColor];
-        self.installSSHSwitch.onTintColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        
-        self.ReinstallCydiaLabel.textColor = [UIColor blackColor];
-        self.ReinstallCydiaContentView.backgroundColor = [UIColor whiteColor];
-        self.installCydiaSwitch.onTintColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        
-        self.ReloadSystemDaemonsLabel.textColor = [UIColor blackColor];
-        self.ReloadSystemDaemonsContentView.backgroundColor = [UIColor whiteColor];
-        self.ReloadSystemDaemonsSwitch.onTintColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        
-        self.HideLogWindowLabel.textColor = [UIColor blackColor];
-        self.HideLogWindowContentView.backgroundColor = [UIColor whiteColor];
-        self.HideLogWindowSwitch.onTintColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        
-        self.ResetCydiaCacheLabel.textColor = [UIColor blackColor];
-        self.ResetCydiaCacheContentView.backgroundColor = [UIColor whiteColor];
-        self.ResetCydiaCacheSwitch.onTintColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        
-        self.SSHOnlyLabel.textColor = [UIColor blackColor];
-        self.SSHOnlyContentView.backgroundColor = [UIColor whiteColor];
-        self.SSHOnlySwitch.onTintColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        
-        self.EnableGetTaskAllowLabel.textColor = [UIColor blackColor];
-        self.EnableGetTaskAllowContentView.backgroundColor = [UIColor whiteColor];
-        self.EnableGetTaskAllowSwitch.onTintColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        
-        self.SetCSDEBUGGEDLabel.textColor = [UIColor blackColor];
-        self.SetCSDEBUGGEDContentView.backgroundColor = [UIColor whiteColor];
-        self.SetCSDebuggedSwitch.onTintColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        
-        self.AutoRespringLabel.textColor = [UIColor blackColor];
-        self.AutoRespringContentView.backgroundColor = [UIColor whiteColor];
-        self.AutoRespringSwitch.onTintColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        
-        self.themeField.textColor = [UIColor blackColor];
-        self.ThemeContentView.backgroundColor = [UIColor whiteColor];
-        self.ThemeLabel.textColor = [UIColor blackColor];
-        [self.themeField setValue:[UIColor blackColor]
-                       forKeyPath:@"_placeholderLabel.textColor"];
-        
-        self.KernelExploitLabel.textColor = [UIColor blackColor];
-        self.KernelExploitContentView.backgroundColor = [UIColor whiteColor];
-        self.KernelExploitSegmentedControl.tintColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        
-        self.ReInstallSileoSwitchLabel.textColor = [UIColor blackColor];
-        self.ReInstallSileoSwitchView.backgroundColor = [UIColor whiteColor];
-        self.ReInstallSileoSwitchSwitch.onTintColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
+    self.LoadDaemonsLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.LoadDaemonsContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    self.LoadDaemonsSwitch.onTintColor = UIColorFromRGB(prefs->tintColor);
+    
+    self.DumpApTicketLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.DumpApTicketContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    self.DumpAPTicketSwitch.onTintColor = UIColorFromRGB(prefs->tintColor);
+    
+    self.RefreshIconCacheLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.RefreshIconCacheContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    self.RefreshIconCacheSwitch.onTintColor = UIColorFromRGB(prefs->tintColor);
+    
+    self.DisableAutoUpdatesLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.DisableAutoUpdatesContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    self.DisableAutoUpdatesSwitch.onTintColor = UIColorFromRGB(prefs->tintColor);
+    
+    self.DisableAppRevokesLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.DisableAppRevokesContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    self.DisableAppRevokesSwitch.onTintColor = UIColorFromRGB(prefs->tintColor);
+    
+    self.OverwriteBootNonceLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.OverwriteBootNonceContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    self.OverwriteBootNonceSwitch.onTintColor = UIColorFromRGB(prefs->tintColor);
+    
+    self.ExportTFP0Label.textColor = UIColorFromRGB(prefs->textColor);
+    self.ExportTFP0ContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    self.ExportKernelTaskPortSwitch.onTintColor = UIColorFromRGB(prefs->tintColor);
+    
+    self.RestoreRootFSLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.RestoreRootFSContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    self.RestoreRootFSSwitch.onTintColor = UIColorFromRGB(prefs->tintColor);
+    
+    self.IncreaseMemoryLimitLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.IncreaseMemoryLimitContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    self.IncreaseMemoryLimitSwitch.onTintColor = UIColorFromRGB(prefs->tintColor);
+    
+    self.ReInstallOpenSSHLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.ReInstallOpenSSHContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    self.installSSHSwitch.onTintColor = UIColorFromRGB(prefs->tintColor);
+    
+    self.ReinstallCydiaLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.ReinstallCydiaContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    self.installCydiaSwitch.onTintColor = UIColorFromRGB(prefs->tintColor);
+    
+    self.ReloadSystemDaemonsLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.ReloadSystemDaemonsContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    self.ReloadSystemDaemonsSwitch.onTintColor = UIColorFromRGB(prefs->tintColor);
+    
+    self.HideLogWindowLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.HideLogWindowContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    self.HideLogWindowSwitch.onTintColor = UIColorFromRGB(prefs->tintColor);
+    
+    self.ResetCydiaCacheLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.ResetCydiaCacheContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    self.ResetCydiaCacheSwitch.onTintColor = UIColorFromRGB(prefs->tintColor);
+    
+    self.SSHOnlyLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.SSHOnlyContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    self.SSHOnlySwitch.onTintColor = UIColorFromRGB(prefs->tintColor);
+    
+    self.EnableGetTaskAllowLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.EnableGetTaskAllowContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    self.EnableGetTaskAllowSwitch.onTintColor = UIColorFromRGB(prefs->tintColor);
+    
+    self.SetCSDEBUGGEDLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.SetCSDEBUGGEDContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    self.SetCSDebuggedSwitch.onTintColor = UIColorFromRGB(prefs->tintColor);
+    
+    self.AutoRespringLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.AutoRespringContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    self.AutoRespringSwitch.onTintColor = UIColorFromRGB(prefs->tintColor);
+    
+    self.HideProgressHUDLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.HideProgressHUDContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    self.HideProgressHUDSwitch.onTintColor = UIColorFromRGB(prefs->tintColor);
+    
+    self.themeField.textColor = UIColorFromRGB(prefs->textColor);
+    self.ThemeContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    self.ThemeLabel.textColor = UIColorFromRGB(prefs->textColor);
+    [self.themeField setValue:UIColorFromRGB(prefs->textColor)
+                   forKeyPath:@"_placeholderLabel.textColor"];
+    
+    self.KernelExploitLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.KernelExploitContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    self.KernelExploitSegmentedControl.tintColor = UIColorFromRGB(prefs->pickerTintColor);
+    
+    self.ReInstallSileoSwitchLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.ReInstallSileoSwitchView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    self.ReInstallSileoSwitchSwitch.onTintColor = UIColorFromRGB(prefs->tintColor);
 
-        self.restartButton.titleLabel.textColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        self.RestartButtonContentView.backgroundColor = [UIColor whiteColor];
+    self.restartButton.titleLabel.textColor = UIColorFromRGB(prefs->linkColor);
+    self.RestartButtonContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
 
-        self.ShareDiagnosticsDataButton.titleLabel.textColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        self.ShareDiagnosticsDataContentView.backgroundColor = [UIColor whiteColor];
+    self.ShareDiagnosticsDataButton.titleLabel.textColor = UIColorFromRGB(prefs->linkColor);
+    self.ShareDiagnosticsDataContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
 
-        self.OpenCydiaButton.titleLabel.textColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        self.OpenCydiaContentView.backgroundColor = [UIColor whiteColor];
+    self.OpenCydiaButton.titleLabel.textColor = UIColorFromRGB(prefs->linkColor);
+    self.OpenCydiaContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
 
-        self.OpenSileoButton.titleLabel.textColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        self.OpenSileoContentView.backgroundColor = [UIColor whiteColor];
+    self.OpenSileoButton.titleLabel.textColor = UIColorFromRGB(prefs->linkColor);
+    self.OpenSileoContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
 
-        self.ViewSourceCodeButton.titleLabel.textColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        self.ViewSourceCodeContentView.backgroundColor = [UIColor whiteColor];
+    self.ViewSourceCodeButton.titleLabel.textColor = UIColorFromRGB(prefs->linkColor);
+    self.ViewSourceCodeContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
 
-        self.AutoSelectExploitButton.titleLabel.textColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        self.AutoSelectExploitContentView.backgroundColor = [UIColor whiteColor];
+    self.AutoSelectExploitButton.titleLabel.textColor = UIColorFromRGB(prefs->linkColor);
+    self.AutoSelectExploitContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
 
-        self.RestartSpringBoardButton.titleLabel.textColor = [UIColor colorWithRed:0.43 green:0.43 blue:0.45 alpha:1.0];
-        self.RestartSpringBoardContentView.backgroundColor = [UIColor whiteColor];
+    self.RestartSpringBoardButton.titleLabel.textColor = UIColorFromRGB(prefs->darkTextColor);
+    self.RestartSpringBoardContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
 
-        self.CleanDiagnosticsDataButton.titleLabel.textColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        self.CleanDiagnosticsDataContentView.backgroundColor = [UIColor whiteColor];
+    self.CleanDiagnosticsDataButton.titleLabel.textColor = UIColorFromRGB(prefs->linkColor);
+    self.CleanDiagnosticsDataContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
 
-        self.CheckForUpdateButton.titleLabel.textColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
-        self.CheckForUpdateContentView.backgroundColor = [UIColor whiteColor];
-        
-        [self.BootNonceTextField setTextColor:[UIColor blackColor]];
-        self.BootNonceContentView.backgroundColor = [UIColor whiteColor];
-        [self.BootNonceButtonLabel setTitleColor: [UIColor blackColor] forState:UIControlStateNormal];
-        [self.BootNonceTextField setValue:[UIColor blackColor]
-                        forKeyPath:@"_placeholderLabel.textColor"];
-        
-        [self.ECIDLabel setTextColor:[UIColor blackColor]];
-        self.ECIDContentView.backgroundColor = [UIColor whiteColor];
-        [self.ECIDButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [self.ECIDLabel setValue:[UIColor blackColor]
-                               forKeyPath:@"_placeholderLabel.textColor"];
-        
-        [self.ExpiryLabel setTextColor:[UIColor blackColor]];
-        self.ExpiryContentView.backgroundColor = [UIColor whiteColor];
-        self.ExpiryButton.textColor = [UIColor blackColor];
-        [self.ExpiryLabel setValue:[UIColor blackColor]
-                               forKeyPath:@"_placeholderLabel.textColor"];
-        
-        [self.UptimeLabel setTextColor:[UIColor blackColor]];
-        self.UptimeContentView.backgroundColor = [UIColor whiteColor];
-        self.UptimeButton.textColor = [UIColor blackColor];
-        [self.UptimeLabel setValue:[UIColor blackColor]
-                               forKeyPath:@"_placeholderLabel.textColor"];
-        
-        self.SettingsTableView.backgroundColor = [UIColor whiteColor];
-        self.navigationController.navigationBar.backgroundColor = [UIColor whiteColor];
-        self.navigationController.navigationBar.largeTitleTextAttributes = @{NSForegroundColorAttributeName: [UIColor blackColor]};
-        //self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    }
-    if (prefs->theme == 0)
-    {
-        self.SpecialThanksLabel.textColor = [UIColor whiteColor];
-        self.SpecialThanksContentView.backgroundColor = [UIColor blackColor];
-        self.SpecialThanksTableViewCell.backgroundColor = [UIColor blackColor];
-        
-        self.LoadDaemonsLabel.textColor = [UIColor whiteColor];
-        self.LoadDaemonsContentView.backgroundColor = [UIColor blackColor];
-        self.LoadDaemonsSwitch.onTintColor = [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0];
-        
-        self.DumpApTicketLabel.textColor = [UIColor whiteColor];
-        self.DumpApTicketContentView.backgroundColor = [UIColor blackColor];
-        self.DumpAPTicketSwitch.onTintColor = [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0];
-        
-        self.RefreshIconCacheLabel.textColor = [UIColor whiteColor];
-        self.RefreshIconCacheContentView.backgroundColor = [UIColor blackColor];
-        self.RefreshIconCacheSwitch.onTintColor = [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0];
-        
-        self.DisableAutoUpdatesLabel.textColor = [UIColor whiteColor];
-        self.DisableAutoUpdatesContentView.backgroundColor = [UIColor blackColor];
-        self.DisableAutoUpdatesSwitch.onTintColor = [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0];
-        
-        self.DisableAppRevokesLabel.textColor = [UIColor whiteColor];
-        self.DisableAppRevokesContentView.backgroundColor = [UIColor blackColor];
-        self.DisableAppRevokesSwitch.onTintColor = [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0];
-        
-        self.OverwriteBootNonceLabel.textColor = [UIColor whiteColor];
-        self.OverwriteBootNonceContentView.backgroundColor = [UIColor blackColor];
-        self.OverwriteBootNonceSwitch.onTintColor = [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0];
-        
-        self.ExportTFP0Label.textColor = [UIColor whiteColor];
-        self.ExportTFP0ContentView.backgroundColor = [UIColor blackColor];
-        self.ExportKernelTaskPortSwitch.onTintColor = [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0];
-        
-        self.RestoreRootFSLabel.textColor = [UIColor whiteColor];
-        self.RestoreRootFSContentView.backgroundColor = [UIColor blackColor];
-        self.RestoreRootFSSwitch.onTintColor = [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0];
-        
-        self.IncreaseMemoryLimitLabel.textColor = [UIColor whiteColor];
-        self.IncreaseMemoryLimitContentView.backgroundColor = [UIColor blackColor];
-        self.IncreaseMemoryLimitSwitch.onTintColor = [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0];
-        
-        self.ReInstallOpenSSHLabel.textColor = [UIColor whiteColor];
-        self.ReInstallOpenSSHContentView.backgroundColor = [UIColor blackColor];
-        self.installSSHSwitch.onTintColor = [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0];
-        
-        self.ReinstallCydiaLabel.textColor = [UIColor whiteColor];
-        self.ReinstallCydiaContentView.backgroundColor = [UIColor blackColor];
-        self.installCydiaSwitch.onTintColor = [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0];
-        
-        self.ReloadSystemDaemonsLabel.textColor = [UIColor whiteColor];
-        self.ReloadSystemDaemonsContentView.backgroundColor = [UIColor blackColor];
-        self.ReloadSystemDaemonsSwitch.onTintColor = [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0];
-        
-        self.HideLogWindowLabel.textColor = [UIColor whiteColor];
-        self.HideLogWindowContentView.backgroundColor = [UIColor blackColor];
-        self.HideLogWindowSwitch.onTintColor = [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0];
-        
-        self.ResetCydiaCacheLabel.textColor = [UIColor whiteColor];
-        self.ResetCydiaCacheContentView.backgroundColor = [UIColor blackColor];
-        self.ResetCydiaCacheSwitch.onTintColor = [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0];
-        
-        self.SSHOnlyLabel.textColor = [UIColor whiteColor];
-        self.SSHOnlyContentView.backgroundColor = [UIColor blackColor];
-        self.SSHOnlySwitch.onTintColor = [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0];
-        
-        self.EnableGetTaskAllowLabel.textColor = [UIColor whiteColor];
-        self.EnableGetTaskAllowContentView.backgroundColor = [UIColor blackColor];
-        self.EnableGetTaskAllowSwitch.onTintColor = [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0];
-        
-        self.SetCSDEBUGGEDLabel.textColor = [UIColor whiteColor];
-        self.SetCSDEBUGGEDContentView.backgroundColor = [UIColor blackColor];
-        self.SetCSDebuggedSwitch.onTintColor = [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0];
-
-        self.AutoRespringLabel.textColor = [UIColor whiteColor];
-        self.AutoRespringContentView.backgroundColor = [UIColor blackColor];
-        self.AutoRespringSwitch.onTintColor = [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0];
-        
-        self.themeField.textColor = [UIColor whiteColor];
-        self.ThemeContentView.backgroundColor = [UIColor blackColor];
-        self.ThemeLabel.textColor = [UIColor whiteColor];
-        [self.themeField setValue:[UIColor whiteColor]
-                        forKeyPath:@"_placeholderLabel.textColor"];
-        
-        self.KernelExploitLabel.textColor = [UIColor whiteColor];
-        self.KernelExploitContentView.backgroundColor = [UIColor blackColor];
-        self.KernelExploitSegmentedControl.tintColor = [UIColor colorWithRed:0.92 green:0.92 blue:0.92 alpha:1.0];
-        
-        self.ReInstallSileoSwitchLabel.textColor = [UIColor whiteColor];
-        self.ReInstallSileoSwitchView.backgroundColor = [UIColor blackColor];
-        self.ReInstallSileoSwitchSwitch.onTintColor = [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0];
-        
-        self.restartButton.titleLabel.textColor = [UIColor whiteColor];
-        self.RestartButtonContentView.backgroundColor = [UIColor blackColor];
-
-        self.ShareDiagnosticsDataButton.titleLabel.textColor = [UIColor whiteColor];
-        self.ShareDiagnosticsDataContentView.backgroundColor = [UIColor blackColor];
-
-        self.OpenCydiaButton.titleLabel.textColor = [UIColor whiteColor];
-        self.OpenCydiaContentView.backgroundColor = [UIColor blackColor];
-
-        self.OpenSileoButton.titleLabel.textColor = [UIColor whiteColor];
-        self.OpenSileoContentView.backgroundColor = [UIColor blackColor];
-
-        self.ViewSourceCodeButton.titleLabel.textColor = [UIColor whiteColor];
-        self.ViewSourceCodeContentView.backgroundColor = [UIColor blackColor];
-
-        self.AutoSelectExploitButton.titleLabel.textColor = [UIColor whiteColor];
-        self.AutoSelectExploitContentView.backgroundColor = [UIColor blackColor];
-
-        self.RestartSpringBoardButton.titleLabel.textColor = [UIColor colorWithRed:0.92 green:0.92 blue:0.92 alpha:1.0];
-        self.RestartSpringBoardContentView.backgroundColor = [UIColor blackColor];
-
-        self.CleanDiagnosticsDataButton.titleLabel.textColor = [UIColor whiteColor];
-        self.CleanDiagnosticsDataContentView.backgroundColor = [UIColor blackColor];
-
-        self.CheckForUpdateButton.titleLabel.textColor = [UIColor whiteColor];
-        self.CheckForUpdateContentView.backgroundColor = [UIColor blackColor];
-        
-        self.BootNonceTextField.textColor = [UIColor whiteColor];
-        self.BootNonceContentView.backgroundColor = [UIColor blackColor];
-        [self.BootNonceButtonLabel setTitleColor: [UIColor whiteColor] forState:UIControlStateNormal];
-        [self.BootNonceTextField setValue:[UIColor whiteColor]
-                               forKeyPath:@"_placeholderLabel.textColor"];
-        
-        self.ECIDLabel.textColor = [UIColor whiteColor];
-        self.ECIDContentView.backgroundColor = [UIColor blackColor];
-        [self.ECIDButton setTitleColor: [UIColor whiteColor] forState:UIControlStateNormal];
-        [self.ECIDLabel setValue:[UIColor whiteColor]
-                      forKeyPath:@"_placeholderLabel.textColor"];
-        
-        self.ExpiryLabel.textColor = [UIColor whiteColor];
-        self.ExpiryContentView.backgroundColor = [UIColor blackColor];
-        self.ExpiryButton.textColor = [UIColor whiteColor];
-        [self.ExpiryLabel setValue:[UIColor whiteColor]
-                      forKeyPath:@"_placeholderLabel.textColor"];
-        
-        self.UptimeLabel.textColor = [UIColor whiteColor];
-        self.UptimeContentView.backgroundColor = [UIColor blackColor];
-        self.UptimeButton.textColor = [UIColor whiteColor];
-        [self.UptimeLabel setValue:[UIColor whiteColor]
-                      forKeyPath:@"_placeholderLabel.textColor"];
-        
-        self.SettingsTableView.backgroundColor = [UIColor blackColor];
-        self.navigationController.navigationBar.backgroundColor = [UIColor blackColor];
-        self.navigationController.navigationBar.largeTitleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
-        
-    }
-    if (prefs->theme == 1)
-    {
-        self.SpecialThanksLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.SpecialThanksContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        self.SpecialThanksTableViewCell.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.LoadDaemonsLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.LoadDaemonsContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        self.LoadDaemonsSwitch.onTintColor = UIColorFromRGB(0x723F8C);
-        
-        self.DumpApTicketLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.DumpApTicketContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        self.DumpAPTicketSwitch.onTintColor = UIColorFromRGB(0x723F8C);
-        
-        self.RefreshIconCacheLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.RefreshIconCacheContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        self.RefreshIconCacheSwitch.onTintColor = UIColorFromRGB(0x723F8C);
-        
-        self.DisableAutoUpdatesLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.DisableAutoUpdatesContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        self.DisableAutoUpdatesSwitch.onTintColor = UIColorFromRGB(0x723F8C);
-        
-        self.DisableAppRevokesLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.DisableAppRevokesContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        self.DisableAppRevokesSwitch.onTintColor = UIColorFromRGB(0x723F8C);
-        
-        self.OverwriteBootNonceLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.OverwriteBootNonceContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        self.OverwriteBootNonceSwitch.onTintColor = UIColorFromRGB(0x723F8C);
-        
-        self.ExportTFP0Label.textColor = UIColorFromRGB(0xE9E9EA);
-        self.ExportTFP0ContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        self.ExportKernelTaskPortSwitch.onTintColor = UIColorFromRGB(0x723F8C);
-        
-        self.RestoreRootFSLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.RestoreRootFSContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        self.RestoreRootFSSwitch.onTintColor = UIColorFromRGB(0x723F8C);
-        
-        self.IncreaseMemoryLimitLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.IncreaseMemoryLimitContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        self.IncreaseMemoryLimitSwitch.onTintColor = UIColorFromRGB(0x723F8C);
-        
-        self.ReInstallOpenSSHLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.ReInstallOpenSSHContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        self.installSSHSwitch.onTintColor = UIColorFromRGB(0x723F8C);
-        
-        self.ReinstallCydiaLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.ReinstallCydiaContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        self.installCydiaSwitch.onTintColor = UIColorFromRGB(0x723F8C);
-        
-        self.ReloadSystemDaemonsLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.ReloadSystemDaemonsContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        self.ReloadSystemDaemonsSwitch.onTintColor = UIColorFromRGB(0x723F8C);
-        
-        self.HideLogWindowLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.HideLogWindowContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        self.HideLogWindowSwitch.onTintColor = UIColorFromRGB(0x723F8C);
-        
-        self.ResetCydiaCacheLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.ResetCydiaCacheContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        self.ResetCydiaCacheSwitch.onTintColor = UIColorFromRGB(0x723F8C);
-        
-        self.SSHOnlyLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.SSHOnlyContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        self.SSHOnlySwitch.onTintColor = UIColorFromRGB(0x723F8C);
-        
-        self.EnableGetTaskAllowLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.EnableGetTaskAllowContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        self.EnableGetTaskAllowSwitch.onTintColor = UIColorFromRGB(0x723F8C);
-        
-        self.SetCSDEBUGGEDLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.SetCSDEBUGGEDContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        self.SetCSDebuggedSwitch.onTintColor = UIColorFromRGB(0x723F8C);
-        
-        self.AutoRespringLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.AutoRespringContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        self.AutoRespringSwitch.onTintColor = UIColorFromRGB(0x723F8C);
-        
-        self.themeField.textColor = UIColorFromRGB(0xE9E9EA);
-        self.ThemeContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        self.ThemeLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        [self.themeField setValue:UIColorFromRGB(0xE9E9EA)
-                       forKeyPath:@"_placeholderLabel.textColor"];
-        
-        self.KernelExploitLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.KernelExploitContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        self.KernelExploitSegmentedControl.tintColor = UIColorFromRGB(0x723F8C);
-        
-        self.ReInstallSileoSwitchLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.ReInstallSileoSwitchView.backgroundColor = UIColorFromRGB(0x17151C);
-        self.ReInstallSileoSwitchSwitch.onTintColor = UIColorFromRGB(0x723F8C);
-        
-        self.restartButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.RestartButtonContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.ShareDiagnosticsDataButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.ShareDiagnosticsDataContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.OpenCydiaButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.OpenCydiaContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.OpenSileoButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.OpenSileoContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.ViewSourceCodeButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.ViewSourceCodeContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.AutoSelectExploitButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.AutoSelectExploitContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.RestartSpringBoardButton.titleLabel.textColor = UIColorFromRGB(0x56555A);
-        self.RestartSpringBoardContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.CleanDiagnosticsDataButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.CleanDiagnosticsDataContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.CheckForUpdateButton.titleLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.CheckForUpdateContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        
-        self.BootNonceTextField.textColor = UIColorFromRGB(0xE9E9EA);
-        self.BootNonceContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        [self.BootNonceButtonLabel setTitleColor: UIColorFromRGB(0xE9E9EA) forState:UIControlStateNormal];
-        [self.BootNonceTextField setValue:[UIColor whiteColor]
-                               forKeyPath:@"_placeholderLabel.textColor"];
-        
-        self.ECIDLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.ECIDContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        [self.ECIDButton setTitleColor: UIColorFromRGB(0xE9E9EA) forState:UIControlStateNormal];
-        [self.ECIDLabel setValue:[UIColor whiteColor]
-                      forKeyPath:@"_placeholderLabel.textColor"];
-        
-        self.ExpiryLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.ExpiryContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        self.ExpiryButton.textColor = UIColorFromRGB(0xE9E9EA);
-        [self.ExpiryLabel setValue:UIColorFromRGB(0xE9E9EA)
-                        forKeyPath:@"_placeholderLabel.textColor"];
-        
-        self.UptimeLabel.textColor = UIColorFromRGB(0xE9E9EA);
-        self.UptimeContentView.backgroundColor = UIColorFromRGB(0x17151C);
-        self.UptimeButton.textColor = UIColorFromRGB(0xE9E9EA);
-        [self.UptimeLabel setValue:UIColorFromRGB(0xE9E9EA)
-                        forKeyPath:@"_placeholderLabel.textColor"];
-        
-        self.SettingsTableView.backgroundColor = UIColorFromRGB(0x17151C);
-        self.navigationController.navigationBar.backgroundColor = UIColorFromRGB(0x17151C);
-        self.navigationController.navigationBar.largeTitleTextAttributes = @{NSForegroundColorAttributeName: UIColorFromRGB(0xE9E9EA)};
-        
-    }
+    self.CheckForUpdateButton.titleLabel.textColor = UIColorFromRGB(prefs->linkColor);
+    self.CheckForUpdateContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    [self.BootNonceTextField setTextColor:UIColorFromRGB(prefs->textColor)];
+    self.BootNonceContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    [self.BootNonceButtonLabel setTitleColor: UIColorFromRGB(prefs->textColor) forState:UIControlStateNormal];
+    [self.BootNonceTextField setValue:UIColorFromRGB(prefs->textColor)
+                    forKeyPath:@"_placeholderLabel.textColor"];
+    
+    [self.ECIDLabel setTextColor:UIColorFromRGB(prefs->textColor)];
+    self.ECIDContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    [self.ECIDButton setTitleColor:UIColorFromRGB(prefs->textColor) forState:UIControlStateNormal];
+    [self.ECIDLabel setValue:UIColorFromRGB(prefs->textColor)
+                           forKeyPath:@"_placeholderLabel.textColor"];
+    
+    [self.ExpiryLabel setTextColor:UIColorFromRGB(prefs->textColor)];
+    self.ExpiryContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    self.ExpiryButton.textColor = UIColorFromRGB(prefs->textColor);
+    [self.ExpiryLabel setValue:UIColorFromRGB(prefs->textColor)
+                           forKeyPath:@"_placeholderLabel.textColor"];
+    
+    [self.UptimeLabel setTextColor:UIColorFromRGB(prefs->textColor)];
+    self.UptimeContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    self.UptimeButton.textColor = UIColorFromRGB(prefs->textColor);
+    [self.UptimeLabel setValue:UIColorFromRGB(prefs->textColor)
+                           forKeyPath:@"_placeholderLabel.textColor"];
+    
+    self.SettingsTableView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    self.navigationController.navigationBar.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    self.navigationController.navigationBar.largeTitleTextAttributes = @{NSForegroundColorAttributeName: UIColorFromRGB(prefs->textColor)};
+    //self.navigationController.navigationBar.tintColor = UIColorFromRGB(prefs->backgroundColor);
+    
     release_prefs(&prefs);
 }
 
@@ -1287,14 +813,56 @@
     prefs_t *prefs = copy_prefs();
     if ([[_themePickerData objectAtIndex:row] isEqualToString:@"True Black"]) {
         prefs->theme = 0;
+        prefs->backgroundColor = 0x000000;
+        prefs->u0Color = 0xffffff;
+        prefs->fakeButtonColor = 0x101010;
+        prefs->fakeTintColor = 0x4B4B4B;
+        prefs->fakeTextColor = 0xffffff;
+        prefs->goTextColor = 0xffffff;
+        prefs->outputColor = 0x000000;
+        prefs->outputTextColor = 0xffffff;
+        prefs->pickerTintColor = 0xffffff;
+        prefs->tintColor = 0x4B4B4B;
+        prefs->textColor = 0xffffff;
+        prefs->darkTextColor = 0x56555A;
+        prefs->linkColor = 0xffffff;
+        prefs->darkStatusBar = YES;
         set_prefs(prefs);
     }
     if ([[_themePickerData objectAtIndex:row] isEqualToString:@"Dark Purple"]) {
         prefs->theme = 1;
+        prefs->backgroundColor = 0x17151C;
+        prefs->u0Color = 0x723F8C;
+        prefs->fakeButtonColor = 0x120F1A;
+        prefs->fakeTintColor = 0x723F8C;
+        prefs->fakeTextColor = 0xE9E9EA;
+        prefs->goTextColor = 0x723F8C;
+        prefs->outputColor = 0x120F1A;
+        prefs->outputTextColor = 0xE9E9EA;
+        prefs->pickerTintColor = 0x723F8C;
+        prefs->tintColor = 0x723F8C;
+        prefs->textColor = 0xE9E9EA;
+        prefs->darkTextColor = 0x56555A;
+        prefs->linkColor = 0xE9E9EA;
+        prefs->darkStatusBar = YES;
         set_prefs(prefs);
     }
     if ([[_themePickerData objectAtIndex:row] isEqualToString:@"White"]) {
         prefs->theme = 2;
+        prefs->backgroundColor = 0xffffff;
+        prefs->u0Color = 0x000000;
+        prefs->fakeButtonColor = 0x006FFF;
+        prefs->fakeTintColor = 0x43D359;
+        prefs->fakeTextColor = 0xffffff;
+        prefs->goTextColor = 0xffffff;
+        prefs->outputColor = 0x000000;
+        prefs->outputTextColor = 0xffffff;
+        prefs->pickerTintColor = 0x006FFF;
+        prefs->tintColor = 0x006FFF;
+        prefs->textColor = 0x000000;
+        prefs->darkTextColor = 0x56555A;
+        prefs->linkColor = 0x006FFF;
+        prefs->darkStatusBar = NO;
         set_prefs(prefs);
     }
     release_prefs(&prefs);
@@ -1315,7 +883,7 @@
     release_prefs(&prefs);
     [self reloadData];
     void (^const block)(void) = ^(void) {
-        notice(localize(@"Preference was changed. The app will now exit."), true, false);
+        notice(localize(@"Theme was changed. The app will now exit."), true, false);
         exit(EXIT_SUCCESS);
     };
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul), block);

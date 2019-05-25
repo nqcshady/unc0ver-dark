@@ -51,7 +51,7 @@ while (false)
 @property (readonly) JailbreakViewController *sharedController;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *goButtonSpacing;
 @property (assign) BOOL canExit;
-//Added code
+
 @property (weak, nonatomic) IBOutlet UILabel *u0Label;
 @property (weak, nonatomic) IBOutlet UIView *backgroundView;
 @property (weak, nonatomic) IBOutlet UILabel *byLabel;
