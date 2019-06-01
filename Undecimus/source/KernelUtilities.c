@@ -63,14 +63,19 @@ extern bool is_directory(const char *filename);
 #define VSHARED_DYLD 0x000200 /* vnode is a dyld shared cache file */
 
 #define FILE_READ_EXC_KEY "com.apple.security.exception.files.absolute-path.read-only"
+#define FILE_READ_WRITE_EXC_KEY "com.apple.security.exception.files.absolute-path.read-write"
 #define MACH_LOOKUP_EXC_KEY "com.apple.security.exception.mach-lookup.global-name"
 #define MACH_REGISTER_EXC_KEY "com.apple.security.exception.mach-register.global-name"
 
 static const char *file_read_exceptions[] = {
     "/Library",
-    "/private/var/mobile/Library",
-    "/System/Library/Caches",
+    "/System",
     "/private/var/mnt",
+    NULL
+};
+
+static const char *file_read_write_exceptions[] = {
+    "/private/var/mobile/Library",
     NULL
 };
 
@@ -79,6 +84,8 @@ static const char *mach_lookup_exceptions[] = {
     "ch.ringwald.hidsupport.backboard",
     "com.rpetrich.rocketbootstrapd",
     "com.apple.BTLEAudioController.xpc",
+    "com.apple.backboard.hid.services",
+    "com.apple.commcenter.coretelephony.xpc",
     NULL
 };
 
@@ -503,13 +510,13 @@ kptr_t sstrdup(const char *str) {
     kptr_t const function = getoffset(sstrdup);
     _assert(KERN_POINTER_VALID(function));
     kstr_size = strlen(str) + 1;
-    kstr = kmem_alloc(kstr_size);
+    kstr = IOMalloc(kstr_size);
     _assert(KERN_POINTER_VALID(kstr));
     _assert(wkbuffer(kstr, (void *)str, kstr_size));
     ret = kexec(function, kstr, KPTR_NULL, KPTR_NULL, KPTR_NULL, KPTR_NULL, KPTR_NULL, KPTR_NULL);
     if (ret != KPTR_NULL) ret = zm_fix_addr(ret);
 out:;
-    if (kstr_size != 0 && KERN_POINTER_VALID(kstr)) kmem_free(kstr, kstr_size); kstr = KPTR_NULL;
+    SafeIOFreeNULL(kstr, kstr_size);
     return ret;
 }
 
@@ -528,6 +535,26 @@ void sfree(kptr_t ptr) {
     kptr_t const function = getoffset(sfree);
     _assert(KERN_POINTER_VALID(function));
     kexec(function, ptr, KPTR_NULL, KPTR_NULL, KPTR_NULL, KPTR_NULL, KPTR_NULL, KPTR_NULL);
+out:;
+}
+
+
+kptr_t IOMalloc(vm_size_t size) {
+    kptr_t ret = KPTR_NULL;
+    kptr_t const function = getoffset(IOMalloc);
+    _assert(KERN_POINTER_VALID(function));
+    ret = kexec(function, (kptr_t)size, KPTR_NULL, KPTR_NULL, KPTR_NULL, KPTR_NULL, KPTR_NULL, KPTR_NULL);
+    if (ret != KPTR_NULL) ret = zm_fix_addr(ret);
+out:;
+    return ret;
+}
+
+void IOFree(kptr_t address, vm_size_t size) {
+    _assert(KERN_POINTER_VALID(address));
+    _assert(size > 0);
+    kptr_t const function = getoffset(IOFree);
+    _assert(KERN_POINTER_VALID(function));
+    kexec(function, address, (kptr_t)size, KPTR_NULL, KPTR_NULL, KPTR_NULL, KPTR_NULL, KPTR_NULL);
 out:;
 }
 
@@ -774,6 +801,52 @@ int vnode_lookup(const char *path, int flags, kptr_t *vpp, kptr_t ctx) {
 out:;
     SafeSFreeNULL(kstr);
     SafeSFreeNULL(vpp_kptr);
+    return ret;
+}
+
+int vnode_getfromfd(kptr_t ctx, int fd, kptr_t *vpp) {
+    int ret = -1;
+    size_t vpp_kptr_size = 0;
+    kptr_t vpp_kptr = KPTR_NULL;
+    _assert(KERN_POINTER_VALID(ctx));
+    _assert(fd > 0);
+    _assert(vpp != NULL);
+    kptr_t const function = getoffset(vnode_getfromfd);
+    _assert(KERN_POINTER_VALID(function));
+    vpp_kptr_size = sizeof(kptr_t);
+    vpp_kptr = smalloc(vpp_kptr_size);
+    _assert(KERN_POINTER_VALID(vpp_kptr));
+    ret = (int)kexec(function, ctx, (kptr_t)fd, vpp_kptr, KPTR_NULL, KPTR_NULL, KPTR_NULL, KPTR_NULL);
+    _assert(rkbuffer(vpp_kptr, vpp, vpp_kptr_size));
+out:;
+    SafeSFreeNULL(vpp_kptr);
+    return ret;
+}
+
+int vn_getpath(kptr_t vp, char *pathbuf, int *len) {
+    int ret = -1;
+    size_t pathbuf_kptr_size = 0;
+    kptr_t pathbuf_kptr = KPTR_NULL;
+    size_t len_kptr_size = 0;
+    kptr_t len_kptr = KPTR_NULL;
+    _assert(KERN_POINTER_VALID(vp));
+    _assert(pathbuf != NULL);
+    _assert(len != NULL);
+    kptr_t const function = getoffset(vn_getpath);
+    _assert(KERN_POINTER_VALID(function));
+    pathbuf_kptr_size = *len;
+    pathbuf_kptr = smalloc(pathbuf_kptr_size);
+    _assert(KERN_POINTER_VALID(pathbuf_kptr));
+    len_kptr_size = sizeof(*len);
+    len_kptr = smalloc(len_kptr_size);
+    _assert(KERN_POINTER_VALID(len_kptr));
+    _assert(wkbuffer(len_kptr, len, len_kptr_size));
+    ret = (int)kexec(function, vp, pathbuf_kptr, len_kptr, KPTR_NULL, KPTR_NULL, KPTR_NULL, KPTR_NULL);
+    _assert(rkbuffer(pathbuf_kptr, pathbuf, pathbuf_kptr_size));
+    _assert(rkbuffer(len_kptr, len, len_kptr_size));
+out:;
+    SafeSFreeNULL(pathbuf_kptr);
+    SafeSFreeNULL(len_kptr);
     return ret;
 }
 
@@ -1111,6 +1184,9 @@ bool set_sandbox_exceptions(kptr_t sandbox) {
     for (const char **exception = file_read_exceptions; *exception; exception++) {
         _assert(set_file_extension(sandbox, FILE_READ_EXC_KEY, *exception));
     }
+    for (const char **exception = file_read_write_exceptions; *exception; exception++) {
+        _assert(set_file_extension(sandbox, FILE_READ_WRITE_EXC_KEY, *exception));
+    }
     for (const char **exception = mach_lookup_exceptions; *exception; exception++) {
         _assert(set_mach_extension(sandbox, MACH_LOOKUP_EXC_KEY, *exception));
     }
@@ -1177,6 +1253,7 @@ bool set_exceptions(kptr_t sandbox, kptr_t amfi_entitlements) {
         _assert(set_sandbox_exceptions(sandbox));
         if (KERN_POINTER_VALID(amfi_entitlements)) {
             _assert(set_amfi_exceptions(amfi_entitlements, FILE_READ_EXC_KEY, file_read_exceptions, true));
+            _assert(set_amfi_exceptions(amfi_entitlements, FILE_READ_WRITE_EXC_KEY, file_read_write_exceptions, true));
             _assert(set_amfi_exceptions(amfi_entitlements, MACH_LOOKUP_EXC_KEY, mach_lookup_exceptions, false));
             _assert(set_amfi_exceptions(amfi_entitlements, MACH_REGISTER_EXC_KEY, mach_register_exceptions, false));
         }
@@ -1478,7 +1555,7 @@ kptr_t make_fake_task(kptr_t vm_map) {
     void *fake_task = NULL;
     _assert(KERN_POINTER_VALID(vm_map));
     fake_task_size = 0x1000;
-    fake_task_kaddr = kmem_alloc(fake_task_size);
+    fake_task_kaddr = IOMalloc(fake_task_size);
     _assert(KERN_POINTER_VALID(fake_task_kaddr));
     fake_task = malloc(fake_task_size);
     _assert(fake_task != NULL);
@@ -1490,7 +1567,7 @@ kptr_t make_fake_task(kptr_t vm_map) {
     _assert(wkbuffer(fake_task_kaddr, fake_task, fake_task_size));
     ret = fake_task_kaddr;
 out:;
-    if (!KERN_POINTER_VALID(ret) && KERN_POINTER_VALID(fake_task_kaddr)) kmem_free(fake_task_kaddr, fake_task_size); fake_task_kaddr = KPTR_NULL;
+    if (!KERN_POINTER_VALID(ret) && KERN_POINTER_VALID(fake_task_kaddr)) SafeIOFreeNULL(fake_task_kaddr, fake_task_size);
     SafeFreeNULL(fake_task);
     return ret;
 }
@@ -1579,21 +1656,59 @@ out:;
     return ret;
 }
 
+kptr_t get_vnode_for_fd(int fd) {
+    kptr_t ret = KPTR_NULL;
+    kptr_t *vpp = NULL;
+    _assert(fd > 0);
+    kptr_t const vfs_context = vfs_context_current();
+    _assert(KERN_POINTER_VALID(vfs_context));
+    vpp = malloc(sizeof(kptr_t));
+    _assert(vpp != NULL);
+    bzero(vpp, sizeof(kptr_t));
+    _assert(vnode_getfromfd(vfs_context, fd, vpp) == 0);
+    kptr_t const vnode = *vpp;
+    _assert(KERN_POINTER_VALID(vnode));
+    ret = vnode;
+out:;
+    SafeFreeNULL(vpp);
+    return ret;
+}
+
+char *get_path_for_fd(int fd) {
+    char *ret = NULL;
+    kptr_t vnode = KPTR_NULL;
+    int *len = NULL;
+    char *pathbuf = NULL;
+    _assert(fd > 0);
+    vnode = get_vnode_for_fd(fd);
+    _assert(KERN_POINTER_VALID(vnode));
+    len = malloc(sizeof(int));
+    _assert(len != NULL);
+    *len = MAXPATHLEN;
+    pathbuf = malloc(*len);
+    _assert(pathbuf != NULL);
+    _assert(vn_getpath(vnode, pathbuf, len) == 0);
+    _assert(strlen(pathbuf) + 1 == *len);
+    ret = strdup(pathbuf);
+out:;
+    if (KERN_POINTER_VALID(vnode)) vnode_put(vnode); vnode = KPTR_NULL;
+    SafeFreeNULL(pathbuf);
+    SafeFreeNULL(len);
+    return ret;
+}
+
 kptr_t get_vnode_for_snapshot(int fd, char *name) {
     kptr_t ret = KPTR_NULL;
-    kptr_t snap_vnode = KPTR_NULL;
-    kptr_t rvpp_ptr = KPTR_NULL;
-    kptr_t sdvpp_ptr = KPTR_NULL;
-    kptr_t ndp_buf = KPTR_NULL;
-    kptr_t sdvpp = KPTR_NULL;
-    kptr_t snap_meta_ptr = KPTR_NULL;
-    kptr_t old_name_ptr = KPTR_NULL;
-    kptr_t ndp_old_name = KPTR_NULL;
-    rvpp_ptr = smalloc(sizeof(kptr_t));
+    kptr_t snap_vnode, rvpp_ptr, sdvpp_ptr, ndp_buf, sdvpp, snap_meta_ptr, old_name_ptr, ndp_old_name;
+    snap_vnode = rvpp_ptr = sdvpp_ptr = ndp_buf = sdvpp = snap_meta_ptr = old_name_ptr = ndp_old_name = KPTR_NULL;
+    size_t rvpp_ptr_size, sdvpp_ptr_size, ndp_buf_size, snap_meta_ptr_size, old_name_ptr_size;
+    ndp_buf_size = 816;
+    rvpp_ptr_size = sdvpp_ptr_size = snap_meta_ptr_size = old_name_ptr_size = sizeof(kptr_t);
+    rvpp_ptr = IOMalloc(rvpp_ptr_size);
     _assert(KERN_POINTER_VALID(rvpp_ptr));
-    sdvpp_ptr = smalloc(sizeof(kptr_t));
+    sdvpp_ptr = IOMalloc(sdvpp_ptr_size);
     _assert(KERN_POINTER_VALID(sdvpp_ptr));
-    ndp_buf = smalloc(816);
+    ndp_buf = IOMalloc(ndp_buf_size);
     _assert(KERN_POINTER_VALID(ndp_buf));
     kptr_t const vfs_context = vfs_context_current();
     _assert(KERN_POINTER_VALID(vfs_context));
@@ -1604,9 +1719,9 @@ kptr_t get_vnode_for_snapshot(int fd, char *name) {
     _assert(KERN_POINTER_VALID(sdvpp_v_mount));
     kptr_t const sdvpp_v_mount_mnt_data = ReadKernel64(sdvpp_v_mount + koffset(KSTRUCT_OFFSET_MOUNT_MNT_DATA));
     _assert(KERN_POINTER_VALID(sdvpp_v_mount_mnt_data));
-    snap_meta_ptr = smalloc(sizeof(kptr_t));
+    snap_meta_ptr = IOMalloc(snap_meta_ptr_size);
     _assert(KERN_POINTER_VALID(snap_meta_ptr));
-    old_name_ptr = smalloc(sizeof(kptr_t));
+    old_name_ptr = IOMalloc(old_name_ptr_size);
     _assert(KERN_POINTER_VALID(old_name_ptr));
     ndp_old_name = ReadKernel64(ndp_buf + 336 + 40);
     _assert(KERN_POINTER_VALID(ndp_old_name));
@@ -1620,10 +1735,10 @@ kptr_t get_vnode_for_snapshot(int fd, char *name) {
     ret = snap_vnode;
 out:
     if (KERN_POINTER_VALID(sdvpp)) vnode_put(sdvpp); sdvpp = KPTR_NULL;
-    SafeSFreeNULL(sdvpp_ptr);
-    SafeSFreeNULL(ndp_buf);
-    SafeSFreeNULL(snap_meta_ptr);
-    SafeSFreeNULL(old_name_ptr);
+    SafeIOFreeNULL(sdvpp_ptr, sdvpp_ptr_size);
+    SafeIOFreeNULL(ndp_buf, ndp_buf_size);
+    SafeIOFreeNULL(snap_meta_ptr, snap_meta_ptr_size);
+    SafeIOFreeNULL(old_name_ptr, old_name_ptr_size);
     return ret;
 }
 
@@ -1671,7 +1786,7 @@ bool set_kernel_task_info() {
     _assert(task_dyld_info->all_image_info_size == kernel_slide);
     ret = true;
 out:;
-    if (!ret && KERN_POINTER_VALID(kernel_cache_blob)) kmem_free(kernel_cache_blob, cache_size); kernel_cache_blob = KPTR_NULL;
+    if (!ret && KERN_POINTER_VALID(kernel_cache_blob)) SafeIOFreeNULL(kernel_cache_blob, cache_size);
     SafeFreeNULL(task_dyld_info);
     SafeFreeNULL(task_dyld_info_count);
     SafeFreeNULL(cache);
@@ -1963,6 +2078,28 @@ out:;
     return ret;
 }
 
+bool unrestrict_library(const char *path) {
+    bool ret = false;
+    _assert(path != NULL);
+    _assert(enable_mapping_for_library(path));
+    ret = true;
+out:;
+    return ret;
+}
+
+bool unrestrict_library_with_fd(int fd) {
+    bool ret = false;
+    char *path = NULL;
+    _assert(fd > 0);
+    path = get_path_for_fd(fd);
+    _assert(path != NULL);
+    _assert(unrestrict_library(path));
+    ret = true;
+out:;
+    SafeFreeNULL(path);
+    return ret;
+}
+
 bool revalidate_process(pid_t pid) {
     bool ret = true;
     kptr_t proc = KPTR_NULL;
@@ -2042,5 +2179,52 @@ bool enable_mapping_for_libraries(const char *libs) {
 out:;
     CFSafeReleaseNULL(libraries);
     CFSafeReleaseNULL(folder);
+    return ret;
+}
+
+kptr_t find_vnode_with_fd(kptr_t proc, int fd) {
+    kptr_t ret = KPTR_NULL;
+    _assert(fd > 0);
+    _assert(KERN_POINTER_VALID(proc));
+    kptr_t fdp = ReadKernel64(proc + koffset(KSTRUCT_OFFSET_PROC_P_FD));
+    _assert(KERN_POINTER_VALID(fdp));
+    kptr_t ofp = ReadKernel64(fdp + koffset(KSTRUCT_OFFSET_FILEDESC_FD_OFILES));
+    _assert(KERN_POINTER_VALID(ofp));
+    kptr_t fpp = ReadKernel64(ofp + (fd * sizeof(kptr_t)));
+    _assert(KERN_POINTER_VALID(fpp));
+    kptr_t fgp = ReadKernel64(fpp + koffset(KSTRUCT_OFFSET_FILEPROC_F_FGLOB));
+    _assert(KERN_POINTER_VALID(fgp));
+    kptr_t vnode = ReadKernel64(fgp + koffset(KSTRUCT_OFFSET_FILEGLOB_FG_DATA));
+    _assert(KERN_POINTER_VALID(vnode));
+    ret = vnode;
+out:;
+    return ret;
+}
+
+kptr_t find_vnode_with_path(const char *path) {
+    kptr_t ret = KPTR_NULL;
+    int fd = 0;
+    _assert(path != NULL);
+    kptr_t const proc = proc_struct_addr();
+    _assert(KERN_POINTER_VALID(proc));
+    fd = open(path, O_RDONLY);
+    ret = find_vnode_with_fd(proc, fd);
+out:;
+    if (fd > 0) close(fd); fd = 0;
+    return ret;
+}
+
+kptr_t swap_sandbox_for_proc(kptr_t proc, kptr_t sandbox) {
+    kptr_t ret = KPTR_NULL;
+    _assert(KERN_POINTER_VALID(proc));
+    kptr_t const ucred = ReadKernel64(proc + koffset(KSTRUCT_OFFSET_PROC_UCRED));
+    _assert(KERN_POINTER_VALID(ucred));
+    kptr_t const cr_label = ReadKernel64(ucred + koffset(KSTRUCT_OFFSET_UCRED_CR_LABEL));
+    _assert(KERN_POINTER_VALID(cr_label));
+    kptr_t const sandbox_addr = cr_label + 0x8 + 0x8;
+    kptr_t const current_sandbox = ReadKernel64(sandbox_addr);
+    _assert(WriteKernel64(sandbox_addr, sandbox));
+    ret = current_sandbox;
+out:;
     return ret;
 }

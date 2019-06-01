@@ -26,6 +26,7 @@ static NSMutableString *output = nil;
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 static NSString *bundledResources = nil;
+extern int maxStage;
 
 - (IBAction)tappedOnJailbreak:(id)sender
 {
@@ -41,9 +42,9 @@ static NSString *bundledResources = nil;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul), block);
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+- (void)updateStatus {
     prefs_t *prefs = copy_prefs();
+    
     if (!jailbreakSupported()) {
         status(localize(@"Unsupported"), false, true);
     } else if (prefs->restore_rootfs) {
@@ -53,6 +54,7 @@ static NSString *bundledResources = nil;
     } else {
         status(localize(@"Jailbreak"), true, true);
     }
+    
     release_prefs(&prefs);
 }
 
