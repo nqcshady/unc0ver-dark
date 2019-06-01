@@ -57,6 +57,9 @@
 		22CFED9221CDFE6B00A216BE /* libmis.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 22CFED9121CDFE6B00A216BE /* libmis.tbd */; };
 		22F91CDB21E02CF300B2FCAE /* inject.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F91CD921E02CF200B2FCAE /* inject.m */; };
 		22F91CE321E033A500B2FCAE /* libsnappy.c in Sources */ = {isa = PBXBuildFile; fileRef = 22F91CE221E033A500B2FCAE /* libsnappy.c */; };
+		3603BF6D22A32F65000C7BA5 /* meridian.png in Resources */ = {isa = PBXBuildFile; fileRef = 3603BF6A22A32F65000C7BA5 /* meridian.png */; };
+		3603BF6E22A32F65000C7BA5 /* meridian@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3603BF6B22A32F65000C7BA5 /* meridian@3x.png */; };
+		3603BF6F22A32F65000C7BA5 /* meridian@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3603BF6C22A32F65000C7BA5 /* meridian@2x.png */; };
 		3656A107226FB0D000407B4D /* kalloc_crash.c in Sources */ = {isa = PBXBuildFile; fileRef = 3656A105226FB0D000407B4D /* kalloc_crash.c */; };
 		36B7A22C2290849D00ED2304 /* white@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 36B7A22B2290849D00ED2304 /* white@3x.png */; };
 		36B8C9B72297AEC000F51909 /* jailbreak.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B8C9B52297AEC000F51909 /* jailbreak.m */; settings = {COMPILER_FLAGS = "-Wno-unused-variable -Wno-unused-function -Wno-deprecated-declarations"; }; };
@@ -178,6 +181,9 @@
 		22F91CDA21E02CF300B2FCAE /* inject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = inject.h; path = Injector/inject.h; sourceTree = SOURCE_ROOT; };
 		22F91CDE21E02EB000B2FCAE /* snappy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = snappy.h; path = snappy/snappy.h; sourceTree = SOURCE_ROOT; };
 		22F91CE221E033A500B2FCAE /* libsnappy.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = libsnappy.c; path = snappy/libsnappy.c; sourceTree = SOURCE_ROOT; };
+		3603BF6A22A32F65000C7BA5 /* meridian.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = meridian.png; sourceTree = "<group>"; };
+		3603BF6B22A32F65000C7BA5 /* meridian@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "meridian@3x.png"; sourceTree = "<group>"; };
+		3603BF6C22A32F65000C7BA5 /* meridian@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "meridian@2x.png"; sourceTree = "<group>"; };
 		364F728D226AE06300C1BD8A /* Lato-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Medium.ttf"; sourceTree = "<group>"; };
 		3656A105226FB0D000407B4D /* kalloc_crash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = kalloc_crash.c; sourceTree = "<group>"; };
 		3656A106226FB0D000407B4D /* kalloc_crash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kalloc_crash.h; sourceTree = "<group>"; };
@@ -364,6 +370,9 @@
 				36F6531A2290A564006B4327 /* purple.png */,
 				36F6531B2290A564006B4327 /* purple@2x.png */,
 				36F6531C2290A565006B4327 /* purple@3x.png */,
+				3603BF6A22A32F65000C7BA5 /* meridian.png */,
+				3603BF6C22A32F65000C7BA5 /* meridian@2x.png */,
+				3603BF6B22A32F65000C7BA5 /* meridian@3x.png */,
 			);
 			path = resources;
 			sourceTree = "<group>";
@@ -581,10 +590,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				36F6531F2290A565006B4327 /* purple@3x.png in Resources */,
+				3603BF6F22A32F65000C7BA5 /* meridian@2x.png in Resources */,
 				36B7A22C2290849D00ED2304 /* white@3x.png in Resources */,
+				3603BF6D22A32F65000C7BA5 /* meridian.png in Resources */,
 				21C0FC7721369EB800849420 /* LaunchScreen.storyboard in Resources */,
 				36F6531E2290A565006B4327 /* purple@2x.png in Resources */,
 				36F6531D2290A565006B4327 /* purple.png in Resources */,
+				3603BF6E22A32F65000C7BA5 /* meridian@3x.png in Resources */,
 				36F52F79228F882400088562 /* white.png in Resources */,
 				8D592A68218E47F60035D2BC /* Main.storyboard in Resources */,
 				36F52F73228F864E00088562 /* white@2x.png in Resources */,

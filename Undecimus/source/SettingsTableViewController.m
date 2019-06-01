@@ -138,6 +138,7 @@
     [_themePickerData addObject:@"True Black"];
     [_themePickerData addObject:@"Dark Purple"];
     [_themePickerData addObject:@"White"];
+    [_themePickerData addObject:@"Meridian"];
     [[self themePicker] setDataSource:self];
     [[self themePicker] setDelegate:self];
     UIView *themeFieldInputView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, toolBar.frame.size.height + _themePicker.frame.size.height)];
@@ -153,6 +154,9 @@
     }
     if (prefs->theme == 2) {
         [self.themePicker selectRow:2 inComponent:0 animated:YES];
+    }
+    if (prefs->theme == 3) {
+        [self.themePicker selectRow:3 inComponent:0 animated:YES];
     }
     [[NSUserDefaults standardUserDefaults] synchronize];
     [self.tableView setBackgroundView:myView];
@@ -220,6 +224,9 @@
     }
     if (prefs->theme == 2) {
         [self.themeField setPlaceholder:@"White"];
+    }
+    if (prefs->theme == 3) {
+        [self.themeField setPlaceholder:@"Meridian"];
     }
     [self.RestartSpringBoardButton setEnabled:respringSupported()];
     [self.restartButton setEnabled:restartSupported()];
@@ -865,18 +872,36 @@
         prefs->darkStatusBar = NO;
         set_prefs(prefs);
     }
+    if ([[_themePickerData objectAtIndex:row] isEqualToString:@"Meridian"]) {
+        prefs->theme = 3;
+        prefs->backgroundColor = 0xffffff;
+        prefs->u0Color = 0xE30125;
+        prefs->fakeButtonColor = 0xDDDDDD;
+        prefs->fakeTintColor = 0xE30125;
+        prefs->fakeTextColor = 0xE30125;
+        prefs->goTextColor = 0xE30125;
+        prefs->outputColor = 0x2E2E2E;
+        prefs->outputTextColor = 0xffffff;
+        prefs->pickerTintColor = 0xE30125;
+        prefs->tintColor = 0xE30125;
+        prefs->textColor = 0x000000;
+        prefs->darkTextColor = 0x56555A;
+        prefs->linkColor = 0xE30125;
+        prefs->darkStatusBar = NO;
+        set_prefs(prefs);
+    }
     release_prefs(&prefs);
 }
 
 -(void)pickerDoneButton{
     prefs_t *prefs = copy_prefs();
-    if (prefs->theme == 2) {
+    if (prefs->theme == 3) {
+        [self lc_setAlternateIconName:@"MeridianIcon"];
+    } else if (prefs->theme == 2) {
         [self lc_setAlternateIconName:@"WhiteIcon"];
-    }
-    if (prefs->theme == 1) {
+    } else if (prefs->theme == 1) {
         [self lc_setAlternateIconName:@"PurpleIcon"];
-    }
-    if (prefs->theme == 0) {
+    } else {
         [self lc_setAlternateIconName:nil];
     }
     [_themeField resignFirstResponder];
