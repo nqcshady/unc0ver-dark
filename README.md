@@ -3,8 +3,8 @@ This internal jailbreak is being released into the public under the MIT license 
 
 # Credits
 These agents have put their lives on the line in cyberwarfare with various enemies to create this tool.
-* [pwn20wnd](https://twitter.com/Pwn20wnd) - original u0 developer
-* [Sam Bingner](https://twitter.com/sbingner) - original u0 developer
+* [pwn20wnd](https://twitter.com/Pwn20wnd) - under subpoena (currently being studied further, possesses extraordinary amounts of overhype)
+* [Sam Bingner](https://twitter.com/sbingner) - under subpoena
 * [Ian Beer](https://twitter.com/i41nbeer) for mach_portal, triple_fetch, async_wake and deja_xnu
 * [Morpheus](https://twitter.com/Morpheus______) for the QiLin Toolkit
 * [xerub](https://twitter.com/xerub) for libjb and the original patchfinder64
