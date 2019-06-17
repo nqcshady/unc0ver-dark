@@ -1,22 +1,21 @@
 # unc0ver dark
-## Please Avoid using this on iOS 11 for the moment.
-### Join the u0 Dark [Discord](https://discord.gg/4pYwBCb)
-### Uninstall CyDown if your Cydia is crashing!
-### Join the dark side
+## the best jailbreak for 11.0 - 12.1.2
 ![Vader](https://diatr.us/img/dv.gif)
 
-jailbreak for iOS 12.0 - 12.1.2<br/>
-original unc0ver work by [pwn20wnd](https://twitter.com/Pwn20wnd) & [Sam Bingner](https://twitter.com/sbingner)<br/>
-original unc0ver UI by [Dennis Bednarz](https://twitter.com/DennisBednarz) & [Samg_is_a_Ninja](https://reddit.com/u/Samg_is_a_Ninja)<br/>
-**This fork requires a network connection for the initial jailbreaking process. Rejailbreaking will not require it. This means you cannot have Airplane Mode enabled when running u0 dark for the first time.**
-## Changes from unc0ver
+### FAQ
+* Where can I stay up to date on unc0ver dark? -- [Join the unc0ver dark Discord](https://discord.gg/4pYwBCb)
+* Jailbreak isn't working on iOS 11?!! -- Known issue, use either [Electra](https://coolstar.org/electra/) or [unc0ver](https://github.com/pwn20wndstuff/Undecimus/releases)
+* My Cydia is crashing? How do I fix this? -- Uninstall CyDown. It is not updated for the new fork of Cydia. Also, piracy is no fun. ;(
+* Jailbreak is failing first try? -- You need WiFi for initial jailbreak, and therefore cannot use Airplane Mode. This is due to licensing on Cydia Substrate. 
+
+### Changes from unc0ver
 * APT 1.8
 * New true black UI designed by [CodeRedKillah](https://twitter.com/coderedkillah)
 * Substrate is downloaded from the Internet
 * Sileo support via [Diatrus](https://github.com/Diatrus)
 * Theme switcher by [Diatrus](https://github.com/Diatrus) & [Hydri](https://twitter.com/HydriDev_)
 
-## Available themes
+### Available themes
 * Dark Purple
 * True Black
 * White
@@ -32,7 +31,7 @@ The switching process is handled automatically by unc0ver dark. No rootFS restor
 * r/jailbreak on [Reddit](https://reddit.com/r/jailbreak)
 
 ## Best practices
-* Perform a full restore with Rollectra before switching from the other jailbreaks
+* Perform a full restore with Rollectra or Succession before switching from the other jailbreaks
 * Turn off Siri before starting the jailbreak
 
 ## Source code
@@ -55,5 +54,6 @@ This fork wouldn't have been able to be created without these people and tools.
 * [theninjaprawn](https://twitter.com/theninjaprawn) for the patchfinder64 additions
 * [Jay Freeman (saurik)](https://twitter.com/saurik) for Cydia and Substrate
 * [tihmstar](https://twitter.com/tihmstar) for libgrabkernel, liboffsetfinder64 and v1ntex
-* Credits for [Undecimus-Resources](https://github.com/pwn20wndstuff/Undecimus-Resources)
 * [CoolStar](https://twitter.com/coolstarorg) for originally testing the snapshot rename idea on corellium (and Sileo)
+* [Chronix](https://www.youtube.com/channel/UCEj2uj_VZYYOa8tIBb63tUg) for fixing my README
+* Credits for [Undecimus-Resources](https://github.com/pwn20wndstuff/Undecimus-Resources)
