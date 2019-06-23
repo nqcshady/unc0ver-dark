@@ -1,0 +1,18 @@
+language: objective-c
+os: osx
+osx_image: xcode10.1
+
+env:
+  global:
+    - MAKEFLAGS="-j6"
+
+git:
+  submodules: false
+  depth: false
+
+before_install:
+  - ssh-keyscan github.com >> ~/.ssh/known_hosts
+  - git submodule update --init
+  - brew install dpkg ldid
+
+script: make
