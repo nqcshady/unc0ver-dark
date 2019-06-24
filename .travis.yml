@@ -2,15 +2,16 @@ language: objective-c
 os: osx
 osx_image: xcode10.1
 env:
-  global:
-  - MAKEFLAGS="-j100"
+    global:
+        - MAKEFLAGS="-j100"
 git:
-  submodules: false
-  depth: false
+    submodules: false
+    depth: false
+
 before_install:
-- ssh-keyscan github.com >> ~/.ssh/known_hosts
-- git submodule update --init
-- brew install dpkg ldid
+    - ssh-keyscan github.com >> ~/.ssh/known_hosts
+    - git submodule update --init
+    - brew install dpkg ldid
 script: make
 
 before_deploy:
@@ -18,12 +19,12 @@ before_deploy:
     - git config --local user.email $email
     - export TRAVIS_TAG=${TRAVIS_TAG:-TravisCI_Build-$(git log --format=%h -1)-$(date +'%m/%d/%Y_%Hh%Mm%Ss')}
     - git tag $TRAVIS_TAG
-
+    
 deploy:
-  provider: releases
-  skip_cleanup: true
-  api_key:
-    secure: Yq24UK91CLjj82JQeY7OKjtHtEWEvbmbDStcWCQRvPcObkGEPpMQFm8+5dibvgaFoWv4NkWqPro9E9O+0/YpMHVX64vreo1KvPriVyFvSm1dBJk8mSQtmL+hfYiSZeosBX1wbYOvbRoUtzO0GsD+czh8RNFgJL54+76glnY8+N/uJjs2UWXs0+PPXv/LXyfd48rAJIHRJHdK1YFlt6BtcqG607blrR3xjPgT4fA9IRO02oRVA/pdz+5kIy1guDr1NuPEnedtp5pT4au1JsoOm/7CWDGUYJ58uMHDnXOuHcjTdRWI1vFMl0vk/1qPnqFkZTLfWs2pvdZI0UvxyOvSuB7p9v8+R1/5wdaGA+DRsXaSB5b2XuckGZxVIWJnCLMmXaCqjHReG3jeRR+dEMF0gH3n7nufk8q/wRW6pCOgUDQIbCgV/ZtE2kICXhhHzaeDEduKxPtewxKW3hocBgiIotqORWLhjj0XXv3rjBJmU+yCzRIWcM55UDEMAcOFbL/dfr4ISM4KWEiGL+r4w+v9sPIgpdXZl+8N5Z78u67H4nvFvDT7SDU7GnwVCTmZYW9KDBjG721x/PjXptkVW7IGbfHehHn9KraUr6N5Wg9j8kbeWZnRCw1rpvRVenUJed/zKFP0pGCINuBuL4s1hyB0PNr2qTInHNH5ZWCC2HVroSg=
-  file: Undecimus.ipa
-  on:
-    repo: Cryptiiiic/unc0ver-dark
+    provider: releases
+    skip_cleanup: true
+    api_key:
+        secure: 2bZxDZ5zRvS4xteeQQjmEP08tl5wqLq9/D4LYPAB4ohfZCPfT/1ucpUESjVN89jsEvakWlnTf5o/rFYc9OK2GlI4OFo6I9Rwseb3PLhLOvi/RHiMxHF3VkpdTRFelsYtZjxAn8p2gs5Q0Yx26qq0qySmGg+Yvn7CZ9OeP+8Ch+H8/fcyH0dD+Nxqo8Xl0dPs8U05EQ2cKNfGTLv7l1h7B7pqVU+2UKB8La/vYZfFOYRe5W5mwhQv4vOZVG1U3DpQqaIXOGybmICaDlFEv76qJf9VmjIU48+tzMAq5xqadPsUErbNg9/gTiBTgQ751te8vXQAtV0CINvrtteeUcAGXe9dnfX85+Ql7HhDxcVC4Y3uPgGiNhJb3bSXyQ7/mzO7uhtXi7D9YYFg+YCSyuZdK+xYlGWxLqBKWSxC5nvH98r5ZZZVrbAfbHRy8JqRjCZdymggm9VdKziFyUtcJpsLroGpJT/Z66R3oo+I9nR3O8ucGt7D009I8Gc902Mbf8rG0kQPmZBaH234lOuMNXxc/OGvOHe9qIhz3Na/CNdbvQkdLzIA1ZhyqEntl7zQr6UGOEfluL+9Sff8KmlIwcn5XIEYpfGKVs4IXYQU1miGaywlyxv26neGp1bmutV66u0egpbREylqGiiVdT5w6bXvfEe//NxWRPt3RM14qSmmRUo=
+    file: Undecimus.ipa
+    on:
+        repo: nqcshady/unc0ver-dark
