@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/nqcshady/unc0ver-dark.svg?branch=master)](https://travis-ci.com/nqcshady/unc0ver-dark)
 # unc0ver dark
 ## the best jailbreak for 11.0 - 12.1.2
 ![Vader](https://diatr.us/img/dv.gif)
