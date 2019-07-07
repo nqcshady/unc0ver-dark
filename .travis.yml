@@ -17,7 +17,7 @@ script: make
 before_deploy:
     - git config --local user.name $username
     - git config --local user.email $email
-    - export TRAVIS_TAG=${TRAVIS_TAG:-TravisCI_Build-$(git log --format=%h -1)-$(date +'%m/%d/%Y_%Hh%Mm%Ss')}
+    - export TRAVIS_TAG=${TRAVIS_TAG:-$version-snapshot-$(git log --format=%h -1)-v$snapshot_version}
     - git tag $TRAVIS_TAG
 
 notifications:
@@ -26,6 +26,7 @@ notifications:
 deploy:
     provider: releases
     skip_cleanup: true
+    prerelease: $prerelease
     api_key:
         secure: 2bZxDZ5zRvS4xteeQQjmEP08tl5wqLq9/D4LYPAB4ohfZCPfT/1ucpUESjVN89jsEvakWlnTf5o/rFYc9OK2GlI4OFo6I9Rwseb3PLhLOvi/RHiMxHF3VkpdTRFelsYtZjxAn8p2gs5Q0Yx26qq0qySmGg+Yvn7CZ9OeP+8Ch+H8/fcyH0dD+Nxqo8Xl0dPs8U05EQ2cKNfGTLv7l1h7B7pqVU+2UKB8La/vYZfFOYRe5W5mwhQv4vOZVG1U3DpQqaIXOGybmICaDlFEv76qJf9VmjIU48+tzMAq5xqadPsUErbNg9/gTiBTgQ751te8vXQAtV0CINvrtteeUcAGXe9dnfX85+Ql7HhDxcVC4Y3uPgGiNhJb3bSXyQ7/mzO7uhtXi7D9YYFg+YCSyuZdK+xYlGWxLqBKWSxC5nvH98r5ZZZVrbAfbHRy8JqRjCZdymggm9VdKziFyUtcJpsLroGpJT/Z66R3oo+I9nR3O8ucGt7D009I8Gc902Mbf8rG0kQPmZBaH234lOuMNXxc/OGvOHe9qIhz3Na/CNdbvQkdLzIA1ZhyqEntl7zQr6UGOEfluL+9Sff8KmlIwcn5XIEYpfGKVs4IXYQU1miGaywlyxv26neGp1bmutV66u0egpbREylqGiiVdT5w6bXvfEe//NxWRPt3RM14qSmmRUo=
     file: Undecimus.ipa
