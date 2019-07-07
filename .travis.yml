@@ -19,6 +19,9 @@ before_deploy:
     - git config --local user.email $email
     - export TRAVIS_TAG=${TRAVIS_TAG:-TravisCI_Build-$(git log --format=%h -1)-$(date +'%m/%d/%Y_%Hh%Mm%Ss')}
     - git tag $TRAVIS_TAG
+
+notifications:
+    email: false
     
 deploy:
     provider: releases
