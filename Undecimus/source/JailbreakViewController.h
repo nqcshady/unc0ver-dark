@@ -31,12 +31,13 @@ while (false)
 
 #define notice(msg, wait, destructive) showAlert(@"Notice", msg, wait, destructive)
 
-#define status(msg, btnenbld, tbenbld) do { \
-    LOG("Status: %@", msg); \
+#define status(msg, btnenbld, nvbenbld) do { \
     dispatch_async(dispatch_get_main_queue(), ^{ \
+        if ([[[[[JailbreakViewController sharedController] goButton] titleLabel] text] isEqualToString:msg]) return; \
+        LOG("Status: %@", msg); \
         [UIView performWithoutAnimation:^{ \
             [[[JailbreakViewController sharedController] goButton] setEnabled:btnenbld]; \
-            [[[[JailbreakViewController sharedController] tabBarController] tabBar] setUserInteractionEnabled:tbenbld]; \
+            [[[[JailbreakViewController sharedController] tabBarController] tabBar] setUserInteractionEnabled:nvbenbld]; \
             [[[JailbreakViewController sharedController] goButton] setTitle:msg forState: btnenbld ? UIControlStateNormal : UIControlStateDisabled]; \
             [[[JailbreakViewController sharedController] goButton] layoutIfNeeded]; \
         }]; \
@@ -70,6 +71,7 @@ NSString *hexFromInt(NSInteger val);
 - (IBAction)tappedOnJailbreak:(id)sender;
 +(JailbreakViewController*)sharedController;
 - (void)appendTextToOutput:(NSString*)text;
+- (void)updateStatus;
 
 @end
 

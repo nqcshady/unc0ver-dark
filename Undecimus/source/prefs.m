@@ -177,7 +177,7 @@ void register_default_prefs() {
     defaults[@K_TEXT_COLOR] = [NSNumber numberWithInteger:0xffffff];
     defaults[@K_DARK_TEXT_COLOR] = [NSNumber numberWithInteger:0x56555A];
     defaults[@K_LINK_COLOR] = [NSNumber numberWithInteger:0xffffff];
-    defaults[@K_LINK_COLOR] = @YES;
+    defaults[@K_DARK_STATUS_BAR] = @YES;
     [userDefaults registerDefaults:defaults];
 }
 
