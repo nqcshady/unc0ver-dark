@@ -11,7 +11,7 @@
 
 ### Changes from unc0ver
 * APT 1.8
-* New true black UI designed by [CodeRedKillah](https://twitter.com/coderedkillah)
+* New true black UI designed by [carsuki](https://carsuki.moe)
 * Substrate is downloaded from the Internet
 * Sileo support via [Diatrus](https://github.com/Diatrus)
 * Theme switcher by [Diatrus](https://github.com/Diatrus) & [Hydri](https://twitter.com/HydriDev_)
@@ -56,5 +56,5 @@ This fork wouldn't have been able to be created without these people and tools.
 * [Jay Freeman (saurik)](https://twitter.com/saurik) for Cydia and Substrate
 * [tihmstar](https://twitter.com/tihmstar) for libgrabkernel, liboffsetfinder64 and v1ntex
 * [CoolStar](https://twitter.com/coolstarorg) for originally testing the snapshot rename idea on corellium (and Sileo)
-* [Chronix](https://www.youtube.com/channel/UCEj2uj_VZYYOa8tIBb63tUg) for fixing my README
+* [Chronix](https://www.youtube.com/channel/UCEj2uj_VZYYOa8tIBb63tUg) for fixing README
 * Credits for [Undecimus-Resources](https://github.com/pwn20wndstuff/Undecimus-Resources)
