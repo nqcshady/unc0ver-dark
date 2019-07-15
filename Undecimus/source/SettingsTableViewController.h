@@ -50,8 +50,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *SpecialThanksLabel;
 @property (weak, nonatomic) IBOutlet UIView *SpecialThanksContentView;
 @property (weak, nonatomic) IBOutlet UITableViewCell *SpecialThanksTableViewCell;
-@property (weak, nonatomic) IBOutlet UILabel *LoadDaemonsLabel;
 @property (weak, nonatomic) IBOutlet UIView *LoadDaemonsContentView;
+@property (weak, nonatomic) IBOutlet UILabel *LoadDaemonsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *DumpApTicketLabel;
 @property (weak, nonatomic) IBOutlet UIView *DumpApTicketContentView;
 @property (weak, nonatomic) IBOutlet UILabel *RefreshIconCacheLabel;
@@ -89,6 +89,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *AutoRespringLabel;
 @property (weak, nonatomic) IBOutlet UIView *HideProgressHUDContentView;
 @property (weak, nonatomic) IBOutlet UILabel *HideProgressHUDLabel;
+@property (weak, nonatomic) IBOutlet UIView *InstallSileoSwitchContentView;
+@property (weak, nonatomic) IBOutlet UILabel *InstallSileoLabel;
+@property (weak, nonatomic) IBOutlet UIView *LoadTweaksContentView;
+@property (weak, nonatomic) IBOutlet UILabel *LoadTweaksLabel;
 
 @property (weak, nonatomic) IBOutlet UILabel *ThemeLabel;
 @property (weak, nonatomic) IBOutlet UIView *ThemeContentView;

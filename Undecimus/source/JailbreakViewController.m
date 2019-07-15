@@ -101,12 +101,34 @@ extern int maxStage;
     self.u0Label.textColor = UIColorFromRGB(prefs->u0Color);
     self.backgroundView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
     self.byLabel.textColor =  UIColorFromRGB(prefs->textColor);
+    self.supportedOSLabel.textColor =  UIColorFromRGB(prefs->textColor);
+    self.uncoverLabel.textColor =  UIColorFromRGB(prefs->textColor);
+    self.UIByLabel.textColor =  UIColorFromRGB(prefs->textColor);
+    self.exploitProgressLabel.textColor =  UIColorFromRGB(prefs->textColor);
+    self.exploitMessageLabel.textColor =  UIColorFromRGB(prefs->textColor);
     //[self.fakeButton setTitleColor: [UIColor whiteColor] forState:UIControlStateNormal];
     self.goButton.backgroundColor = UIColorFromRGB(prefs->fakeButtonColor);
     [self.goButton setTitleColor: UIColorFromRGB(prefs->goTextColor) forState:UIControlStateNormal];
     self.outputView.backgroundColor = UIColorFromRGB(prefs->outputColor);
     self.outputView.textColor = UIColorFromRGB(prefs->outputTextColor);
     [self.tabBarController.tabBar setSelectedImageTintColor:UIColorFromRGB(prefs->pickerTintColor)];
+    
+    if (prefs->theme == 0) {
+        UIImage *img = [UIImage imageNamed:@"picker"];
+        [self.PickerButton setImage:img forState:UIControlStateNormal];
+    }
+    if (prefs->theme == 1) {
+        UIImage *img = [UIImage imageNamed:@"purple"];
+        [self.PickerButton setImage:img forState:UIControlStateNormal];
+    }
+    if (prefs->theme == 2) {
+        UIImage *img = [UIImage imageNamed:@"white"];
+        [self.PickerButton setImage:img forState:UIControlStateNormal];
+    }
+    if (prefs->theme == 3) {
+        UIImage *img = [UIImage imageNamed:@"meridian"];
+        [self.PickerButton setImage:img forState:UIControlStateNormal];
+    }
     
     release_prefs(&prefs);
 }

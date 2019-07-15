@@ -147,6 +147,21 @@
     self.benjweaverdevButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
     self.benjweaverdevContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
     
+    self.SamgButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.SamgContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.DennisButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.DennisContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.iOSAppDevButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.iOSAppDevContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.UbikButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.UbikContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.PatrickButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.PatrickContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
     release_prefs(&prefs);
 }
 

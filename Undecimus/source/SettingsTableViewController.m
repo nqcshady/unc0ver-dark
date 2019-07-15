@@ -598,6 +598,10 @@
     self.LoadDaemonsContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
     self.LoadDaemonsSwitch.onTintColor = UIColorFromRGB(prefs->tintColor);
     
+    self.LoadTweaksLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.LoadTweaksContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    self.LoadTweaksSwitch.onTintColor = UIColorFromRGB(prefs->tintColor);
+    
     self.DumpApTicketLabel.textColor = UIColorFromRGB(prefs->textColor);
     self.DumpApTicketContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
     self.DumpAPTicketSwitch.onTintColor = UIColorFromRGB(prefs->tintColor);
@@ -679,6 +683,14 @@
     self.KernelExploitLabel.textColor = UIColorFromRGB(prefs->textColor);
     self.KernelExploitContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
     self.KernelExploitSegmentedControl.tintColor = UIColorFromRGB(prefs->pickerTintColor);
+    
+    self.LoadDaemonsLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.LoadDaemonsContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    self.LoadDaemonsSwitch.onTintColor = UIColorFromRGB(prefs->tintColor);
+    
+    self.InstallSileoLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.InstallSileoSwitchContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    self.InstallSileoSwitch.onTintColor = UIColorFromRGB(prefs->tintColor);
     
     self.ReInstallSileoSwitchLabel.textColor = UIColorFromRGB(prefs->textColor);
     self.ReInstallSileoSwitchView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);

@@ -65,6 +65,7 @@ while (false)
 @property (weak, nonatomic) IBOutlet UILabel *uOVersionLabel;
 
 @property (weak, nonatomic) IBOutlet UIProgressView *jailbreakProgressBar;
+@property (weak, nonatomic) IBOutlet UIButton *PickerButton;
 
 @property (weak, nonatomic) IBOutlet UIView *mainView;
 @property (weak, nonatomic) IBOutlet UIView *creditsView;

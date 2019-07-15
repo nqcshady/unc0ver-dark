@@ -95,6 +95,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *PatrickButton;
 @property (weak, nonatomic) IBOutlet UIView *PatrickContentView;
 @property (weak, nonatomic) IBOutlet UIView *SamgContentView;
+@property (weak, nonatomic) IBOutlet UIButton *SamgButton;
 @property (weak, nonatomic) IBOutlet UIButton *DennisButton;
 @property (weak, nonatomic) IBOutlet UIView *DennisContentView;
 @property (weak, nonatomic) IBOutlet UIButton *iOSAppDevButton;
