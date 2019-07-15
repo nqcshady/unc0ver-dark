@@ -12,6 +12,8 @@
 
 @interface SettingsTableViewController : UITableViewController <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UISwitch *LoadDaemonsSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *InstallSileoSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *LoadTweaksSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *DumpAPTicketSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *RefreshIconCacheSwitch;
 @property (weak, nonatomic) IBOutlet UITextField *BootNonceTextField;

@@ -61,10 +61,20 @@
 int stage = __COUNTER__;
 extern int maxStage;
 
-#define status_with_stage(Stage, MaxStage) status(([NSString stringWithFormat:@"%@ (%d/%d)", localize(@"Exploiting"), Stage, MaxStage]), false, false)
+#define update_stage() do { \
+    dispatch_async(dispatch_get_main_queue(), ^{ \
+        [UIView performWithoutAnimation:^{ \
+            [[[JailbreakViewController sharedController] jailbreakProgressBar] setProgress:(float)((float) stage/ (float) maxStage) animated:YES]; \
+            [[[JailbreakViewController sharedController] jailbreakProgressBar] setProgress:(float)((float) stage/ (float) maxStage) animated:YES]; \
+            [[JailbreakViewController sharedController] exploitProgressLabel].text = [NSString stringWithFormat:@"%d/%d", stage, maxStage]; \
+        }]; \
+    }); \
+} while (false)
+
 #define upstage() do { \
     __COUNTER__; \
     stage++; \
+    update_stage(); \
 } while (false)
 
 #define find_offset(x, symbol, critical) do { \
@@ -113,7 +123,6 @@ void jailbreak()
     NSMutableString *status = [NSMutableString new];
     bool const betaFirmware = isBetaFirmware();
     time_t const start_time = time(NULL);
-    UIProgressHUD *hud = prefs->hide_progress_hud ? nil : addProgressHUD();
     JailbreakViewController *sharedController = [JailbreakViewController sharedController];
     NSMutableArray *resources = [NSMutableArray new];
     NSFileManager *const fileManager = [NSFileManager defaultManager];
@@ -128,7 +137,6 @@ void jailbreak()
 #define jailbreak_file(x) (NSJailbreakFile(@(x)).UTF8String)
     _assert(clean_file(success_file), localize(@"Unable to clean success file."), true);
 #define insertstatus(x) do { [status appendString:x]; } while (false)
-#define progress(x) do { LOG("Progress: %@", x); updateProgressHUD(hud, x); } while (false)
 #define sync_prefs() do { _assert(set_prefs(prefs), localize(@"Unable to synchronize app preferences. Please restart the app and try again."), true); } while (false)
 #define write_test_file(file) do { \
     _assert(create_file(file, root_pw->pw_uid, 0644), localize(@"Unable to create test file."), true); \
@@ -883,7 +891,7 @@ void jailbreak()
             close(rootfd);
             SafeFreeNULL(snapshot);
             SafeFreeNULL(snapshots);
-            _assert(runCommand("/usr/bin/uicache", NULL) == ERR_SUCCESS, localize(@"Unable to refresh icon cache."), true);
+            _assert(runCommand("/usr/bin/uicache", NULL) >= 0, localize(@"Unable to refresh icon cache."), true);
             _assert(clean_file("/usr/bin/uicache"), localize(@"Unable to clean uicache binary."), true);
             _assert(clean_file("/usr/bin/find"), localize(@"Unable to clean find binary."), true);
             LOG("Successfully reverted back RootFS remount.");
@@ -1692,6 +1700,7 @@ out:;
 #undef write_test_file
 #undef inject_trust_cache
     stage = maxStage;
+    update_stage();
     progress(localize(@"Deinitializing jailbreak..."));
     LOG("Deinitializing kernel code execution...");
     term_kexec();
@@ -1711,8 +1720,6 @@ out:;
     myHost = HOST_NULL;
     _assert(mach_port_deallocate(mach_task_self(), myOriginalHost) == KERN_SUCCESS, localize(@"Unable to deallocate my original host port."), true);
     myOriginalHost = HOST_NULL;
-#undef progress
-    removeProgressHUD(hud);
     insertstatus(([NSString stringWithFormat:@"\nRead %zu bytes from kernel memory\nWrote %zu bytes to kernel memory\n", kreads, kwrites]));
     insertstatus(([NSString stringWithFormat:@"\nJailbroke in %ld seconds\n", time(NULL) - start_time]));
     status(localize(@"Jailbroken"), false, false);

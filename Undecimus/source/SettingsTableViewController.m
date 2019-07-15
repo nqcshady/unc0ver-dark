@@ -183,6 +183,8 @@
 - (void)reloadData {
     prefs_t *prefs = copy_prefs();
     [self.LoadDaemonsSwitch setOn:(BOOL)prefs->load_daemons];
+    [self.InstallSileoSwitch setOn:(BOOL)prefs->install_sileo];
+    [self.LoadTweaksSwitch setOn:(BOOL)prefs->load_tweaks];
     [self.DumpAPTicketSwitch setOn:(BOOL)prefs->dump_apticket];
     [self.BootNonceTextField setPlaceholder:@(prefs->boot_nonce)];
     [self.BootNonceTextField setText:nil];
@@ -190,7 +192,6 @@
     [self.KernelExploitSegmentedControl setSelectedSegmentIndex:(int)prefs->exploit];
     [self.DisableAutoUpdatesSwitch setOn:(BOOL)prefs->disable_auto_updates];
     [self.DisableAppRevokesSwitch setOn:(BOOL)prefs->disable_app_revokes];
-    
     [self.KernelExploitSegmentedControl setEnabled:supportsExploit(async_wake_exploit) forSegmentAtIndex:async_wake_exploit];
     [self.KernelExploitSegmentedControl setEnabled:supportsExploit(voucher_swap_exploit) forSegmentAtIndex:voucher_swap_exploit];
     [self.KernelExploitSegmentedControl setEnabled:supportsExploit(mach_swap_exploit) forSegmentAtIndex:mach_swap_exploit];
@@ -231,12 +232,29 @@
     [self.RestartSpringBoardButton setEnabled:respringSupported()];
     [self.restartButton setEnabled:restartSupported()];
     release_prefs(&prefs);
+    [JailbreakViewController.sharedController updateStatus];
     [self.tableView reloadData];
 }
 
 - (IBAction)LoadDaemonsSwitchTriggered:(id)sender {
     prefs_t *prefs = copy_prefs();
     prefs->load_daemons = (bool)self.LoadDaemonsSwitch.isOn;
+    set_prefs(prefs);
+    release_prefs(&prefs);
+    [self reloadData];
+}
+
+- (IBAction)installSileoSwitchTriggered:(id)sender {
+    prefs_t *prefs = copy_prefs();
+    prefs->install_sileo = (bool)self.InstallSileoSwitch.isOn;
+    set_prefs(prefs);
+    release_prefs(&prefs);
+    [self reloadData];
+}
+
+- (IBAction)loadTweaksSwitchTriggered:(id)sender {
+    prefs_t *prefs = copy_prefs();
+    prefs->load_tweaks = (bool)self.LoadTweaksSwitch.isOn;
     set_prefs(prefs);
     release_prefs(&prefs);
     [self reloadData];

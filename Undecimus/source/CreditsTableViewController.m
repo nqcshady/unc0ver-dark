@@ -105,6 +105,12 @@
     self.pixelomerButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
     self.pixelomerContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
     
+    self.AaronButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.AaronContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
+    self.CarsukiButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
+    self.CarsukiContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
+    
     self.libimobiledeviceButton.titleLabel.textColor = UIColorFromRGB(prefs->textColor);
     self.libimobiledeviceContentView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
     
@@ -336,6 +342,30 @@
 
 -(IBAction)tappedOnPixel:(id)sender{
     [[UIApplication sharedApplication] openURL:[CreditsTableViewController getURLForUserName:@"pixelomer"] options:@{} completionHandler:nil];
+}
+
+-(IBAction)tappedOnAaron:(id)sender{
+    [[UIApplication sharedApplication] openURL:[CreditsTableViewController getURLForUserName:@"23Aaron_"] options:@{} completionHandler:nil];
+}
+
+-(IBAction)tappedOnCarsuki:(id)sender{
+    [[UIApplication sharedApplication] openURL:[CreditsTableViewController getURLForUserName:@"carsuki_"] options:@{} completionHandler:nil];
+}
+
+-(IBAction)tappedOnPatrick:(id)sender{
+    [[UIApplication sharedApplication] openURL:[CreditsTableViewController getURLForUserName:@"patriccsimpson"] options:@{} completionHandler:nil];
+}
+
+-(IBAction)tappedOnDennis:(id)sender{
+    [[UIApplication sharedApplication] openURL:[CreditsTableViewController getURLForUserName:@"DennisBednarz"] options:@{} completionHandler:nil];
+}
+
+-(IBAction)tappedOniOSAppDev:(id)sender{
+    [[UIApplication sharedApplication] openURL:[CreditsTableViewController getURLForUserName:@"iOS_App_Dev"] options:@{} completionHandler:nil];
+}
+
+-(IBAction)tappedOnUbik:(id)sender{
+    [[UIApplication sharedApplication] openURL:[CreditsTableViewController getURLForUserName:@"HiMyNameIsUbik"] options:@{} completionHandler:nil];
 }
 
 @end

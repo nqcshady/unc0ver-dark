@@ -44,25 +44,42 @@ while (false)
     }); \
 } while (false)
 
+#define progress(x) do { \
+    dispatch_async(dispatch_get_main_queue(), ^{ \
+        if ([[[[JailbreakViewController sharedController] exploitMessageLabel] text] isEqualToString:x]) return; \
+        LOG("Progress: %@", x); \
+        [[[JailbreakViewController sharedController] exploitMessageLabel] setText:x]; \
+    }); \
+} while (false)
+
 @interface JailbreakViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIButton *goButton;
-@property (weak, nonatomic) IBOutlet UISwitch *TweakInjectionSwitch;
-@property (weak, nonatomic) IBOutlet UISwitch *installSileoSwitch;
 @property (weak, nonatomic) IBOutlet UITextView *outputView;
 @property (readonly) JailbreakViewController *sharedController;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *goButtonSpacing;
 @property (assign) BOOL canExit;
 
+@property (weak, nonatomic) IBOutlet UILabel *exploitProgressLabel;
+@property (weak, nonatomic) IBOutlet UILabel *exploitMessageLabel;
 @property (weak, nonatomic) IBOutlet UILabel *u0Label;
+@property (weak, nonatomic) IBOutlet UILabel *uOVersionLabel;
+
+@property (weak, nonatomic) IBOutlet UIProgressView *jailbreakProgressBar;
+
+@property (weak, nonatomic) IBOutlet UIView *mainView;
+@property (weak, nonatomic) IBOutlet UIView *creditsView;
+@property (weak, nonatomic) IBOutlet UIView *settingsView;
+@property (weak, nonatomic) IBOutlet UIView *mainDevView;
 @property (weak, nonatomic) IBOutlet UIView *backgroundView;
+
+@property (weak, nonatomic) IBOutlet UILabel *jailbreakLabel;
 @property (weak, nonatomic) IBOutlet UILabel *byLabel;
-@property (weak, nonatomic) IBOutlet UILabel *forLabel;
-@property (weak, nonatomic) IBOutlet UIButton *fakeButton;
-@property (weak, nonatomic) IBOutlet UILabel *loadTweaksLabel;
-@property (weak, nonatomic) IBOutlet UILabel *installSileoLabel;
+@property (weak, nonatomic) IBOutlet UILabel *uncoverLabel;
+@property (weak, nonatomic) IBOutlet UILabel *supportedOSLabel;
+@property (weak, nonatomic) IBOutlet UILabel *UIByLabel;
+@property (weak, nonatomic) IBOutlet UILabel *firstAndLabel;
+@property (weak, nonatomic) IBOutlet UILabel *fourthAndLabel;
 @property (weak, nonatomic) IBOutlet UITabBarItem *jailbreakTabBarItem;
-
-
 
 double uptime(void);
 

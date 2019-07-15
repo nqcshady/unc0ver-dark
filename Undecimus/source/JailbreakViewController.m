@@ -30,7 +30,10 @@ extern int maxStage;
 
 - (IBAction)tappedOnJailbreak:(id)sender
 {
-    status(localize(@"Jailbreak"), false, false);
+    [self.exploitMessageLabel setAlpha:1];
+    [self.exploitProgressLabel setAlpha:1];
+    [self.jailbreakProgressBar setAlpha:1];
+    
     void (^const block)(void) = ^(void) {
         _assert(bundledResources != nil, localize(@"Bundled Resources version missing."), true);
         if (!jailbreakSupported()) {
@@ -47,37 +50,43 @@ extern int maxStage;
     
     if (!jailbreakSupported()) {
         status(localize(@"Unsupported"), false, true);
+        progress(localize(@"Unsupported"));
     } else if (prefs->restore_rootfs) {
         status(localize(@"Restore RootFS"), true, true);
+        progress(localize(@"Ready to restore RootFS"));
     } else if (jailbreakEnabled()) {
         status(localize(@"Re-Jailbreak"), true, true);
+        progress(localize(@"Ready to re-jailbreak"));
     } else {
         status(localize(@"Jailbreak"), true, true);
+        progress(localize(@"Ready to jailbreak"));
     }
     
     release_prefs(&prefs);
 }
 
+- (void)reloadData {
+    prefs_t *prefs = copy_prefs();
+    release_prefs(&prefs);
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self.jailbreakProgressBar setProgress:0];
+    [self.jailbreakProgressBar setTransform:CGAffineTransformScale(CGAffineTransformIdentity, 1, 2)];
+    
+    [self.settingsView setTransform:CGAffineTransformScale(CGAffineTransformIdentity, 0.7, 0.7)];
+    [self.settingsView setAlpha:0];
+    [self.mainDevView setTransform:CGAffineTransformScale(CGAffineTransformIdentity, 0.7, 0.7)];
+    [self.mainDevView setAlpha:0];
+    [self.creditsView setTransform:CGAffineTransformScale(CGAffineTransformIdentity, 0.7, 0.7)];
+    [self.creditsView setAlpha:0];
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [self reloadData];
     prefs_t *prefs = copy_prefs();
-    
-    if (prefs->reinstall_sileo_switch)
-    {
-        self.installSileoLabel.hidden = true;
-        self.installSileoSwitch.hidden = true;
-        CGRect buttonFrame = self.fakeButton.frame;
-        buttonFrame.size = CGSizeMake(222, 58);
-        self.fakeButton.frame = buttonFrame;
-    }
-    else
-    {
-        self.installSileoLabel.hidden = false;
-        self.installSileoSwitch.hidden = false;
-        CGRect buttonFrame = self.fakeButton.frame;
-        buttonFrame.size = CGSizeMake(222, 103);
-        self.fakeButton.frame = buttonFrame;
-    }
     
     UIView *statusBar = [[[UIApplication sharedApplication] valueForKey:@"statusBarWindow"] valueForKey:@"statusBar"];
     if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
@@ -86,18 +95,15 @@ extern int maxStage;
     if (prefs->darkStatusBar) {
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     }
+    else{
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    }
     self.u0Label.textColor = UIColorFromRGB(prefs->u0Color);
     self.backgroundView.backgroundColor = UIColorFromRGB(prefs->backgroundColor);
     self.byLabel.textColor =  UIColorFromRGB(prefs->textColor);
-    self.forLabel.textColor = UIColorFromRGB(prefs->textColor);
-    self.fakeButton.backgroundColor = UIColorFromRGB(prefs->fakeButtonColor);
     //[self.fakeButton setTitleColor: [UIColor whiteColor] forState:UIControlStateNormal];
-    self.loadTweaksLabel.textColor = UIColorFromRGB(prefs->fakeTextColor);
-    self.installSileoLabel.textColor = UIColorFromRGB(prefs->fakeTextColor);
     self.goButton.backgroundColor = UIColorFromRGB(prefs->fakeButtonColor);
     [self.goButton setTitleColor: UIColorFromRGB(prefs->goTextColor) forState:UIControlStateNormal];
-    self.installSileoSwitch.onTintColor = UIColorFromRGB(prefs->fakeTintColor);
-    self.TweakInjectionSwitch.onTintColor = UIColorFromRGB(prefs->fakeTintColor);
     self.outputView.backgroundColor = UIColorFromRGB(prefs->outputColor);
     self.outputView.textColor = UIColorFromRGB(prefs->outputTextColor);
     [self.tabBarController.tabBar setSelectedImageTintColor:UIColorFromRGB(prefs->pickerTintColor)];
@@ -110,25 +116,18 @@ extern int maxStage;
     _canExit = YES;
     // Do any additional setup after loading the view, typically from a nib.
     prefs_t *prefs = copy_prefs();
-    if (prefs->reinstall_sileo_switch)
-    {
-        _goButtonSpacing.constant += -37;
-    }
-    else
-    {
-        _goButtonSpacing.constant += 8;
-    }
-    if (prefs->hide_log_window) {
-        _outputView.hidden = YES;
-        _outputView = nil;
-        _goButtonSpacing.constant += 80;
-    }
     
     [[UITabBar appearance] setBackgroundColor:UIColorFromRGB(prefs->backgroundColor)];
     [[UITabBar appearance] setBarTintColor:UIColorFromRGB(prefs->backgroundColor)];
     [[UITabBar appearance] setTintColor:UIColorFromRGB(prefs->backgroundColor)];
     
+    if (prefs->hide_log_window) {
+        _outputView.hidden = YES;
+        _outputView = nil;
+    }
+    
     release_prefs(&prefs);
+    [self.exploitProgressLabel setText:[NSString stringWithFormat:@"%d/%d", 0, maxStage]];
     sharedController = self;
     bundledResources = bundledResourcesVersion();
     LOG("unc0ver dark Version: %@", appVersion());
@@ -139,63 +138,51 @@ extern int maxStage;
             showAlert(localize(@"Error"), localize(@"Bundled Resources version is missing. This build is invalid."), false, false);
         });
     }
+}
+
+- (void)darkMode {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"darkModeSettings" object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"darkModeCredits" object:self];
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul), ^{
-        NSString *Update = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"https://github.com/nqcshady/unc0ver-dark/raw/master/Update.txt"] encoding:NSUTF8StringEncoding error:nil];
-        if (Update == nil) {
-            notice(localize(@"Failed to check for update."), true, false);
-        } else if ([Update compare:appVersion() options:NSNumericSearch] == NSOrderedDescending) {
-            //NOTICE(NSLocalizedString(@"An update is available.", nil), true, false);
-            UIAlertController *updateAlert = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"An update is available for version %@", Update] message:@"Would you like to update?" preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *yesAction = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
-                //dispatch_async(dispatch_get_main_queue(), ^{
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString: [NSString stringWithFormat:@"https://github.com/nqcshady/unc0ver-dark/releases/download/v%@/Undecimus.ipa", Update]] options:@{} completionHandler:nil];
-                });
-            }];
-            UIAlertAction *noAction = [UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
-                
-            }];
-            [updateAlert addAction:yesAction];
-            [updateAlert addAction:noAction];
-            [self presentViewController:updateAlert animated:YES completion:nil];
-        }
-    });
+    [self.exploitProgressLabel setTextColor:[UIColor whiteColor]];
+    [self.exploitMessageLabel setTextColor:[UIColor whiteColor]];
+    [self.u0Label setTextColor:[UIColor whiteColor]];
+    [self.uOVersionLabel setTextColor:[UIColor whiteColor]];
+    [self.jailbreakLabel setTextColor:[UIColor whiteColor]];
+    [self.byLabel setTextColor:[UIColor whiteColor]];
+    [self.UIByLabel setTextColor:[UIColor whiteColor]];
+    [self.firstAndLabel setTextColor:[UIColor whiteColor]];
+    [self.uncoverLabel setTextColor:[UIColor whiteColor]];
+    [self.supportedOSLabel setTextColor:[UIColor whiteColor]];
+    [self.fourthAndLabel setTextColor:[UIColor whiteColor]];
+    [self.outputView setTextColor:[UIColor whiteColor]];
+    [self.backgroundView setBackgroundColor:[UIColor colorWithRed:10.0f/255.0f green:13.0f/255.0f blue:17.0f/255.0f alpha:0.97f]];
+    self.jailbreakProgressBar.trackTintColor = [UIColor blackColor];
+    [self setNeedsStatusBarAppearanceUpdate];
+}
+
+- (void)lightMode {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"lightModeSettings" object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"lightModeCredits" object:self];
     
-    [self reloadData];
+    [self.exploitProgressLabel setTextColor:[UIColor blackColor]];
+    [self.exploitMessageLabel setTextColor:[UIColor blackColor]];
+    [self.u0Label setTextColor:[UIColor blackColor]];
+    [self.jailbreakLabel setTextColor:[UIColor blackColor]];
+    [self.byLabel setTextColor:[UIColor blackColor]];
+    [self.UIByLabel setTextColor:[UIColor blackColor]];
+    [self.firstAndLabel setTextColor:[UIColor blackColor]];
+    [self.fourthAndLabel setTextColor:[UIColor blackColor]];
+    [self.uncoverLabel setTextColor:[UIColor blackColor]];
+    [self.supportedOSLabel setTextColor:[UIColor blackColor]];
+    [self.uOVersionLabel setTextColor:[UIColor blackColor]];
+    [self.outputView setTextColor:[UIColor blackColor]];
+    [self.backgroundView setBackgroundColor:[UIColor.whiteColor colorWithAlphaComponent:0.84]];
+    self.jailbreakProgressBar.trackTintColor = [UIColor lightGrayColor]; 
+    [self setNeedsStatusBarAppearanceUpdate];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleDefault;
-}
-
-- (void)reloadData {
-    prefs_t *prefs = copy_prefs();
-    [self.TweakInjectionSwitch setOn:(BOOL)prefs->load_tweaks];
-    [self.installSileoSwitch setOn:(BOOL)prefs->install_sileo];
-    release_prefs(&prefs);
-}
-
-- (IBAction)TweakInjectionSwitchTriggered:(id)sender {
-    prefs_t *prefs = copy_prefs();
-    prefs->load_tweaks = (bool)self.TweakInjectionSwitch.isOn;
-    set_prefs(prefs);
-    release_prefs(&prefs);
-    [self reloadData];
-}
-
-- (IBAction)installSileoSwitchTriggered:(id)sender {
-    prefs_t *prefs = copy_prefs();
-    prefs->install_sileo = (bool)self.installSileoSwitch.isOn;
-    set_prefs(prefs);
-    release_prefs(&prefs);
-    [self reloadData];
-}
 
 // This intentionally returns nil if called before it's been created by a proper init
 +(JailbreakViewController *)sharedController {

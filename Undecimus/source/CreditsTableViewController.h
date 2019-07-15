@@ -65,6 +65,10 @@
 @property (weak, nonatomic) IBOutlet UIView *c9shadyContentView;
 @property (weak, nonatomic) IBOutlet UIButton *pixelomerButton;
 @property (weak, nonatomic) IBOutlet UIView *pixelomerContentView;
+@property (weak, nonatomic) IBOutlet UIButton *AaronButton;
+@property (weak, nonatomic) IBOutlet UIView *AaronContentView;
+@property (weak, nonatomic) IBOutlet UIButton *CarsukiButton;
+@property (weak, nonatomic) IBOutlet UIView *CarsukiContentView;
 @property (weak, nonatomic) IBOutlet UIButton *libimobiledeviceButton;
 @property (weak, nonatomic) IBOutlet UIView *libimobiledeviceContentView;
 @property (weak, nonatomic) IBOutlet UIButton *undecimusresourcesButton;
@@ -86,7 +90,17 @@
 @property (weak, nonatomic) IBOutlet UIButton *swag_iosButton;
 @property (weak, nonatomic) IBOutlet UIView *swag_iosContentView;
 @property (weak, nonatomic) IBOutlet UIButton *jailbreakbusterButton;
-@property (weak, nonatomic) IBOutlet UIView *jailbreakbusterContentView;
+@property (weak, nonatomic) IBOutlet UIView
+*jailbreakbusterContentView;
+@property (weak, nonatomic) IBOutlet UIButton *PatrickButton;
+@property (weak, nonatomic) IBOutlet UIView *PatrickContentView;
+@property (weak, nonatomic) IBOutlet UIView *SamgContentView;
+@property (weak, nonatomic) IBOutlet UIButton *DennisButton;
+@property (weak, nonatomic) IBOutlet UIView *DennisContentView;
+@property (weak, nonatomic) IBOutlet UIButton *iOSAppDevButton;
+@property (weak, nonatomic) IBOutlet UIView *iOSAppDevContentView;
+@property (weak, nonatomic) IBOutlet UIButton *UbikButton;
+@property (weak, nonatomic) IBOutlet UIView *UbikContentView;
 @property (weak, nonatomic) IBOutlet UIButton *benjweaverdevButton;
 @property (weak, nonatomic) IBOutlet UIView *benjweaverdevContentView;
 
