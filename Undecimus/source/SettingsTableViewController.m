@@ -905,18 +905,18 @@
     if ([[_themePickerData objectAtIndex:row] isEqualToString:@"Meridian"]) {
         prefs->theme = 3;
         prefs->backgroundColor = 0xffffff;
-        prefs->u0Color = 0xE30125;
+        prefs->u0Color = 0xD00000;
         prefs->fakeButtonColor = 0xDDDDDD;
-        prefs->fakeTintColor = 0xE30125;
-        prefs->fakeTextColor = 0xE30125;
-        prefs->goTextColor = 0xE30125;
+        prefs->fakeTintColor = 0xD00000;
+        prefs->fakeTextColor = 0xD00000;
+        prefs->goTextColor = 0xD00000;
         prefs->outputColor = 0x2E2E2E;
         prefs->outputTextColor = 0xffffff;
-        prefs->pickerTintColor = 0xE30125;
-        prefs->tintColor = 0xE30125;
+        prefs->pickerTintColor = 0xD00000;
+        prefs->tintColor = 0xD00000;
         prefs->textColor = 0x000000;
         prefs->darkTextColor = 0x56555A;
-        prefs->linkColor = 0xE30125;
+        prefs->linkColor = 0xD00000;
         prefs->darkStatusBar = NO;
         set_prefs(prefs);
     }
