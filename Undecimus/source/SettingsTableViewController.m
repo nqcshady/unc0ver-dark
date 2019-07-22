@@ -139,6 +139,7 @@
     [_themePickerData addObject:@"Dark Purple"];
     [_themePickerData addObject:@"White"];
     [_themePickerData addObject:@"Meridian"];
+    [_themePickerData addObject:@"Dark Meridian"];
     [[self themePicker] setDataSource:self];
     [[self themePicker] setDelegate:self];
     UIView *themeFieldInputView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, toolBar.frame.size.height + _themePicker.frame.size.height)];
@@ -156,6 +157,9 @@
         [self.themePicker selectRow:2 inComponent:0 animated:YES];
     }
     if (prefs->theme == 3) {
+        [self.themePicker selectRow:3 inComponent:0 animated:YES];
+    }
+    if (prefs->theme == 4) {
         [self.themePicker selectRow:3 inComponent:0 animated:YES];
     }
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -228,6 +232,9 @@
     }
     if (prefs->theme == 3) {
         [self.themeField setPlaceholder:@"Meridian"];
+    }
+    if (prefs->theme == 4) {
+        [self.themeField setPlaceholder:@"Dark Meridian"];
     }
     [self.RestartSpringBoardButton setEnabled:respringSupported()];
     [self.restartButton setEnabled:restartSupported()];
@@ -852,10 +859,10 @@
         prefs->theme = 0;
         prefs->backgroundColor = 0x000000;
         prefs->u0Color = 0xffffff;
-        prefs->fakeButtonColor = 0x101010;
+        prefs->fakeButtonColor = 0xffffff;
         prefs->fakeTintColor = 0x4B4B4B;
         prefs->fakeTextColor = 0xffffff;
-        prefs->goTextColor = 0xffffff;
+        prefs->goTextColor = 0x000000;
         prefs->outputColor = 0x000000;
         prefs->outputTextColor = 0xffffff;
         prefs->pickerTintColor = 0xffffff;
@@ -874,7 +881,7 @@
         prefs->fakeTintColor = 0x723F8C;
         prefs->fakeTextColor = 0xE9E9EA;
         prefs->goTextColor = 0x723F8C;
-        prefs->outputColor = 0x120F1A;
+        prefs->outputColor = 0x17151C;
         prefs->outputTextColor = 0xE9E9EA;
         prefs->pickerTintColor = 0x723F8C;
         prefs->tintColor = 0x723F8C;
@@ -892,8 +899,8 @@
         prefs->fakeTintColor = 0x43D359;
         prefs->fakeTextColor = 0xffffff;
         prefs->goTextColor = 0xffffff;
-        prefs->outputColor = 0x000000;
-        prefs->outputTextColor = 0xffffff;
+        prefs->outputColor = 0xffffff;
+        prefs->outputTextColor = 0x000000;
         prefs->pickerTintColor = 0x006FFF;
         prefs->tintColor = 0x006FFF;
         prefs->textColor = 0x000000;
@@ -905,19 +912,37 @@
     if ([[_themePickerData objectAtIndex:row] isEqualToString:@"Meridian"]) {
         prefs->theme = 3;
         prefs->backgroundColor = 0xffffff;
-        prefs->u0Color = 0xD00000;
-        prefs->fakeButtonColor = 0xDDDDDD;
-        prefs->fakeTintColor = 0xD00000;
-        prefs->fakeTextColor = 0xD00000;
-        prefs->goTextColor = 0xD00000;
-        prefs->outputColor = 0x2E2E2E;
-        prefs->outputTextColor = 0xffffff;
-        prefs->pickerTintColor = 0xD00000;
-        prefs->tintColor = 0xD00000;
+        prefs->u0Color = 0xE30125;
+        prefs->fakeButtonColor = 0xE30125;
+        prefs->fakeTintColor = 0xE30125;
+        prefs->fakeTextColor = 0x000000;
+        prefs->goTextColor = 0xE30125;
+        prefs->outputColor = 0xffffff;
+        prefs->outputTextColor = 0x000000;
+        prefs->pickerTintColor = 0xE30125;
+        prefs->tintColor = 0xE30125;
         prefs->textColor = 0x000000;
         prefs->darkTextColor = 0x56555A;
-        prefs->linkColor = 0xD00000;
+        prefs->linkColor = 0xE30125;
         prefs->darkStatusBar = NO;
+        set_prefs(prefs);
+    }
+    if ([[_themePickerData objectAtIndex:row] isEqualToString:@"Dark Meridian"]) {
+        prefs->theme = 3;
+        prefs->backgroundColor = 0x000000;
+        prefs->u0Color = 0xE30125;
+        prefs->fakeButtonColor = 0xE30125;
+        prefs->fakeTintColor = 0xE30125;
+        prefs->fakeTextColor = 0xffffff;
+        prefs->goTextColor = 0xffffff;
+        prefs->outputColor = 0x000000;
+        prefs->outputTextColor = 0xffffff;
+        prefs->pickerTintColor = 0xE30125;
+        prefs->tintColor = 0xE30125;
+        prefs->textColor = 0xffffff;
+        prefs->darkTextColor = 0x56555A;
+        prefs->linkColor = 0xE30125;
+        prefs->darkStatusBar = YES;
         set_prefs(prefs);
     }
     release_prefs(&prefs);
@@ -925,7 +950,9 @@
 
 -(void)pickerDoneButton{
     prefs_t *prefs = copy_prefs();
-    if (prefs->theme == 3) {
+    if (prefs->theme == 4) {
+        [self lc_setAlternateIconName:@"DarkMeridianIcon"];
+    } else if (prefs->theme == 3) {
         [self lc_setAlternateIconName:@"MeridianIcon"];
     } else if (prefs->theme == 2) {
         [self lc_setAlternateIconName:@"WhiteIcon"];
