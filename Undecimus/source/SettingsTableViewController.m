@@ -160,7 +160,7 @@
         [self.themePicker selectRow:3 inComponent:0 animated:YES];
     }
     if (prefs->theme == 4) {
-        [self.themePicker selectRow:3 inComponent:0 animated:YES];
+        [self.themePicker selectRow:4 inComponent:0 animated:YES];
     }
     [[NSUserDefaults standardUserDefaults] synchronize];
     [self.tableView setBackgroundView:myView];
@@ -916,7 +916,7 @@
         prefs->fakeButtonColor = 0xE30125;
         prefs->fakeTintColor = 0xE30125;
         prefs->fakeTextColor = 0x000000;
-        prefs->goTextColor = 0xE30125;
+        prefs->goTextColor = 0xffffff;
         prefs->outputColor = 0xffffff;
         prefs->outputTextColor = 0x000000;
         prefs->pickerTintColor = 0xE30125;
@@ -928,7 +928,7 @@
         set_prefs(prefs);
     }
     if ([[_themePickerData objectAtIndex:row] isEqualToString:@"Dark Meridian"]) {
-        prefs->theme = 3;
+        prefs->theme = 4;
         prefs->backgroundColor = 0x000000;
         prefs->u0Color = 0xE30125;
         prefs->fakeButtonColor = 0xE30125;
