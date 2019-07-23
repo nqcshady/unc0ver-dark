@@ -72,6 +72,26 @@
 		36F6531E2290A565006B4327 /* purple@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 36F6531B2290A564006B4327 /* purple@2x.png */; };
 		36F6531F2290A565006B4327 /* purple@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 36F6531C2290A565006B4327 /* purple@3x.png */; };
 		8D592A68218E47F60035D2BC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D592A67218E47F60035D2BC /* Main.storyboard */; };
+		B266209D22E48E58008C16B6 /* Lato-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B266208922E48E55008C16B6 /* Lato-Thin.ttf */; };
+		B266209E22E48E58008C16B6 /* Lato-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B266208A22E48E55008C16B6 /* Lato-Italic.ttf */; };
+		B266209F22E48E58008C16B6 /* Lato-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B266208B22E48E55008C16B6 /* Lato-BlackItalic.ttf */; };
+		B26620A122E48E58008C16B6 /* Lato-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B266208D22E48E56008C16B6 /* Lato-Semibold.ttf */; };
+		B26620A222E48E58008C16B6 /* Lato-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B266208E22E48E56008C16B6 /* Lato-SemiboldItalic.ttf */; };
+		B26620A322E48E58008C16B6 /* Lato-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B266208F22E48E56008C16B6 /* Lato-ThinItalic.ttf */; };
+		B26620A522E48E58008C16B6 /* Lato-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B266209122E48E56008C16B6 /* Lato-LightItalic.ttf */; };
+		B26620A622E48E58008C16B6 /* Lato-Hairline.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B266209222E48E56008C16B6 /* Lato-Hairline.ttf */; };
+		B26620A722E48E58008C16B6 /* Lato-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B266209322E48E57008C16B6 /* Lato-Medium.ttf */; };
+		B26620A822E48E58008C16B6 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B266209422E48E57008C16B6 /* Lato-Bold.ttf */; };
+		B26620A922E48E58008C16B6 /* Lato-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B266209522E48E57008C16B6 /* Lato-BoldItalic.ttf */; };
+		B26620AA22E48E58008C16B6 /* Lato-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B266209622E48E57008C16B6 /* Lato-Black.ttf */; };
+		B26620AB22E48E58008C16B6 /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B266209722E48E57008C16B6 /* Lato-Light.ttf */; };
+		B26620AC22E48E58008C16B6 /* Lato-HairlineItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B266209822E48E57008C16B6 /* Lato-HairlineItalic.ttf */; };
+		B26620AD22E48E58008C16B6 /* Lato-HeavyItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B266209922E48E57008C16B6 /* Lato-HeavyItalic.ttf */; };
+		B26620AE22E48E58008C16B6 /* Lato-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B266209A22E48E58008C16B6 /* Lato-Heavy.ttf */; };
+		B26620AF22E48E58008C16B6 /* Lato-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B266209B22E48E58008C16B6 /* Lato-MediumItalic.ttf */; };
+		B26620B022E48E58008C16B6 /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B266209C22E48E58008C16B6 /* Lato-Regular.ttf */; };
+		B26620B222E495D8008C16B6 /* bowling2.png in Resources */ = {isa = PBXBuildFile; fileRef = B26620B122E495D8008C16B6 /* bowling2.png */; };
+		B26620B422E4967B008C16B6 /* blurred rose.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B26620B322E4967B008C16B6 /* blurred rose.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -184,7 +204,6 @@
 		3603BF6A22A32F65000C7BA5 /* meridian.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = meridian.png; sourceTree = "<group>"; };
 		3603BF6B22A32F65000C7BA5 /* meridian@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "meridian@3x.png"; sourceTree = "<group>"; };
 		3603BF6C22A32F65000C7BA5 /* meridian@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "meridian@2x.png"; sourceTree = "<group>"; };
-		364F728D226AE06300C1BD8A /* Lato-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Medium.ttf"; sourceTree = "<group>"; };
 		3656A105226FB0D000407B4D /* kalloc_crash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = kalloc_crash.c; sourceTree = "<group>"; };
 		3656A106226FB0D000407B4D /* kalloc_crash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kalloc_crash.h; sourceTree = "<group>"; };
 		36B7A22B2290849D00ED2304 /* white@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "white@3x.png"; sourceTree = "<group>"; };
@@ -203,8 +222,27 @@
 		36F6531A2290A564006B4327 /* purple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = purple.png; sourceTree = "<group>"; };
 		36F6531B2290A564006B4327 /* purple@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "purple@2x.png"; sourceTree = "<group>"; };
 		36F6531C2290A565006B4327 /* purple@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "purple@3x.png"; sourceTree = "<group>"; };
-		36FFCD30226BBA0A00F10E34 /* Lato-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Semibold.ttf"; sourceTree = "<group>"; };
 		8D592A67218E47F60035D2BC /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		B266208922E48E55008C16B6 /* Lato-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Thin.ttf"; path = "../../../Downloads/Lato2OFL/Lato-Thin.ttf"; sourceTree = "<group>"; };
+		B266208A22E48E55008C16B6 /* Lato-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Italic.ttf"; path = "../../../Downloads/Lato2OFL/Lato-Italic.ttf"; sourceTree = "<group>"; };
+		B266208B22E48E55008C16B6 /* Lato-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-BlackItalic.ttf"; path = "../../../Downloads/Lato2OFL/Lato-BlackItalic.ttf"; sourceTree = "<group>"; };
+		B266208D22E48E56008C16B6 /* Lato-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Semibold.ttf"; path = "../../../Downloads/Lato2OFL/Lato-Semibold.ttf"; sourceTree = "<group>"; };
+		B266208E22E48E56008C16B6 /* Lato-SemiboldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-SemiboldItalic.ttf"; path = "../../../Downloads/Lato2OFL/Lato-SemiboldItalic.ttf"; sourceTree = "<group>"; };
+		B266208F22E48E56008C16B6 /* Lato-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-ThinItalic.ttf"; path = "../../../Downloads/Lato2OFL/Lato-ThinItalic.ttf"; sourceTree = "<group>"; };
+		B266209122E48E56008C16B6 /* Lato-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-LightItalic.ttf"; path = "../../../Downloads/Lato2OFL/Lato-LightItalic.ttf"; sourceTree = "<group>"; };
+		B266209222E48E56008C16B6 /* Lato-Hairline.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Hairline.ttf"; path = "../../../Downloads/Lato2OFL/Lato-Hairline.ttf"; sourceTree = "<group>"; };
+		B266209322E48E57008C16B6 /* Lato-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Medium.ttf"; path = "../../../Downloads/Lato2OFL/Lato-Medium.ttf"; sourceTree = "<group>"; };
+		B266209422E48E57008C16B6 /* Lato-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Bold.ttf"; path = "../../../Downloads/Lato2OFL/Lato-Bold.ttf"; sourceTree = "<group>"; };
+		B266209522E48E57008C16B6 /* Lato-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-BoldItalic.ttf"; path = "../../../Downloads/Lato2OFL/Lato-BoldItalic.ttf"; sourceTree = "<group>"; };
+		B266209622E48E57008C16B6 /* Lato-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Black.ttf"; path = "../../../Downloads/Lato2OFL/Lato-Black.ttf"; sourceTree = "<group>"; };
+		B266209722E48E57008C16B6 /* Lato-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Light.ttf"; path = "../../../Downloads/Lato2OFL/Lato-Light.ttf"; sourceTree = "<group>"; };
+		B266209822E48E57008C16B6 /* Lato-HairlineItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-HairlineItalic.ttf"; path = "../../../Downloads/Lato2OFL/Lato-HairlineItalic.ttf"; sourceTree = "<group>"; };
+		B266209922E48E57008C16B6 /* Lato-HeavyItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-HeavyItalic.ttf"; path = "../../../Downloads/Lato2OFL/Lato-HeavyItalic.ttf"; sourceTree = "<group>"; };
+		B266209A22E48E58008C16B6 /* Lato-Heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Heavy.ttf"; path = "../../../Downloads/Lato2OFL/Lato-Heavy.ttf"; sourceTree = "<group>"; };
+		B266209B22E48E58008C16B6 /* Lato-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-MediumItalic.ttf"; path = "../../../Downloads/Lato2OFL/Lato-MediumItalic.ttf"; sourceTree = "<group>"; };
+		B266209C22E48E58008C16B6 /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Regular.ttf"; path = "../../../Downloads/Lato2OFL/Lato-Regular.ttf"; sourceTree = "<group>"; };
+		B26620B122E495D8008C16B6 /* bowling2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bowling2.png; path = "../../../Downloads/Image folder/bowling2.png"; sourceTree = "<group>"; };
+		B26620B322E4967B008C16B6 /* blurred rose.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "blurred rose.jpg"; path = "../../../Downloads/blurred rose.jpg"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -361,8 +399,26 @@
 		2170BD3621B192B90059BD10 /* resources */ = {
 			isa = PBXGroup;
 			children = (
-				364F728D226AE06300C1BD8A /* Lato-Medium.ttf */,
-				36FFCD30226BBA0A00F10E34 /* Lato-Semibold.ttf */,
+				B26620B322E4967B008C16B6 /* blurred rose.jpg */,
+				B26620B122E495D8008C16B6 /* bowling2.png */,
+				B266209622E48E57008C16B6 /* Lato-Black.ttf */,
+				B266208B22E48E55008C16B6 /* Lato-BlackItalic.ttf */,
+				B266209422E48E57008C16B6 /* Lato-Bold.ttf */,
+				B266209522E48E57008C16B6 /* Lato-BoldItalic.ttf */,
+				B266209222E48E56008C16B6 /* Lato-Hairline.ttf */,
+				B266209822E48E57008C16B6 /* Lato-HairlineItalic.ttf */,
+				B266209A22E48E58008C16B6 /* Lato-Heavy.ttf */,
+				B266209922E48E57008C16B6 /* Lato-HeavyItalic.ttf */,
+				B266208A22E48E55008C16B6 /* Lato-Italic.ttf */,
+				B266209722E48E57008C16B6 /* Lato-Light.ttf */,
+				B266209122E48E56008C16B6 /* Lato-LightItalic.ttf */,
+				B266209322E48E57008C16B6 /* Lato-Medium.ttf */,
+				B266209B22E48E58008C16B6 /* Lato-MediumItalic.ttf */,
+				B266209C22E48E58008C16B6 /* Lato-Regular.ttf */,
+				B266208D22E48E56008C16B6 /* Lato-Semibold.ttf */,
+				B266208E22E48E56008C16B6 /* Lato-SemiboldItalic.ttf */,
+				B266208922E48E55008C16B6 /* Lato-Thin.ttf */,
+				B266208F22E48E56008C16B6 /* Lato-ThinItalic.ttf */,
 				21FED6A42168DB460024BC95 /* Painting_With_Chocolate.ttf */,
 				36F52F78228F882400088562 /* white.png */,
 				36F52F6F228F864E00088562 /* white@2x.png */,
@@ -589,18 +645,38 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B26620AE22E48E58008C16B6 /* Lato-Heavy.ttf in Resources */,
 				36F6531F2290A565006B4327 /* purple@3x.png in Resources */,
+				B26620AD22E48E58008C16B6 /* Lato-HeavyItalic.ttf in Resources */,
 				3603BF6F22A32F65000C7BA5 /* meridian@2x.png in Resources */,
+				B26620AF22E48E58008C16B6 /* Lato-MediumItalic.ttf in Resources */,
+				B26620A622E48E58008C16B6 /* Lato-Hairline.ttf in Resources */,
+				B26620AB22E48E58008C16B6 /* Lato-Light.ttf in Resources */,
+				B266209F22E48E58008C16B6 /* Lato-BlackItalic.ttf in Resources */,
+				B26620B422E4967B008C16B6 /* blurred rose.jpg in Resources */,
+				B26620A922E48E58008C16B6 /* Lato-BoldItalic.ttf in Resources */,
 				36B7A22C2290849D00ED2304 /* white@3x.png in Resources */,
 				3603BF6D22A32F65000C7BA5 /* meridian.png in Resources */,
+				B26620A222E48E58008C16B6 /* Lato-SemiboldItalic.ttf in Resources */,
+				B26620A822E48E58008C16B6 /* Lato-Bold.ttf in Resources */,
 				21C0FC7721369EB800849420 /* LaunchScreen.storyboard in Resources */,
+				B26620AA22E48E58008C16B6 /* Lato-Black.ttf in Resources */,
+				B26620A322E48E58008C16B6 /* Lato-ThinItalic.ttf in Resources */,
 				36F6531E2290A565006B4327 /* purple@2x.png in Resources */,
+				B26620A722E48E58008C16B6 /* Lato-Medium.ttf in Resources */,
 				36F6531D2290A565006B4327 /* purple.png in Resources */,
 				3603BF6E22A32F65000C7BA5 /* meridian@3x.png in Resources */,
+				B26620AC22E48E58008C16B6 /* Lato-HairlineItalic.ttf in Resources */,
+				B266209E22E48E58008C16B6 /* Lato-Italic.ttf in Resources */,
+				B26620B222E495D8008C16B6 /* bowling2.png in Resources */,
+				B26620A522E48E58008C16B6 /* Lato-LightItalic.ttf in Resources */,
+				B26620A122E48E58008C16B6 /* Lato-Semibold.ttf in Resources */,
 				36F52F79228F882400088562 /* white.png in Resources */,
+				B26620B022E48E58008C16B6 /* Lato-Regular.ttf in Resources */,
 				8D592A68218E47F60035D2BC /* Main.storyboard in Resources */,
 				36F52F73228F864E00088562 /* white@2x.png in Resources */,
 				21C0FC7421369EB800849420 /* Assets.xcassets in Resources */,
+				B266209D22E48E58008C16B6 /* Lato-Thin.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -813,7 +889,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 6K554H378C;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -845,7 +921,7 @@
 					IOKit,
 					"-w",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "us.diatr.unc0ver-dark";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.carsuki.unc0ver-dark";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -865,7 +941,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 6K554H378C;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -896,7 +972,7 @@
 					IOKit,
 					"-w",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "us.diatr.unc0ver-dark";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.carsuki.unc0ver-dark";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
