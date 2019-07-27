@@ -196,10 +196,10 @@
     [self.KernelExploitSegmentedControl setSelectedSegmentIndex:(int)prefs->exploit];
     [self.DisableAutoUpdatesSwitch setOn:(BOOL)prefs->disable_auto_updates];
     [self.DisableAppRevokesSwitch setOn:(BOOL)prefs->disable_app_revokes];
-    [self.KernelExploitSegmentedControl setEnabled:supportsExploit(async_wake_exploit) forSegmentAtIndex:async_wake_exploit];
-    [self.KernelExploitSegmentedControl setEnabled:supportsExploit(voucher_swap_exploit) forSegmentAtIndex:voucher_swap_exploit];
-    [self.KernelExploitSegmentedControl setEnabled:supportsExploit(mach_swap_exploit) forSegmentAtIndex:mach_swap_exploit];
-    [self.KernelExploitSegmentedControl setEnabled:supportsExploit(mach_swap_2_exploit) forSegmentAtIndex:mach_swap_2_exploit];
+    if(!supportsExploit(async_wake_exploit)){[self.KernelExploitSegmentedControl setEnabled:NO forSegmentAtIndex:async_wake_exploit];[self.KernelExploitSegmentedControl setWidth:0.0001 forSegmentAtIndex:async_wake_exploit];}
+    if(!supportsExploit(voucher_swap_exploit)){[self.KernelExploitSegmentedControl setEnabled:NO forSegmentAtIndex:voucher_swap_exploit];[self.KernelExploitSegmentedControl setWidth:0.0001 forSegmentAtIndex:voucher_swap_exploit];}
+    if(!supportsExploit(mach_swap_exploit)){[self.KernelExploitSegmentedControl setEnabled:NO forSegmentAtIndex:mach_swap_exploit];[self.KernelExploitSegmentedControl setWidth:0.0001 forSegmentAtIndex:mach_swap_exploit];}
+    if(!supportsExploit(mach_swap_2_exploit)){[self.KernelExploitSegmentedControl setEnabled:NO forSegmentAtIndex:mach_swap_2_exploit];[self.KernelExploitSegmentedControl setWidth:0.0001 forSegmentAtIndex:mach_swap_2_exploit];}
     [self.OpenCydiaButton setEnabled:(BOOL)cydiaIsInstalled()];
     [self.OpenSileoButton setEnabled:(BOOL)sileoIsInstalled()];
     [self.ExpiryLabel setPlaceholder:[NSString stringWithFormat:@"%d %@", (int)[[SettingsTableViewController provisioningProfileAtPath:[[NSBundle mainBundle] pathForResource:@"embedded" ofType:@"mobileprovision"]][@"ExpirationDate"] timeIntervalSinceDate:[NSDate date]] / 86400, localize(@"Days")]];
