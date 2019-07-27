@@ -20,7 +20,7 @@
 * True Black
 * White
 * OG Meridian White/v0rtex-S
-* Dark meridian
+* Dark Meridian
 ![Mockup](https://dark.diatr.us/img/mockup2v2.png)
 
 ## Switching from the other jailbreaks
