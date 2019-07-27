@@ -1,11 +1,10 @@
 [![Build Status](https://travis-ci.com/nqcshady/unc0ver-dark.svg?branch=master)](https://travis-ci.com/nqcshady/unc0ver-dark)
 # unc0ver dark
-## the best jailbreak for 11.0 - 12.2
+## the best jailbreak for 11.0 - 12.1.2
 ![Vader](https://diatr.us/img/dv.gif)
 
 ### FAQ
 * Where can I stay up to date on unc0ver dark? -- [Join the unc0ver dark Discord](https://discord.gg/4pYwBCb)
-* Jailbreak isn't working on iOS 11?!! -- Known issue, use either [Electra](https://coolstar.org/electra/) or [unc0ver](https://github.com/pwn20wndstuff/Undecimus/releases)
 * My Cydia is crashing? How do I fix this? -- Uninstall CyDown. It is not updated for the new fork of Cydia. Also, piracy is no fun. ;(
 * Jailbreak is failing first try? -- You need WiFi for initial jailbreak, and therefore cannot use Airplane Mode. This is due to licensing on Cydia Substrate. 
 
