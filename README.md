@@ -55,7 +55,7 @@ This fork wouldn't have been able to be created without these people and tools.
 * [stek29](https://twitter.com/stek29) for the patchfinder64 additions, unlocknvram, host_get_special_port(4) patch and shenanigans bypass
 * [theninjaprawn](https://twitter.com/theninjaprawn) for the patchfinder64 additions
 * [Jay Freeman (saurik)](https://twitter.com/saurik) for Cydia and Substrate
-* [tihmstar](https://twitter.com/tihmstar) for libgrabkernel, liboffsetfinder64 and v1ntex
+* [tihmstar](https://twitter.com/tihmstar) for libgrabkernel and liboffsetfinder64
 * [CoolStar](https://twitter.com/coolstarorg) for originally testing the snapshot rename idea on corellium (and Sileo)
 * [Chronix](https://www.youtube.com/channel/UCEj2uj_VZYYOa8tIBb63tUg) for fixing README
 * Credits for [Undecimus-Resources](https://github.com/pwn20wndstuff/Undecimus-Resources)
