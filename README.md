@@ -21,7 +21,7 @@
 * White
 * OG Meridian White/v0rtex-S
 * Dark Meridian
-![Mockup](https://dark.diatr.us/img/mockup2v2.png)
+![Mockup](https://i.imgur.com/tn73WXT.png)
 
 ## Switching from the other jailbreaks
 The switching process is handled automatically by unc0ver dark. No rootFS restore is required.
