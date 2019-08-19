@@ -154,6 +154,7 @@ extern int maxStage;
     }
     
     release_prefs(&prefs);
+    [self updateStatus];
     [self.exploitProgressLabel setText:[NSString stringWithFormat:@"%d/%d", 0, maxStage]];
     sharedController = self;
     bundledResources = bundledResourcesVersion();

@@ -14,12 +14,12 @@
 		<dict>
 			<key>DarkMeridianIcon</key>
 			<dict>
-				<key>UIPrerenderedIcon</key>
-				<false/>
 				<key>CFBundleIconFiles</key>
 				<array>
 					<string>darkmeridian</string>
 				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
 			</dict>
 			<key>MeridianIcon</key>
 			<dict>
