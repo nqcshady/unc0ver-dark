@@ -316,4 +316,37 @@ extern int maxStage;
     return self;
 }
 
+- (IBAction)presentViewController:(UIButton *)sender {
+    
+    UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        
+    }]];
+    
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"True Black" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        
+    }]];
+    
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Dark Purple" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        
+    }]];
+    
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"White" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    
+    }]];
+    
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Meridian" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        
+    }]];
+  
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Dark Meridian" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        
+    }]];
+    
+    [self presentViewController:actionSheet animated:YES completion:nil];
+    
+    
+}
+
 @end
