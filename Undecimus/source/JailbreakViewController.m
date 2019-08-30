@@ -367,23 +367,23 @@ extern int maxStage;
     
     [actionSheet addAction:[UIAlertAction actionWithTitle:@"White" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
        
-        prefs->theme = 1;
-        prefs->backgroundColor = 0x17151C;
-        prefs->u0Color = 0x723F8C;
-        prefs->fakeButtonColor = 0x120F1A;
-        prefs->fakeTintColor = 0x723F8C;
-        prefs->fakeTextColor = 0xE9E9EA;
-        prefs->goTextColor = 0x723F8C;
-        prefs->outputColor = 0x17151C;
-        prefs->outputTextColor = 0xE9E9EA;
-        prefs->pickerTintColor = 0x723F8C;
-        prefs->tintColor = 0x723F8C;
-        prefs->textColor = 0xE9E9EA;
+        prefs->theme = 2;
+        prefs->backgroundColor = 0xffffff;
+        prefs->u0Color = 0x000000;
+        prefs->fakeButtonColor = 0x006FFF;
+        prefs->fakeTintColor = 0x43D359;
+        prefs->fakeTextColor = 0xffffff;
+        prefs->goTextColor = 0xffffff;
+        prefs->outputColor = 0xffffff;
+        prefs->outputTextColor = 0x000000;
+        prefs->pickerTintColor = 0x006FFF;
+        prefs->tintColor = 0x006FFF;
+        prefs->textColor = 0x000000;
         prefs->darkTextColor = 0x56555A;
-        prefs->linkColor = 0xE9E9EA;
-        prefs->darkStatusBar = YES;
+        prefs->linkColor = 0x006FFF;
+        prefs->darkStatusBar = NO;
         set_prefs(prefs);
-        
+    
     }]];
     
     [actionSheet addAction:[UIAlertAction actionWithTitle:@"Meridian" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
