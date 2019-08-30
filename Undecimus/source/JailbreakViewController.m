@@ -343,6 +343,12 @@ extern int maxStage;
         prefs->darkStatusBar = YES;
         set_prefs(prefs);
     
+        void (^const block)(void) = ^(void) {
+            notice(localize(@"Theme was changed. The app will now exit."), true, false);
+            exit(EXIT_SUCCESS);
+        };
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul), block);
+        
     }]];
     
     [actionSheet addAction:[UIAlertAction actionWithTitle:@"Dark Purple" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -363,6 +369,13 @@ extern int maxStage;
         prefs->linkColor = 0xE9E9EA;
         prefs->darkStatusBar = YES;
         set_prefs(prefs);
+        
+        void (^const block)(void) = ^(void) {
+            notice(localize(@"Theme was changed. The app will now exit."), true, false);
+            exit(EXIT_SUCCESS);
+        };
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul), block);
+        
     }]];
     
     [actionSheet addAction:[UIAlertAction actionWithTitle:@"White" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -384,6 +397,12 @@ extern int maxStage;
         prefs->darkStatusBar = NO;
         set_prefs(prefs);
     
+        void (^const block)(void) = ^(void) {
+            notice(localize(@"Theme was changed. The app will now exit."), true, false);
+            exit(EXIT_SUCCESS);
+        };
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul), block);
+        
     }]];
     
     [actionSheet addAction:[UIAlertAction actionWithTitle:@"Meridian" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -405,6 +424,12 @@ extern int maxStage;
         prefs->darkStatusBar = NO;
         set_prefs(prefs);
         
+        void (^const block)(void) = ^(void) {
+            notice(localize(@"Theme was changed. The app will now exit."), true, false);
+            exit(EXIT_SUCCESS);
+        };
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul), block);
+        
     }]];
   
     [actionSheet addAction:[UIAlertAction actionWithTitle:@"Dark Meridian" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -425,6 +450,12 @@ extern int maxStage;
         prefs->linkColor = 0xE30125;
         prefs->darkStatusBar = YES;
         set_prefs(prefs);
+        
+        void (^const block)(void) = ^(void) {
+            notice(localize(@"Theme was changed. The app will now exit."), true, false);
+            exit(EXIT_SUCCESS);
+        };
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul), block);
         
     }]];
     
