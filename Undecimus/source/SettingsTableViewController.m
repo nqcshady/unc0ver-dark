@@ -852,10 +852,11 @@
     return [_themePickerData objectAtIndex:row];
 }
 
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
-{
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     prefs_t *prefs = copy_prefs();
     if ([[_themePickerData objectAtIndex:row] isEqualToString:@"True Black"]) {
+        
+    }
         
     if ([[_themePickerData objectAtIndex:row] isEqualToString:@"Dark Purple"]) {
        
@@ -874,29 +875,28 @@
 
 
 
-//- (void)lc_setAlternateIconName:(NSString*)iconName
-//{
-    //if ([[UIApplication sharedApplication] respondsToSelector:@selector(supportsAlternateIcons)] &&
-      //  [[UIApplication sharedApplication] supportsAlternateIcons])
-   // {
-       // NSMutableString *selectorString = [[NSMutableString alloc] initWithCapacity:40];
-       // [selectorString appendString:@"_setAlternate"];
-      //  [selectorString appendString:@"IconName:"];
-      //  [selectorString appendString:@"completionHandler:"];
+- (void)lc_setAlternateIconName:(NSString*)iconName
+{
+    if ([[UIApplication sharedApplication] respondsToSelector:@selector(supportsAlternateIcons)] &&
+        [[UIApplication sharedApplication] supportsAlternateIcons])
+    {
+        NSMutableString *selectorString = [[NSMutableString alloc] initWithCapacity:40];
+        [selectorString appendString:@"_setAlternate"];
+        [selectorString appendString:@"IconName:"];
+        [selectorString appendString:@"completionHandler:"];
         
-       // SEL selector = NSSelectorFromString(selectorString);
-    //    IMP imp = [[UIApplication sharedApplication] methodForSelector:selector];
-       // void (*func)(id, SEL, id, id) = (void *)imp;
-     //   if (func)
-    //    {
-      //      func([UIApplication sharedApplication], selector, iconName, ^(NSError * _Nullable error) {});
-    //    }
-  //  }
-//}
+        SEL selector = NSSelectorFromString(selectorString);
+        IMP imp = [[UIApplication sharedApplication] methodForSelector:selector];
+        void (*func)(id, SEL, id, id) = (void *)imp;
+        if (func)
+        {
+            func([UIApplication sharedApplication], selector, iconName, ^(NSError * _Nullable error) {});
+        }
+    }
+}
 
-//- (void)didReceiveMemoryWarning {
-    //[super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-//}
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+     // Dispose of any resources that can be recreated.
 }
 @end
