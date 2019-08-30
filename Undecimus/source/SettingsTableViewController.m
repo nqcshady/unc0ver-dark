@@ -856,144 +856,47 @@
 {
     prefs_t *prefs = copy_prefs();
     if ([[_themePickerData objectAtIndex:row] isEqualToString:@"True Black"]) {
-        prefs->theme = 0;
-        prefs->backgroundColor = 0x000000;
-        prefs->u0Color = 0xffffff;
-        prefs->fakeButtonColor = 0xffffff;
-        prefs->fakeTintColor = 0x4B4B4B;
-        prefs->fakeTextColor = 0xffffff;
-        prefs->goTextColor = 0x000000;
-        prefs->outputColor = 0x000000;
-        prefs->outputTextColor = 0xffffff;
-        prefs->pickerTintColor = 0xffffff;
-        prefs->tintColor = 0x4B4B4B;
-        prefs->textColor = 0xffffff;
-        prefs->darkTextColor = 0x56555A;
-        prefs->linkColor = 0xffffff;
-        prefs->darkStatusBar = YES;
-        set_prefs(prefs);
-    }
+        
     if ([[_themePickerData objectAtIndex:row] isEqualToString:@"Dark Purple"]) {
-        prefs->theme = 1;
-        prefs->backgroundColor = 0x17151C;
-        prefs->u0Color = 0x723F8C;
-        prefs->fakeButtonColor = 0x120F1A;
-        prefs->fakeTintColor = 0x723F8C;
-        prefs->fakeTextColor = 0xE9E9EA;
-        prefs->goTextColor = 0x723F8C;
-        prefs->outputColor = 0x17151C;
-        prefs->outputTextColor = 0xE9E9EA;
-        prefs->pickerTintColor = 0x723F8C;
-        prefs->tintColor = 0x723F8C;
-        prefs->textColor = 0xE9E9EA;
-        prefs->darkTextColor = 0x56555A;
-        prefs->linkColor = 0xE9E9EA;
-        prefs->darkStatusBar = YES;
-        set_prefs(prefs);
+       
     }
     if ([[_themePickerData objectAtIndex:row] isEqualToString:@"White"]) {
-        prefs->theme = 2;
-        prefs->backgroundColor = 0xffffff;
-        prefs->u0Color = 0x000000;
-        prefs->fakeButtonColor = 0x006FFF;
-        prefs->fakeTintColor = 0x43D359;
-        prefs->fakeTextColor = 0xffffff;
-        prefs->goTextColor = 0xffffff;
-        prefs->outputColor = 0xffffff;
-        prefs->outputTextColor = 0x000000;
-        prefs->pickerTintColor = 0x006FFF;
-        prefs->tintColor = 0x006FFF;
-        prefs->textColor = 0x000000;
-        prefs->darkTextColor = 0x56555A;
-        prefs->linkColor = 0x006FFF;
-        prefs->darkStatusBar = NO;
-        set_prefs(prefs);
+        
     }
     if ([[_themePickerData objectAtIndex:row] isEqualToString:@"Meridian"]) {
-        prefs->theme = 3;
-        prefs->backgroundColor = 0xffffff;
-        prefs->u0Color = 0xE30125;
-        prefs->fakeButtonColor = 0xE30125;
-        prefs->fakeTintColor = 0xE30125;
-        prefs->fakeTextColor = 0x000000;
-        prefs->goTextColor = 0xffffff;
-        prefs->outputColor = 0xffffff;
-        prefs->outputTextColor = 0x000000;
-        prefs->pickerTintColor = 0xE30125;
-        prefs->tintColor = 0xE30125;
-        prefs->textColor = 0x000000;
-        prefs->darkTextColor = 0x56555A;
-        prefs->linkColor = 0xE30125;
-        prefs->darkStatusBar = NO;
-        set_prefs(prefs);
+       
     }
     if ([[_themePickerData objectAtIndex:row] isEqualToString:@"Dark Meridian"]) {
-        prefs->theme = 4;
-        prefs->backgroundColor = 0x000000;
-        prefs->u0Color = 0xE30125;
-        prefs->fakeButtonColor = 0xE30125;
-        prefs->fakeTintColor = 0xE30125;
-        prefs->fakeTextColor = 0xffffff;
-        prefs->goTextColor = 0xffffff;
-        prefs->outputColor = 0x000000;
-        prefs->outputTextColor = 0xffffff;
-        prefs->pickerTintColor = 0xE30125;
-        prefs->tintColor = 0xE30125;
-        prefs->textColor = 0xffffff;
-        prefs->darkTextColor = 0x56555A;
-        prefs->linkColor = 0xE30125;
-        prefs->darkStatusBar = YES;
-        set_prefs(prefs);
+       
     }
-    release_prefs(&prefs);
+    
 }
 
--(void)pickerDoneButton{
-    prefs_t *prefs = copy_prefs();
-    if (prefs->theme == 4) {
-        [self lc_setAlternateIconName:@"DarkMeridianIcon"];
-    } else if (prefs->theme == 3) {
-        [self lc_setAlternateIconName:@"MeridianIcon"];
-    } else if (prefs->theme == 2) {
-        [self lc_setAlternateIconName:@"WhiteIcon"];
-    } else if (prefs->theme == 1) {
-        [self lc_setAlternateIconName:@"PurpleIcon"];
-    } else {
-        [self lc_setAlternateIconName:nil];
-    }
-    [_themeField resignFirstResponder];
-    release_prefs(&prefs);
-    [self reloadData];
-    void (^const block)(void) = ^(void) {
-        notice(localize(@"Theme was changed. The app will now exit."), true, false);
-        exit(EXIT_SUCCESS);
-    };
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul), block);
-}
 
-- (void)lc_setAlternateIconName:(NSString*)iconName
-{
-    if ([[UIApplication sharedApplication] respondsToSelector:@selector(supportsAlternateIcons)] &&
-        [[UIApplication sharedApplication] supportsAlternateIcons])
-    {
-        NSMutableString *selectorString = [[NSMutableString alloc] initWithCapacity:40];
-        [selectorString appendString:@"_setAlternate"];
-        [selectorString appendString:@"IconName:"];
-        [selectorString appendString:@"completionHandler:"];
+
+//- (void)lc_setAlternateIconName:(NSString*)iconName
+//{
+    //if ([[UIApplication sharedApplication] respondsToSelector:@selector(supportsAlternateIcons)] &&
+      //  [[UIApplication sharedApplication] supportsAlternateIcons])
+   // {
+       // NSMutableString *selectorString = [[NSMutableString alloc] initWithCapacity:40];
+       // [selectorString appendString:@"_setAlternate"];
+      //  [selectorString appendString:@"IconName:"];
+      //  [selectorString appendString:@"completionHandler:"];
         
-        SEL selector = NSSelectorFromString(selectorString);
-        IMP imp = [[UIApplication sharedApplication] methodForSelector:selector];
-        void (*func)(id, SEL, id, id) = (void *)imp;
-        if (func)
-        {
-            func([UIApplication sharedApplication], selector, iconName, ^(NSError * _Nullable error) {});
-        }
-    }
-}
+       // SEL selector = NSSelectorFromString(selectorString);
+    //    IMP imp = [[UIApplication sharedApplication] methodForSelector:selector];
+       // void (*func)(id, SEL, id, id) = (void *)imp;
+     //   if (func)
+    //    {
+      //      func([UIApplication sharedApplication], selector, iconName, ^(NSError * _Nullable error) {});
+    //    }
+  //  }
+//}
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+//- (void)didReceiveMemoryWarning {
+    //[super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+//}
 }
-
 @end

@@ -317,7 +317,7 @@ extern int maxStage;
 }
 
 - (IBAction)presentViewController:(UIButton *)sender {
-    
+    prefs_t *prefs = copy_prefs();
     UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
     [actionSheet addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
@@ -326,26 +326,111 @@ extern int maxStage;
     
     [actionSheet addAction:[UIAlertAction actionWithTitle:@"True Black" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         
+        prefs->theme = 0;
+        prefs->backgroundColor = 0x000000;
+        prefs->u0Color = 0xffffff;
+        prefs->fakeButtonColor = 0xffffff;
+        prefs->fakeTintColor = 0x4B4B4B;
+        prefs->fakeTextColor = 0xffffff;
+        prefs->goTextColor = 0x000000;
+        prefs->outputColor = 0x000000;
+        prefs->outputTextColor = 0xffffff;
+        prefs->pickerTintColor = 0xffffff;
+        prefs->tintColor = 0x4B4B4B;
+        prefs->textColor = 0xffffff;
+        prefs->darkTextColor = 0x56555A;
+        prefs->linkColor = 0xffffff;
+        prefs->darkStatusBar = YES;
+        set_prefs(prefs);
+    
     }]];
     
     [actionSheet addAction:[UIAlertAction actionWithTitle:@"Dark Purple" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         
+        prefs->theme = 1;
+        prefs->backgroundColor = 0x17151C;
+        prefs->u0Color = 0x723F8C;
+        prefs->fakeButtonColor = 0x120F1A;
+        prefs->fakeTintColor = 0x723F8C;
+        prefs->fakeTextColor = 0xE9E9EA;
+        prefs->goTextColor = 0x723F8C;
+        prefs->outputColor = 0x17151C;
+        prefs->outputTextColor = 0xE9E9EA;
+        prefs->pickerTintColor = 0x723F8C;
+        prefs->tintColor = 0x723F8C;
+        prefs->textColor = 0xE9E9EA;
+        prefs->darkTextColor = 0x56555A;
+        prefs->linkColor = 0xE9E9EA;
+        prefs->darkStatusBar = YES;
+        set_prefs(prefs);
     }]];
     
     [actionSheet addAction:[UIAlertAction actionWithTitle:@"White" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-    
+       
+        prefs->theme = 1;
+        prefs->backgroundColor = 0x17151C;
+        prefs->u0Color = 0x723F8C;
+        prefs->fakeButtonColor = 0x120F1A;
+        prefs->fakeTintColor = 0x723F8C;
+        prefs->fakeTextColor = 0xE9E9EA;
+        prefs->goTextColor = 0x723F8C;
+        prefs->outputColor = 0x17151C;
+        prefs->outputTextColor = 0xE9E9EA;
+        prefs->pickerTintColor = 0x723F8C;
+        prefs->tintColor = 0x723F8C;
+        prefs->textColor = 0xE9E9EA;
+        prefs->darkTextColor = 0x56555A;
+        prefs->linkColor = 0xE9E9EA;
+        prefs->darkStatusBar = YES;
+        set_prefs(prefs);
+        
     }]];
     
     [actionSheet addAction:[UIAlertAction actionWithTitle:@"Meridian" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         
+        prefs->theme = 2;
+        prefs->backgroundColor = 0xffffff;
+        prefs->u0Color = 0x000000;
+        prefs->fakeButtonColor = 0x006FFF;
+        prefs->fakeTintColor = 0x43D359;
+        prefs->fakeTextColor = 0xffffff;
+        prefs->goTextColor = 0xffffff;
+        prefs->outputColor = 0xffffff;
+        prefs->outputTextColor = 0x000000;
+        prefs->pickerTintColor = 0x006FFF;
+        prefs->tintColor = 0x006FFF;
+        prefs->textColor = 0x000000;
+        prefs->darkTextColor = 0x56555A;
+        prefs->linkColor = 0x006FFF;
+        prefs->darkStatusBar = NO;
+        set_prefs(prefs);
+        
     }]];
   
     [actionSheet addAction:[UIAlertAction actionWithTitle:@"Dark Meridian" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+       
+        prefs->theme = 4;
+        prefs->backgroundColor = 0x000000;
+        prefs->u0Color = 0xE30125;
+        prefs->fakeButtonColor = 0xE30125;
+        prefs->fakeTintColor = 0xE30125;
+        prefs->fakeTextColor = 0xffffff;
+        prefs->goTextColor = 0xffffff;
+        prefs->outputColor = 0x000000;
+        prefs->outputTextColor = 0xffffff;
+        prefs->pickerTintColor = 0xE30125;
+        prefs->tintColor = 0xE30125;
+        prefs->textColor = 0xffffff;
+        prefs->darkTextColor = 0x56555A;
+        prefs->linkColor = 0xE30125;
+        prefs->darkStatusBar = YES;
+        set_prefs(prefs);
         
     }]];
     
     [self presentViewController:actionSheet animated:YES completion:nil];
     
+    release_prefs(&prefs);
     
 }
 
