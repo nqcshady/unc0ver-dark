@@ -1,35 +1,36 @@
 [![Build Status](https://travis-ci.com/nqcshady/unc0ver-dark.svg?branch=master)](https://travis-ci.com/nqcshady/unc0ver-dark)
-# unc0ver dark
-## the best jailbreak for 11.0 - 12.1.2
-![Vader](https://diatr.us/img/dv.gif)
+<center>
+  <a href="" align="center"><img src="https://raw.githubusercontent.com/sukarodo/sukarodo.github.io/master/assets/main/u0%20Logo.png"></a>
+  <br>
+  <h1 align="center">unc0ver dark</h1>
+  <h3 align="center">The most advanced jailbreak tool, with more freedom</h3>
+  <p><img src="https://diatr.us/img/dv.gif" alt="Darth Vader Dancing" align="middle"></p>
+</center>
 
 ### FAQ
 * Where can I stay up to date on unc0ver dark? -- [Join the unc0ver dark Discord](https://discord.gg/4pYwBCb)
 * My Cydia is crashing? How do I fix this? -- Uninstall CyDown. It is not updated for the new fork of Cydia. Also, piracy is no fun. ;(
 * Jailbreak is failing first try? -- You need WiFi for initial jailbreak, and therefore cannot use Airplane Mode. This is due to licensing on Cydia Substrate. 
+* How do I switch from another jailbreak? -- unc0ver dark automatically handles the switching process. So no need to worry about switching. No rootFS restore is required.
 
 ### Changes from unc0ver
 * APT 1.8
-* New true black UI designed by [23 Aaron](https://twitter.com/23Aaron_)
+* **New** true black UI designed by [23 Aaron](https://twitter.com/23Aaron_)
 * Substrate is downloaded from the Internet
 * Sileo support via [Diatrus](https://github.com/Diatrus)
 * Theme switcher by [Diatrus](https://github.com/Diatrus) & [Hydri](https://twitter.com/HydriDev_)
 
 ### Available themes
-* Dark Purple
 * True Black
+* Dark Purple
 * White
 * OG Meridian White/v0rtex-S
 * Dark Meridian
 ![Mockup](https://i.imgur.com/tn73WXT.png)
 
-## Switching from the other jailbreaks
-The switching process is handled automatically by unc0ver dark. No rootFS restore is required.
-
 ## Getting support
 * Use the built-in diagnostics tool
 * Join the u0 Dark [Discord](https://discord.gg/4pYwBCb)
-* Join the Jailbreak [Discord](http://heywhatsupguysits.icu)
 * r/jailbreak on [Reddit](https://reddit.com/r/jailbreak)
 
 ## Best practices
@@ -37,9 +38,17 @@ The switching process is handled automatically by unc0ver dark. No rootFS restor
 * Turn off Siri before starting the jailbreak
 
 ## Source code
-* This project is completely open source and it will stay that way
-* Any kind of contribution is welcome
-* The original source code can be found on [pwn20wndstuff](https://github.com/pwn20wndstuff)'s GitHub account
+* This project is completely open source and it **will** stay that way
+* Any kind of contribution is welcome (pull-requests)
+* The original source code can be found on [here](https://github.com/pwn20wndstuff/Undecimus), on @pwn20wndstuff's GitHub account
+
+## unc0ver dark Members
+* [shady](https://twitter.com/versusess)
+* [Diatrus](https://twitter.com/Diatrus) - Honorary Member, left.
+* [Ultra](https://twitter.com/Ultra_038)
+* [Hydri](https://twitter.com/HydriDev_)
+* [23Aaron](https://twitter.com/23Aaron_)
+* Syndrome - Syndrome#7786 (Discord)
 
 # Credits
 This fork wouldn't have been able to be created without these people and tools.
