@@ -67,4 +67,5 @@ This fork wouldn't have been able to be created without these people and tools.
 * [tihmstar](https://twitter.com/tihmstar) for libgrabkernel and liboffsetfinder64
 * [CoolStar](https://twitter.com/coolstarorg) for originally testing the snapshot rename idea on corellium (and Sileo)
 * [Chronix](https://www.youtube.com/channel/UCEj2uj_VZYYOa8tIBb63tUg) for fixing README
-* Credits for [Undecimus-Resources](https://github.com/pwn20wndstuff/Undecimus-Resources)
+* [Sukarodo](https://twitter.com/sukarodo) for doing some unnecessary README changes
+* [Undecimus-Resources](https://github.com/pwn20wndstuff/Undecimus-Resources)
