@@ -347,7 +347,7 @@ extern int maxStage;
             notice(localize(@"Theme was changed. The app will now exit."), true, false);
             exit(EXIT_SUCCESS);
         };
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul), block);
+        dispatch_async(dispatch_get_main_queue(), block);
         
     }]];
     
@@ -374,7 +374,7 @@ extern int maxStage;
             notice(localize(@"Theme was changed. The app will now exit."), true, false);
             exit(EXIT_SUCCESS);
         };
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul), block);
+        dispatch_async(dispatch_get_main_queue(), block);
         
     }]];
     
@@ -401,26 +401,26 @@ extern int maxStage;
             notice(localize(@"Theme was changed. The app will now exit."), true, false);
             exit(EXIT_SUCCESS);
         };
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul), block);
+        dispatch_async(dispatch_get_main_queue(), block);
         
     }]];
     
     [actionSheet addAction:[UIAlertAction actionWithTitle:@"Meridian" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         
-        prefs->theme = 2;
+        prefs->theme = 3;
         prefs->backgroundColor = 0xffffff;
-        prefs->u0Color = 0x000000;
-        prefs->fakeButtonColor = 0x006FFF;
-        prefs->fakeTintColor = 0x43D359;
-        prefs->fakeTextColor = 0xffffff;
+        prefs->u0Color = 0xE30125;
+        prefs->fakeButtonColor = 0xE30125;
+        prefs->fakeTintColor = 0xE30125;
+        prefs->fakeTextColor = 0x000000;
         prefs->goTextColor = 0xffffff;
         prefs->outputColor = 0xffffff;
         prefs->outputTextColor = 0x000000;
-        prefs->pickerTintColor = 0x006FFF;
-        prefs->tintColor = 0x006FFF;
+        prefs->pickerTintColor = 0xE30125;
+        prefs->tintColor = 0xE30125;
         prefs->textColor = 0x000000;
         prefs->darkTextColor = 0x56555A;
-        prefs->linkColor = 0x006FFF;
+        prefs->linkColor = 0xE30125;
         prefs->darkStatusBar = NO;
         set_prefs(prefs);
         
@@ -428,7 +428,7 @@ extern int maxStage;
             notice(localize(@"Theme was changed. The app will now exit."), true, false);
             exit(EXIT_SUCCESS);
         };
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul), block);
+        dispatch_async(dispatch_get_main_queue(), block);
         
     }]];
   
@@ -455,7 +455,7 @@ extern int maxStage;
             notice(localize(@"Theme was changed. The app will now exit."), true, false);
             exit(EXIT_SUCCESS);
         };
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul), block);
+        dispatch_async(dispatch_get_main_queue(), block);
         
     }]];
     
