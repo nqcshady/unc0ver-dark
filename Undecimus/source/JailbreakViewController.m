@@ -345,6 +345,7 @@ extern int maxStage;
     
         void (^const block)(void) = ^(void) {
             notice(localize(@"Theme was changed. The app will now exit."), true, false);
+            [[NSUserDefaults standardUserDefaults] synchronize];
             exit(EXIT_SUCCESS);
         };
         dispatch_async(dispatch_get_main_queue(), block);
@@ -372,6 +373,7 @@ extern int maxStage;
         
         void (^const block)(void) = ^(void) {
             notice(localize(@"Theme was changed. The app will now exit."), true, false);
+            [[NSUserDefaults standardUserDefaults] synchronize];
             exit(EXIT_SUCCESS);
         };
         dispatch_async(dispatch_get_main_queue(), block);
@@ -399,6 +401,7 @@ extern int maxStage;
     
         void (^const block)(void) = ^(void) {
             notice(localize(@"Theme was changed. The app will now exit."), true, false);
+            [[NSUserDefaults standardUserDefaults] synchronize];
             exit(EXIT_SUCCESS);
         };
         dispatch_async(dispatch_get_main_queue(), block);
@@ -426,6 +429,7 @@ extern int maxStage;
         
         void (^const block)(void) = ^(void) {
             notice(localize(@"Theme was changed. The app will now exit."), true, false);
+            [[NSUserDefaults standardUserDefaults] synchronize];
             exit(EXIT_SUCCESS);
         };
         dispatch_async(dispatch_get_main_queue(), block);
@@ -453,6 +457,7 @@ extern int maxStage;
         
         void (^const block)(void) = ^(void) {
             notice(localize(@"Theme was changed. The app will now exit."), true, false);
+            [[NSUserDefaults standardUserDefaults] synchronize];
             exit(EXIT_SUCCESS);
         };
         dispatch_async(dispatch_get_main_queue(), block);
