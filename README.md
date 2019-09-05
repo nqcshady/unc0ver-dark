@@ -1,10 +1,13 @@
+
 [![Build Status](https://travis-ci.com/nqcshady/unc0ver-dark.svg?branch=master)](https://travis-ci.com/nqcshady/unc0ver-dark)
 <center>
   <a href="" align="center"><img src="https://raw.githubusercontent.com/sukarodo/sukarodo.github.io/master/assets/main/u0%20Logo.png"></a>
   <br>
   <h1 align="center">unc0ver dark</h1>
   <h3 align="center">The most advanced jailbreak tool, with more freedom</h3>
-  <p><img src="https://diatr.us/img/dv.gif" alt="Darth Vader Dancing" align="middle"></p>
+  <p align="center">
+    <img src="https://diatr.us/img/dv.gif" alt="Darth Vader Dancing">
+  </p>
 </center>
 
 ### FAQ
